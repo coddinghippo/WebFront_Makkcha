@@ -1,12 +1,30 @@
 import React, { Component } from "react";
 import { Form, Input, Button } from "antd";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const Container = styled.div``;
+const Container = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background: #000033;
+`;
+
+const StyledForm = styled(Form)`
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
 const StyledInput = styled(Input)`
   border: none;
-  border-bottom: 1px solid grey;
-  border-radius: none;
+  background: #000033;
+  width: 80vw;
+  text-align: center;
+  color: white;
+  border-bottom: 1px solid white;
+  border-radius: 0;
 `;
 
 class AddressForm extends Component {
@@ -18,9 +36,8 @@ class AddressForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values);
-      }
-      console.log(err);
+        localStorage.setItem("addr", values.address);
+      } else console.log(err);
     });
   };
 
@@ -34,7 +51,7 @@ class AddressForm extends Component {
 
     return (
       <Container>
-        <Form onSubmit={this.handleSubmit}>
+        <StyledForm onSubmit={this.handleSubmit}>
           <Form.Item
             validateStatus={addressError ? "error" : ""}
             help={addressError || ""}
@@ -44,11 +61,13 @@ class AddressForm extends Component {
             })(<StyledInput placeholder="집 주소 입력" />)}
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
-              완료
-            </Button>
+            <Link to="/main">
+              <Button size="large" type="secondary" htmlType="submit">
+                확인
+              </Button>
+            </Link>
           </Form.Item>
-        </Form>
+        </StyledForm>
       </Container>
     );
   }
