@@ -4,9 +4,10 @@ import styled from "styled-components";
 import Main from "../Components/Main";
 
 const Container = styled.div`
+  height: 100%;
+  width: 100%;
   display: flex;
-  width: 100vw;
-  height: 100vh;
+  flex-direction: column;
 `;
 
 class Landing extends Component {

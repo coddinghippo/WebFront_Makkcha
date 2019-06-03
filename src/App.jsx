@@ -4,7 +4,10 @@ import styled from "styled-components";
 import { GlobalStyle } from "./Styles/global_styles";
 import Landing from "./Routes/Landing";
 
-const AppContainer = styled.div``;
+const AppContainer = styled.div`
+  height: 100%;
+  width: 100%;
+`;
 
 const App = () => {
   return (

@@ -13,6 +13,11 @@ body{
   font-family: 'Nanum Gothic', sans-serif;
 }
 
+#root{
+  width: 100%;
+  height: 100%;
+}
+
 a{
   color: unset;
   &:hover{
