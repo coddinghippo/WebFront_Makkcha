@@ -58,14 +58,12 @@ class AddressForm extends Component {
           >
             {getFieldDecorator("address", {
               rules: [{ required: false, message: "집 주소를 입력해 주세요!" }]
-            })(<StyledInput placeholder="집 주소 입력" />)}
+            })(<StyledInput placeholder="집에서 가까운 지하철역 입력" />)}
           </Form.Item>
           <Form.Item>
-            <Link to="/main">
-              <Button size="large" type="secondary" htmlType="submit">
-                확인
-              </Button>
-            </Link>
+            <Button size="large" type="secondary" htmlType="submit" onClick={this.props.toggleComponent}>
+              확인
+            </Button>
           </Form.Item>
         </StyledForm>
       </Container>

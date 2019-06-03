@@ -44,11 +44,12 @@ const List = styled.div`
 const Taxi = styled.div``;
 const Route = styled.div``;
 
-const clearStorage = () => {
+const clearStorage = props => {
   localStorage.setItem("addr", "");
+  props.toggleComponent();
 };
 
-const Main = () => (
+const Main = props => (
   <Container>
     <Timer>
       <TimerText>막차까지</TimerText>
@@ -56,7 +57,7 @@ const Main = () => (
     </Timer>
     <List>
       <Link to="/">
-        <Button size="large" type="ghost" onClick={clearStorage}>
+        <Button size="large" type="ghost" onClick={() => clearStorage(props)}>
           캐시삭제
         </Button>
       </Link>
