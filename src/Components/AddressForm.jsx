@@ -6,7 +6,7 @@ import styled from "styled-components";
 const { Item } = Form;
 
 const Container = styled.div`
-  background: #000033;
+  background: #000;
   height: 100%;
   width: 100%;
   display: flex;
@@ -28,13 +28,13 @@ const StyledItem = styled(Item)`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 10;
+  flex: 11;
 `;
 
 const StyledInput = styled(Input)`
   width: 15rem;
   border: none;
-  background: #000033;
+  background: #000;
   text-align: center;
   color: white;
   border-bottom: 1px solid white;
@@ -43,8 +43,10 @@ const StyledInput = styled(Input)`
 
 const StyledButton = styled(Button)`
   flex: 1;
-  width: 100%;
-  color: #000033;
+  width: 90%;
+  border-radius: 0.7rem;
+  margin-bottom: 1.3rem;
+  backgrouncolor: #000;
   font-weight: bold;
 `;
 
