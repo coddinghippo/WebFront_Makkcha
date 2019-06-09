@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import { Button } from "antd";
 
 const Container = styled.div`
@@ -9,39 +8,56 @@ const Container = styled.div`
   flex: 1;
 `;
 
-const Timer = styled.div`
+const ImageContainer = styled.div`
+  flex: 5;
+  background: #000;
+`;
+
+const HeaderText = styled.h1`
+  margin-top: 2rem;
+  margin-left: 2rem;
+  color: #fff;
+  font-size: 6rem;
+`;
+const SubTextContainer = styled.div`
+  margin-right: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  background: #000033;
+  align-items: flex-end;
+`;
+
+const SubText = styled.p`
+  color: #fff;
+`;
+
+const IconContainer = styled.div`
   flex: 1;
+  // border: 1px solid #000;
 `;
 
-const TimerTime = styled.h1`
-  color: white;
-  font-size: 5rem;
-  padding: 1rem;
-  font-weight: bold;
+const ContentContainer = styled.div`
+  flex: 4;
+  display: flex;
+  justify-content: center;
 `;
 
-const TimerText = styled.h2`
-  color: white;
-  font-size: 3rem;
-  padding: 1rem;
-  font-weight: bold;
-`;
-
-const List = styled.div`
-  flex: 1;
+const FloatContent = styled.div`
+  border-radius: 0.5rem;
+  border: 1px solid #eee;
+  width: 94%;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 `;
 
-const Taxi = styled.div``;
-const Route = styled.div``;
+const Line = styled.div`
+  border-bottom: 2px solid #bbb;
+  height: 1rem;
+  width: 60%;
+`;
 
 const clearStorage = props => {
   localStorage.setItem("addr", "");
@@ -50,17 +66,22 @@ const clearStorage = props => {
 
 const Main = props => (
   <Container>
-    <Timer>
-      <TimerText>막차까지</TimerText>
-      <TimerTime>03:12</TimerTime>
-    </Timer>
-    <List>
-      <Link to="/">
-        <Button size="large" type="ghost" onClick={() => clearStorage(props)}>
-          캐시삭제
+    <ImageContainer>
+      <HeaderText>밤길</HeaderText>
+      <SubTextContainer>
+        <SubText>시계가 반대로 돌아가고 있어</SubText>
+        <SubText>- 류동훈</SubText>
+      </SubTextContainer>
+    </ImageContainer>
+    <IconContainer />
+    <ContentContainer>
+      <FloatContent>
+        <Line />
+        <Button size="large" onClick={() => clearStorage(props)}>
+          캐시 삭제
         </Button>
-      </Link>
-    </List>
+      </FloatContent>
+    </ContentContainer>
   </Container>
 );
 
