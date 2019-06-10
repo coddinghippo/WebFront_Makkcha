@@ -21,7 +21,7 @@ class Landing extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps != this.props) console.log(this.props);
+    if (prevProps !== this.props) console.log(this.props);
   }
 
   toggleComponent() {
