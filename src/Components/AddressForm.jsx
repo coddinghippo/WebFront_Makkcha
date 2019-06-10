@@ -56,7 +56,7 @@ class AddressForm extends Component {
   }
 
   async getLocationByStationName(StationName) {
-    const serviceKey = process.ENV.serviceKey;
+    const serviceKey = process.env.serviceKey;
     const data = await axios.get(
       `http://ws.bus.go.kr/api/rest/pathinfo/getLocationInfo?serviceKey=${serviceKey}&stSrch=${StationName}`
     );

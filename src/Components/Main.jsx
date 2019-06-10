@@ -1,8 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-// import { Button } from "antd";
 import FloatContent from "./FloatContent";
 import ImageContent from "./ImageContent";
+import train from "../icons/1.png";
+import drink from "../icons/2.png";
+import med from "../icons/3.png";
+import delivery from "../icons/4.png";
+import food from "../icons/5.png";
 
 const Container = styled.div`
   display: flex;
@@ -12,7 +16,13 @@ const Container = styled.div`
 
 const IconContainer = styled.div`
   flex: 1;
-  // border: 1px solid #000;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+const Icon = styled.img`
+  width: 2.2rem;
 `;
 
 const ContentContainer = styled.div`
@@ -29,7 +39,13 @@ const ContentContainer = styled.div`
 const Main = props => (
   <Container>
     <ImageContent />
-    <IconContainer />
+    <IconContainer>
+      <Icon src={train} />
+      <Icon src={drink} />
+      <Icon src={med} />
+      <Icon src={delivery} />
+      <Icon src={food} />
+    </IconContainer>
     <ContentContainer>
       <FloatContent />
     </ContentContainer>
