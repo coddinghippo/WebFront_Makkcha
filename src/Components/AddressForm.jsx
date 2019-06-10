@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Form, Input, Button } from "antd";
 import styled from "styled-components";
+import axios from "axios";
 
 const { Item } = Form;
 
@@ -54,13 +55,21 @@ class AddressForm extends Component {
     this.props.form.validateFields();
   }
 
+  async getLocationByStationName(StationName) {
+    const serviceKey = process.env.serviceKey;
+    const data = await axios.get(
+      `http://ws.bus.go.kr/api/rest/pathinfo/getLocationInfo?serviceKey=${serviceKey}&stSrch=${StationName}`
+    );
+    console.log(data);
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        localStorage.setItem("addr", values.address);
-        this.props.toggleComponent();
-        console.log(values);
+        // localStorage.setItem("addr", values.address);
+        // this.props.toggleComponent();
+        this.getLocationByStationName(values.address);
       } else console.log(err);
     });
   };
