@@ -55,10 +55,11 @@ class AddressForm extends Component {
     this.props.form.validateFields();
   }
 
-  async getLocationByStationName(StationName) {
+  async getLocationByStationName(stnName) {
     const serviceKey = process.env.serviceKey;
+    const stn = encodeURI(stnName);
     const data = await axios.get(
-      `http://ws.bus.go.kr/api/rest/pathinfo/getLocationInfo?serviceKey=${serviceKey}&stSrch=${StationName}`
+      `http://ws.bus.go.kr/api/rest/pathinfo/getLocationInfo?serviceKey=${serviceKey}&stSrch=${stn}`
     );
     console.log(data);
   }
