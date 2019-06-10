@@ -56,7 +56,7 @@ class AddressForm extends Component {
   }
 
   async getLocationByStationName(StationName) {
-    const serviceKey = process.env.serviceKey;
+    const serviceKey = process.ENV.serviceKey;
     const data = await axios.get(
       `http://ws.bus.go.kr/api/rest/pathinfo/getLocationInfo?serviceKey=${serviceKey}&stSrch=${StationName}`
     );
@@ -67,8 +67,8 @@ class AddressForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // localStorage.setItem("addr", values.address);
-        // this.props.toggleComponent();
+        localStorage.setItem("addr", values.address);
+        this.props.toggleComponent();
         this.getLocationByStationName(values.address);
       } else console.log(err);
     });
