@@ -20,6 +20,7 @@ const Line = styled.div`
 const FloatContent = () => (
   <Container>
     <Line />
+    <canvas />
   </Container>
 );
 

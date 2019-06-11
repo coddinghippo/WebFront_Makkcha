@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import FloatContent from "./FloatContent";
 import ImageContent from "./ImageContent";
@@ -36,20 +36,33 @@ const ContentContainer = styled.div`
 //   props.toggleComponent();
 // };
 
-const Main = props => (
-  <Container>
-    <ImageContent />
-    <IconContainer>
-      <Icon src={train} />
-      <Icon src={drink} />
-      <Icon src={med} />
-      <Icon src={delivery} />
-      <Icon src={food} />
-    </IconContainer>
-    <ContentContainer>
-      <FloatContent />
-    </ContentContainer>
-  </Container>
-);
+export default class Main extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-export default Main;
+  componentDidMount() {
+    window.navigator.geolocation.getCurrentPosition(pos =>
+      alert(`lat: ${pos.coords.latitude} / long: ${pos.coords.longitude}`)
+    );
+  }
+
+  render() {
+    return (
+      <Container>
+        <ImageContent />
+        <IconContainer>
+          <Icon src={train} />
+          <Icon src={drink} />
+          <Icon src={med} />
+          <Icon src={delivery} />
+          <Icon src={food} />
+        </IconContainer>
+        <ContentContainer>
+          <FloatContent />
+        </ContentContainer>
+      </Container>
+    );
+  }
+}
