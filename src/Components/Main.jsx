@@ -42,11 +42,11 @@ export default class Main extends Component {
     this.state = {};
   }
 
-  componentDidMount() {
-    window.navigator.geolocation.getCurrentPosition(pos =>
-      alert(`lat: ${pos.coords.latitude} / long: ${pos.coords.longitude}`)
-    );
-  }
+  // componentDidMount() {
+  //   window.navigator.geolocation.getCurrentPosition(pos =>
+  //     alert(`lat: ${pos.coords.latitude} / long: ${pos.coords.longitude}`)
+  //   );
+  // }
 
   render() {
     return (
