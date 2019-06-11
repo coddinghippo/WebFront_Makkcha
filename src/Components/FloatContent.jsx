@@ -41,16 +41,21 @@ const Bar = styled.div`
   text-align: center;
 `;
 
-const Text = styled.p`
+const TextContainer = styled.div`
   width: 90%;
   margin: 1rem 0;
+`;
+
+const Text = styled.p`
+  margin: 0.5rem 0;
+  width: 90%;
   font-weight: 700;
 `;
 
 export default class FloatContent extends Component {
   state = {
     pathList: [
-      { line: 6, time: 15 },
+      { line: 6, time: 5 },
       { line: 2, time: 13 },
       { line: 5, time: 27 },
       { line: 4, time: 12 }
@@ -109,25 +114,40 @@ export default class FloatContent extends Component {
   render() {
     return (
       <Container onEndReached={this.handleEndReached}>
-        <TopLine />
+        {/* <TopLine /> */}
         <Card>
-          <Text>최소시간: {this.state.total}분</Text>
+          <TextContainer>
+            <Text>{this.state.total}분</Text>
+            <p>21.3km | 약 1,350원 | 도보 4분</p>
+          </TextContainer>
           <BarContainer>{this.renderBar()}</BarContainer>
         </Card>
         <Card>
-          <Text>최소시간: {this.state.total}분</Text>
+          <TextContainer>
+            <Text>{this.state.total}분</Text>
+            <p>21.3km | 약 1,350원 | 도보 4분</p>
+          </TextContainer>
           <BarContainer>{this.renderBar()}</BarContainer>
         </Card>
         <Card>
-          <Text>최소시간: {this.state.total}분</Text>
+          <TextContainer>
+            <Text>{this.state.total}분</Text>
+            <p>21.3km | 약 1,350원 | 도보 4분</p>
+          </TextContainer>
           <BarContainer>{this.renderBar()}</BarContainer>
         </Card>
         <Card>
-          <Text>최소시간: {this.state.total}분</Text>
+          <TextContainer>
+            <Text>{this.state.total}분</Text>
+            <p>21.3km | 약 1,350원 | 도보 4분</p>
+          </TextContainer>
           <BarContainer>{this.renderBar()}</BarContainer>
         </Card>
         <Card>
-          <Text>최소시간: {this.state.total}분</Text>
+          <TextContainer>
+            <Text>{this.state.total}분</Text>
+            <p>21.3km | 약 1,350원 | 도보 4분</p>
+          </TextContainer>
           <BarContainer>{this.renderBar()}</BarContainer>
         </Card>
       </Container>
