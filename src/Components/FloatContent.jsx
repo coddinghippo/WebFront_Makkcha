@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import "intersection-observer";
+import { ScrollView } from "@cantonjs/react-scroll-view";
 
-const Container = styled.div`
+const Container = styled(ScrollView)`
   border-radius: 0.5rem;
   border: 1px solid #eee;
   width: 94%;
@@ -11,7 +13,15 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const Line = styled.div`
+const Card = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+`;
+
+const TopLine = styled.div`
   border-bottom: 2px solid #bbb;
   height: 1rem;
   margin-bottom: 1rem;
@@ -21,6 +31,7 @@ const Line = styled.div`
 const BarContainer = styled.div`
   display: flex;
   justify-content: center;
+  margin-bottom: 1rem;
   width: 90%;
   height: 1rem;
   background: sky-blue;
@@ -30,6 +41,12 @@ const Bar = styled.div`
   text-align: center;
 `;
 
+const Text = styled.p`
+  width: 90%;
+  margin: 1rem 0;
+  font-weight: 700;
+`;
+
 export default class FloatContent extends Component {
   state = {
     pathList: [
@@ -37,12 +54,23 @@ export default class FloatContent extends Component {
       { line: 2, time: 13 },
       { line: 5, time: 27 },
       { line: 4, time: 12 }
+    ],
+    pharmList: [
+      {
+        title: "센느약국",
+        addr: "서울특별시 강남구 테헤란로4길 6 상가 122호",
+        tel: "02-501-2450"
+      }
     ]
   };
 
   componentDidMount() {
     const total = this.state.pathList.reduce((a, obj) => a + obj.time, 0);
     this.setState({ total });
+  }
+
+  handleEndReached() {
+    console.log("load more");
   }
 
   renderBar() {
@@ -80,9 +108,28 @@ export default class FloatContent extends Component {
 
   render() {
     return (
-      <Container>
-        <Line />
-        <BarContainer>{this.renderBar()}</BarContainer>
+      <Container onEndReached={this.handleEndReached}>
+        <TopLine />
+        <Card>
+          <Text>최소시간: {this.state.total}분</Text>
+          <BarContainer>{this.renderBar()}</BarContainer>
+        </Card>
+        <Card>
+          <Text>최소시간: {this.state.total}분</Text>
+          <BarContainer>{this.renderBar()}</BarContainer>
+        </Card>
+        <Card>
+          <Text>최소시간: {this.state.total}분</Text>
+          <BarContainer>{this.renderBar()}</BarContainer>
+        </Card>
+        <Card>
+          <Text>최소시간: {this.state.total}분</Text>
+          <BarContainer>{this.renderBar()}</BarContainer>
+        </Card>
+        <Card>
+          <Text>최소시간: {this.state.total}분</Text>
+          <BarContainer>{this.renderBar()}</BarContainer>
+        </Card>
       </Container>
     );
   }
