@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import FloatContent from "./FloatContent";
 import ImageContent from "./ImageContent";
 import train from "../icons/1.png";
@@ -39,21 +40,32 @@ const ContentContainer = styled.div`
 export default class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { endX: 127.0554572, endY: 37.4976087 };
   }
 
-  // componentDidMount() {
-  //   window.navigator.geolocation.getCurrentPosition(pos =>
-  //     alert(`lat: ${pos.coords.latitude} / long: ${pos.coords.longitude}`)
-  //   );
-  // }
+  componentDidMount() {
+    window.navigator.geolocation.getCurrentPosition(pos => {
+      // alert(`lat: ${pos.coords.latitude} / long: ${pos.coords.longitude}`)
+      const { latitude, longitude } = pos.coords;
+      this.setState({ startX: longitude, startY: latitude });
+    });
+  }
+  // x: long, y: lat
+  // startX: 127.07684413348886, startY: 37.51428097145118
+
+  getTrainData() {
+    const { startX, startY, endX, endY } = this.state;
+    let url = `https://makkcha.com/searchMakcha?startX=${startX}&startY=${startY}&endX=${endX}&endY=${endY}`;
+    axios.get(url).then(res => console.log(res.data));
+  }
 
   render() {
+    console.log(this.state);
     return (
       <Container>
         <ImageContent />
         <IconContainer>
-          <Icon src={train} />
+          <Icon src={train} onClick={() => this.getTrainData()} />
           <Icon src={drink} />
           <Icon src={med} />
           <Icon src={delivery} />
