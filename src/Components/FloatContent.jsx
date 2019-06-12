@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { Button } from "antd";
 import "intersection-observer";
 import { ScrollView } from "@cantonjs/react-scroll-view";
 
@@ -11,8 +12,12 @@ const Container = styled(ScrollView)`
   display: flex;
   flex-direction: column;
   align-items: center;
+  & nth-child(3) {
+    border-bottom: none;
+  }
 `;
-
+// document.querySelector("#root > div > div > div > div.sc-kpOJdX.dxtEmv > div > div > div:nth-child(1) > div:nth-child(3)")
+// #root > div > div > div > div.sc-kpOJdX.dxtEmv > div > div > div:nth-child(1) > div:nth-child(3)
 const Card = styled.div`
   width: 100%;
   display: flex;
@@ -39,6 +44,7 @@ const BarContainer = styled.div`
 
 const Bar = styled.div`
   text-align: center;
+  height: 20px;
 `;
 
 const TextContainer = styled.div`
@@ -50,6 +56,26 @@ const Text = styled.p`
   margin: 0.5rem 0;
   width: 90%;
   font-weight: 700;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: stretch;
+`;
+const LeftButton = styled(Button)`
+  margin: 0.5rem;
+  margin-right: 0;
+  flex: 1;
+  color: black;
+  font-size: 0.7rem !important;
+  border: 1px solid black;
+`;
+const RightButton = styled(Button)`
+  flex: 3;
+  background: #5e5e5e;
+  margin: 0.5rem;
+  color: white;
+  font-size: 0.7rem !important;
 `;
 
 export default class FloatContent extends Component {
@@ -100,7 +126,6 @@ export default class FloatContent extends Component {
           key={idx}
           style={{
             width: length,
-            height: "20px",
             backgroundColor: colors[path.line],
             color: "white"
           }}
@@ -112,44 +137,70 @@ export default class FloatContent extends Component {
   }
 
   render() {
+    console.log(this.props.data);
+    const { time, price, distance } = this.props.data || {
+      time: 10,
+      price: 8900,
+      distance: 1700
+    };
     return (
       <Container onEndReached={this.handleEndReached}>
         {/* <TopLine /> */}
+
         <Card>
           <TextContainer>
-            <Text>{this.state.total}분</Text>
+            <Text>지하철 {this.state.total}분</Text>
             <p>21.3km | 약 1,350원 | 도보 4분</p>
           </TextContainer>
           <BarContainer>{this.renderBar()}</BarContainer>
         </Card>
+
         <Card>
           <TextContainer>
-            <Text>{this.state.total}분</Text>
-            <p>21.3km | 약 1,350원 | 도보 4분</p>
+            <Text>택시 {time}분</Text>
+            <p>
+              {distance / 1000}km | 약 {price}원 | 도보 0분
+            </p>
           </TextContainer>
-          <BarContainer>{this.renderBar()}</BarContainer>
+          <BarContainer>
+            <Bar
+              style={{
+                width: "100%",
+                backgroundColor: "#ffd300",
+                color: "white"
+              }}
+            >
+              {time}분
+            </Bar>
+          </BarContainer>
         </Card>
-        <Card>
+
+        <Card style={{ border: "none" }}>
           <TextContainer>
-            <Text>{this.state.total}분</Text>
+            <Text>약국</Text>
             <p>21.3km | 약 1,350원 | 도보 4분</p>
           </TextContainer>
-          <BarContainer>{this.renderBar()}</BarContainer>
+          <BarContainer>
+            <Bar
+              style={{
+                width: "100%",
+                backgroundColor: "#ccc",
+                color: "white"
+              }}
+            >
+              4 분
+            </Bar>
+          </BarContainer>
         </Card>
-        <Card>
-          <TextContainer>
-            <Text>{this.state.total}분</Text>
-            <p>21.3km | 약 1,350원 | 도보 4분</p>
-          </TextContainer>
-          <BarContainer>{this.renderBar()}</BarContainer>
-        </Card>
-        <Card>
-          <TextContainer>
-            <Text>{this.state.total}분</Text>
-            <p>21.3km | 약 1,350원 | 도보 4분</p>
-          </TextContainer>
-          <BarContainer>{this.renderBar()}</BarContainer>
-        </Card>
+
+        <ButtonContainer>
+          <LeftButton type="default" shape="round" size="large">
+            확인
+          </LeftButton>
+          <RightButton type="default" shape="round" size="large">
+            다른 정보 더 보기
+          </RightButton>
+        </ButtonContainer>
       </Container>
     );
   }

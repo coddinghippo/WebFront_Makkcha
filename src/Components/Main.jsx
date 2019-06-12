@@ -56,7 +56,7 @@ export default class Main extends Component {
   getTrainData() {
     const { startX, startY, endX, endY } = this.state;
     let url = `https://makkcha.com/searchMakcha?startX=${startX}&startY=${startY}&endX=${endX}&endY=${endY}`;
-    axios.get(url).then(res => console.log(res.data));
+    axios.get(url).then(res => this.setState({ taxiInfo: res.data.taxiInfo }));
   }
 
   render() {
@@ -72,7 +72,7 @@ export default class Main extends Component {
           <Icon src={food} />
         </IconContainer>
         <ContentContainer>
-          <FloatContent />
+          <FloatContent data={this.state.taxiInfo} />
         </ContentContainer>
       </Container>
     );
