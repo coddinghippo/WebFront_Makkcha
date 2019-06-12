@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { Button } from "antd";
-import ScrollArea from "react-scrollbar";
 
-const Container = styled(ScrollArea)`
+const Container = styled.div`
   border-radius: 0.5rem;
   border: 1px solid #eee;
   width: 94%;
