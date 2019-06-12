@@ -44,16 +44,28 @@ export default class Main extends Component {
   }
 
   componentDidMount() {
-    window.navigator.geolocation.getCurrentPosition(pos => {
-      // alert(`lat: ${pos.coords.latitude} / long: ${pos.coords.longitude}`)
-      const { latitude, longitude } = pos.coords;
-      console.log("pos: ", pos);
-      this.setState({ startX: longitude, startY: latitude });
-      this.getTrainData(latitude, longitude);
-    });
+    if (localStorage.getItem("loc")) {
+      const { endX, endY } = JSON.parse(
+        localStorage.getItem("loc")
+      ).endLocation;
+      // console.log("hi there", endX, endY);
+      this.setState({ endX, endY });
+    }
   }
   // x: long, y: lat
   // startX: 127.07684413348886, startY: 37.51428097145118
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState !== this.state) {
+      window.navigator.geolocation.getCurrentPosition(pos => {
+        // alert(`lat: ${pos.coords.latitude} / long: ${pos.coords.longitude}`)
+        const { latitude, longitude } = pos.coords;
+        console.log("pos: ", pos);
+        this.setState({ startX: longitude, startY: latitude });
+        this.getTrainData(latitude, longitude);
+      });
+    }
+  }
 
   getTrainData(lat, long) {
     const { endX, endY } = this.state;

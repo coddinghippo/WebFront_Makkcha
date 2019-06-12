@@ -55,20 +55,25 @@ class AddressForm extends Component {
     this.props.form.validateFields();
   }
 
-  async getLocationByStationName(stnName) {
-    const serviceKey = process.env.serviceKey;
+  getLocationByStationName(stnName) {
     const stn = encodeURI(stnName);
-    const data = await axios.get(
-      `http://ws.bus.go.kr/api/rest/pathinfo/getLocationInfo?serviceKey=${serviceKey}&stSrch=${stn}`
-    );
+    axios
+      .get(`https://makkcha.com/serachLocation?location=${stn}`)
+      .then(res => {
+        const endLocation = { endX: res.data.gpsX, endY: res.data.gpsY };
+        if (res.status === 200) {
+          localStorage.setItem("loc", JSON.stringify({ endLocation, stnName }));
+        }
+        setTimeout(() => this.props.toggleComponent(), 500);
+      });
+    // this.setState({ endX: res.data.gpsX, endY: res.data.gpsY });
+    // });
   }
 
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        localStorage.setItem("addr", values.address);
-        this.props.toggleComponent();
         this.getLocationByStationName(values.address);
       } else console.log(err);
     });

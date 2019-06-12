@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { Button } from "antd";
-import "intersection-observer";
-import { ScrollView } from "@cantonjs/react-scroll-view";
+import ScrollArea from "react-scrollbar";
 
-const Container = styled(ScrollView)`
+const Container = styled(ScrollArea)`
   border-radius: 0.5rem;
   border: 1px solid #eee;
   width: 94%;
@@ -12,9 +11,6 @@ const Container = styled(ScrollView)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  & nth-child(3) {
-    border-bottom: none;
-  }
 `;
 // document.querySelector("#root > div > div > div > div.sc-kpOJdX.dxtEmv > div > div > div:nth-child(1) > div:nth-child(3)")
 // #root > div > div > div > div.sc-kpOJdX.dxtEmv > div > div > div:nth-child(1) > div:nth-child(3)
@@ -114,7 +110,8 @@ export default class FloatContent extends Component {
         pharmAddr: "서울특별시 강남구 테헤란로4길 6 상가 122호",
         pharmTel: "02-501-2450"
       }
-    ]
+    ],
+    route: { price: null }
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -135,6 +132,7 @@ export default class FloatContent extends Component {
   renderBar() {
     const makcha = this.state.makcha;
     const totalTime = makcha.reduce((a, x) => a + x.time, 0);
+
     return makcha.map((item, idx) => {
       let length =
         String(Math.floor((Number(item.time) / totalTime) * 100)) + "%";
@@ -175,16 +173,24 @@ export default class FloatContent extends Component {
 
   render() {
     console.log(this.state);
-    const { taxi } = this.state;
+    const { taxi, makcha } = this.state;
+    const totalTime = makcha.reduce((a, x) => a + x.time, 0);
+    const totalDistance = makcha.reduce((a, x) => a + x.distance, 0) / 1000;
     const { pharmTel, pharmName, pharmAddr } = this.state.pharmList[0];
     return (
-      <Container onEndReached={this.handleEndReached}>
+      <Container speed={0.8} horizontal={false}>
         {/* <TopLine /> */}
 
         <Card>
           <TextContainer>
-            <Text>지하철 00분</Text>
-            <p>21.3km | 약 1,350원 | 도보 4분</p>
+            <Text>지하철 {totalTime}분</Text>
+            <p>
+              {totalDistance.toFixed(1)}km |{" "}
+              {String(Math.floor(this.state.route.price / 1000)) +
+                "," +
+                String(this.state.route.price % 1000)}
+              원 |{makcha[0].time}분
+            </p>
           </TextContainer>
           <BarContainer>{this.renderBar()}</BarContainer>
         </Card>
@@ -193,7 +199,11 @@ export default class FloatContent extends Component {
           <TextContainer>
             <Text>택시 {taxi.time}분</Text>
             <p>
-              {taxi.distance / 1000}km | 약 {taxi.price}원 | 도보 0분
+              {(taxi.distance / 1000).toFixed(1)}km | 약{" "}
+              {String(Math.floor(taxi.price / 1000)) +
+                "," +
+                String(taxi.price % 1000)}
+              원 | 도보 0분
             </p>
           </TextContainer>
           <BarContainer>
@@ -209,7 +219,7 @@ export default class FloatContent extends Component {
           </BarContainer>
         </Card>
 
-        <Card style={{ border: "none" }}>
+        {/* <Card style={{ border: "none" }}>
           <TextContainer>
             <Text>{pharmName}</Text>
             <p>1.3km | {pharmTel} | 도보 4분</p>
@@ -225,7 +235,7 @@ export default class FloatContent extends Component {
               4 분
             </Bar>
           </BarContainer>
-        </Card>
+        </Card> */}
 
         <ButtonContainer>
           <LeftButton type="default" shape="round" size="large">
