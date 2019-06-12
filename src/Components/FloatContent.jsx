@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Button } from "antd";
 
 const Container = styled.div`
+  max-width: 100%;
   border-radius: 0.5rem;
   border: 1px solid #eee;
   width: 94%;
@@ -110,7 +111,7 @@ export default class FloatContent extends Component {
         pharmTel: "02-501-2450"
       }
     ],
-    route: { price: null }
+    route: { price: null, lastTimeList: [{ lastTimeDay: "00:00:30 (수서행)" }] }
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -118,7 +119,12 @@ export default class FloatContent extends Component {
       const { taxiInfo, pathOptionList } = this.props.data;
       const makcha = pathOptionList[0].makchaPathList;
       const route = pathOptionList[0].route;
-      this.setState({ taxi: taxiInfo, makcha, route });
+
+      this.setState({
+        taxi: taxiInfo,
+        makcha,
+        route
+      });
     }
     // const total = this.state.pathList.reduce((a, obj) => a + obj.time, 0);
     // this.setState({ total });
@@ -148,25 +154,6 @@ export default class FloatContent extends Component {
         </Bar>
       );
     });
-
-    // const list = this.state.pathList;
-    // const { total } = this.state;
-    // return list.map((path, idx) => {
-    //   let length = String(parseInt((path.time / total) * 100)) + "%";
-    // return (
-    //   <Bar
-    //     key={idx}
-    //     style={{
-    //       width: length,
-    //       backgroundColor: colors[path.line],
-    //       color: "white"
-    //     }}
-    //   >
-    //     {path.time}분
-    //   </Bar>
-    // );
-    // });
-    // return <div>{totalTime}분</div>;
   }
 
   render() {
@@ -175,19 +162,23 @@ export default class FloatContent extends Component {
     const totalTime = makcha.reduce((a, x) => a + x.time, 0);
     const totalDistance = makcha.reduce((a, x) => a + x.distance, 0) / 1000;
     const { pharmTel, pharmName, pharmAddr } = this.state.pharmList[0];
+    const { lastTimeList } = this.state.route;
     return (
       <Container speed={0.8} horizontal={false}>
         {/* <TopLine /> */}
 
         <Card>
           <TextContainer>
-            <Text>지하철 {totalTime}분</Text>
+            <Text>
+              지하철 {totalTime}분 | 막차{" "}
+              {lastTimeList[0].lastTimeDay.slice(0, 8)}
+            </Text>
             <p>
               {totalDistance.toFixed(1)}km |{" "}
               {String(Math.floor(this.state.route.price / 1000)) +
                 "," +
                 String(this.state.route.price % 1000)}
-              원 |{makcha[0].time}분
+              원 | {makcha[0].time}분
             </p>
           </TextContainer>
           <BarContainer>{this.renderBar()}</BarContainer>
