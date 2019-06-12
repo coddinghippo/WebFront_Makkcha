@@ -114,8 +114,8 @@ export default class FloatContent extends Component {
     route: { price: null }
   };
 
-  componentDidMount() {
-    if (prevProps.data != this.props.data) {
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.data !== this.props.data) {
       const { taxiInfo, pathOptionList } = this.props.data;
       const makcha = pathOptionList[0].makchaPathList;
       const route = pathOptionList[0].route;
@@ -136,7 +136,6 @@ export default class FloatContent extends Component {
     return makcha.map((item, idx) => {
       let length =
         String(Math.floor((Number(item.time) / totalTime) * 100)) + "%";
-      console.log("length: ", length);
       return (
         <Bar
           key={idx}

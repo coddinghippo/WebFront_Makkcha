@@ -56,9 +56,8 @@ export default class Main extends Component {
   // startX: 127.07684413348886, startY: 37.51428097145118
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState !== this.state) {
+    if (prevState.endX !== this.state.endX) {
       window.navigator.geolocation.getCurrentPosition(pos => {
-        // alert(`lat: ${pos.coords.latitude} / long: ${pos.coords.longitude}`)
         const { latitude, longitude } = pos.coords;
         console.log("pos: ", pos);
         this.setState({ startX: longitude, startY: latitude });

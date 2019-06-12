@@ -64,8 +64,9 @@ class AddressForm extends Component {
         if (res.status === 200) {
           localStorage.setItem("loc", JSON.stringify({ endLocation, stnName }));
         }
-        setTimeout(() => this.props.toggleComponent(), 500);
-      });
+      })
+      .then(this.props.toggleComponent);
+
     // this.setState({ endX: res.data.gpsX, endY: res.data.gpsY });
     // });
   }
