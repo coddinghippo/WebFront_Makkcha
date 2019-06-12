@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { Button } from "antd";
+import uuidv1 from "uuid/v1";
 
 const Container = styled.div`
   max-width: 100%;
@@ -34,6 +35,7 @@ const BarContainer = styled.div`
   justify-content: center;
   margin-bottom: 1rem;
   width: 90%;
+  max-width: 90%;
   height: 1rem;
   background: sky-blue;
 `;
@@ -139,11 +141,12 @@ export default class FloatContent extends Component {
     const totalTime = makcha.reduce((a, x) => a + x.time, 0);
 
     return makcha.map((item, idx) => {
-      let length =
-        String(Math.floor((Number(item.time) / totalTime) * 100)) + "%";
+      let length = Math.floor((Number(item.time) / totalTime) * 100);
+      if (length < 24) length = 24;
+      length = String(length) + "%";
       return (
         <Bar
-          key={idx}
+          key={uuidv1()}
           style={{
             width: length,
             backgroundColor: lineColors[item.routeNm],
@@ -156,8 +159,33 @@ export default class FloatContent extends Component {
     });
   }
 
+  renderStn() {
+    const makcha = this.state.makcha;
+    const totalTime = makcha.reduce((a, x) => a + x.time, 0);
+
+    return makcha.map((item, idx) => {
+      let length = Math.floor((Number(item.time) / totalTime) * 100);
+      if (length < 24) length = 24;
+      length = String(length) + "%";
+      return (
+        <Bar
+          key={uuidv1()}
+          style={{
+            width: length,
+            color: "black",
+            textAlign: "left"
+          }}
+        >
+          <span style={{ fontSize: 8 }}>
+            {item.routeNm === "도보" ? "도보" : item.fname}
+          </span>
+        </Bar>
+      );
+    });
+  }
+
   render() {
-    console.log(this.state);
+    console.log(this.state.makcha);
     const { taxi, makcha } = this.state;
     const totalTime = makcha.reduce((a, x) => a + x.time, 0);
     const totalDistance = makcha.reduce((a, x) => a + x.distance, 0) / 1000;
@@ -171,7 +199,7 @@ export default class FloatContent extends Component {
           <TextContainer>
             <Text>
               지하철 {totalTime}분 | 막차{" "}
-              {lastTimeList[0].lastTimeDay.slice(0, 8)}
+              {lastTimeList[0].lastTimeDay.slice(0, 5)}
             </Text>
             <p>
               {totalDistance.toFixed(1)}km |{" "}
@@ -181,7 +209,12 @@ export default class FloatContent extends Component {
               원 | {makcha[0].time}분
             </p>
           </TextContainer>
-          <BarContainer>{this.renderBar()}</BarContainer>
+          <BarContainer style={{ marginBottom: 0 }}>
+            {this.renderBar()}
+          </BarContainer>
+          <BarContainer style={{ marginTop: 0 }}>
+            {this.renderStn()}
+          </BarContainer>
         </Card>
 
         <Card>
