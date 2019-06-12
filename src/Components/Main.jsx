@@ -68,8 +68,8 @@ export default class Main extends Component {
 
   getTrainData(lat, long) {
     const { endX, endY } = this.state;
-    // let url = `https://makkcha.com/searchMakcha?startX=${long}&startY=${lat}&endX=${endX}&endY=${endY}`;
-    let url = "http://localhost:4000/db/";
+    let url = `https://makkcha.com/searchMakcha?startX=${long}&startY=${lat}&endX=${endX}&endY=${endY}`;
+    // let url = "http://localhost:4000/db/";
     axios.get(url).then(res => this.setState({ data: res.data }));
   }
 

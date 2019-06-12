@@ -66,9 +66,6 @@ class AddressForm extends Component {
         }
       })
       .then(this.props.toggleComponent);
-
-    // this.setState({ endX: res.data.gpsX, endY: res.data.gpsY });
-    // });
   }
 
   handleSubmit = e => {
