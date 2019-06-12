@@ -31,7 +31,6 @@ class Landing extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <Container>
         {this.state.component === "form" ? (

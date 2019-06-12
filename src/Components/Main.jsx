@@ -40,27 +40,28 @@ const ContentContainer = styled.div`
 export default class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = { endX: 127.0554572, endY: 37.4976087 };
+    this.state = { endX: 126.91509963231, endY: 37.568565387939 };
   }
 
   componentDidMount() {
     window.navigator.geolocation.getCurrentPosition(pos => {
       // alert(`lat: ${pos.coords.latitude} / long: ${pos.coords.longitude}`)
       const { latitude, longitude } = pos.coords;
+      console.log("pos: ", pos);
       this.setState({ startX: longitude, startY: latitude });
+      this.getTrainData(latitude, longitude);
     });
   }
   // x: long, y: lat
   // startX: 127.07684413348886, startY: 37.51428097145118
 
-  getTrainData() {
-    const { startX, startY, endX, endY } = this.state;
-    let url = `https://makkcha.com/searchMakcha?startX=${startX}&startY=${startY}&endX=${endX}&endY=${endY}`;
-    axios.get(url).then(res => this.setState({ taxiInfo: res.data.taxiInfo }));
+  getTrainData(lat, long) {
+    const { endX, endY } = this.state;
+    let url = `https://makkcha.com/searchMakcha?startX=${long}&startY=${lat}&endX=${endX}&endY=${endY}`;
+    axios.get(url).then(res => this.setState({ data: res.data }));
   }
 
   render() {
-    console.log(this.state);
     return (
       <Container>
         <ImageContent />
@@ -72,7 +73,7 @@ export default class Main extends Component {
           <Icon src={food} />
         </IconContainer>
         <ContentContainer>
-          <FloatContent data={this.state.taxiInfo} />
+          <FloatContent data={this.state.data} />
         </ContentContainer>
       </Container>
     );

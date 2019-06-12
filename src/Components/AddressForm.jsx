@@ -61,7 +61,6 @@ class AddressForm extends Component {
     const data = await axios.get(
       `http://ws.bus.go.kr/api/rest/pathinfo/getLocationInfo?serviceKey=${serviceKey}&stSrch=${stn}`
     );
-    console.log(data);
   }
 
   handleSubmit = e => {
