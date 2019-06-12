@@ -114,7 +114,7 @@ export default class FloatContent extends Component {
     route: { price: null }
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidMount() {
     if (prevProps.data != this.props.data) {
       const { taxiInfo, pathOptionList } = this.props.data;
       const makcha = pathOptionList[0].makchaPathList;
