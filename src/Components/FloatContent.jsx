@@ -119,14 +119,16 @@ export default class FloatContent extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.data !== this.props.data) {
       const { taxiInfo, pathOptionList } = this.props.data;
-      const makcha = pathOptionList[0].makchaPathList;
-      const route = pathOptionList[0].route;
+      if (pathOptionList.length) {
+        const makcha = pathOptionList[0].makchaPathList;
+        const route = pathOptionList[0].route;
 
-      this.setState({
-        taxi: taxiInfo,
-        makcha,
-        route
-      });
+        this.setState({
+          taxi: taxiInfo,
+          makcha,
+          route
+        });
+      }
     }
     // const total = this.state.pathList.reduce((a, obj) => a + obj.time, 0);
     // this.setState({ total });
@@ -185,7 +187,7 @@ export default class FloatContent extends Component {
   }
 
   render() {
-    console.log(this.state.makcha);
+    console.log(this.state);
     const { taxi, makcha } = this.state;
     const totalTime = makcha.reduce((a, x) => a + x.time, 0);
     const totalDistance = makcha.reduce((a, x) => a + x.distance, 0) / 1000;
