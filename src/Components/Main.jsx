@@ -9,6 +9,7 @@ import drink from "../icons/2.png";
 import med from "../icons/3.png";
 import delivery from "../icons/4.png";
 import food from "../icons/5.png";
+import Search from "./Search";
 
 const Container = styled.div`
   display: flex;
@@ -28,7 +29,7 @@ const Icon = styled.img`
 `;
 
 const ContentContainer = styled.div`
-  flex: 5;
+  flex: 3;
   display: flex;
   justify-content: center;
 `;
@@ -37,6 +38,11 @@ const ContentContainer = styled.div`
 //   localStorage.setItem("addr", "");
 //   props.toggleComponent();
 // };
+
+const SearchContainer = styled.div`
+  flex: 1;
+  display: flex;
+`;
 
 export default class Main extends Component {
   constructor(props) {
@@ -80,19 +86,9 @@ export default class Main extends Component {
     console.log(this.state);
     return (
       <Container>
-        <ImageContent />
-        <IconContainer>
-          <Icon
-            src={train}
-            onClick={() =>
-              this.getTrainData(this.state.startY, this.state.startX)
-            }
-          />
-          <Icon src={drink} />
-          <Icon src={med} />
-          <Icon src={delivery} />
-          <Icon src={food} />
-        </IconContainer>
+        <SearchContainer>
+          <Search>SearchBox Here</Search>
+        </SearchContainer>
         <ContentContainer>
           {Object.keys(this.state.data).length ? (
             <FloatContent data={this.state.data} />

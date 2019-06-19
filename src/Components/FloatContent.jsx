@@ -59,6 +59,8 @@ const Text = styled.p`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: stretch;
+  position: fixed;
+  bottom: 0;
 `;
 const LeftButton = styled(Button)`
   margin: 0.5rem;
@@ -242,24 +244,6 @@ export default class FloatContent extends Component {
             </Bar>
           </BarContainer>
         </Card>
-
-        {/* <Card style={{ border: "none" }}>
-          <TextContainer>
-            <Text>{pharmName}</Text>
-            <p>1.3km | {pharmTel} | 도보 4분</p>
-          </TextContainer>
-          <BarContainer>
-            <Bar
-              style={{
-                width: "100%",
-                backgroundColor: "#ccc",
-                color: "white"
-              }}
-            >
-              4 분
-            </Bar>
-          </BarContainer>
-        </Card> */}
 
         <ButtonContainer>
           <LeftButton type="default" shape="round" size="large">

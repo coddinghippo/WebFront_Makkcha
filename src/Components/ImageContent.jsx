@@ -28,14 +28,10 @@ const SubText = styled.p`
 
 const ImageContent = () => (
   <Container>
-    <FlexBox>
-      <HeaderText>밤길</HeaderText>
-    </FlexBox>
-    <FlexBox />
-    <FlexBox>
-      <SubText>시계가 반대로 돌아가고 있어</SubText>
-      <SubText>- 류동훈</SubText>
-    </FlexBox>
+    <img
+      src="https://www.hansung.ac.kr/html/themes/www/img/custom/1_06_01_01_t3location.gif"
+      height="100%"
+    />
   </Container>
 );
 
