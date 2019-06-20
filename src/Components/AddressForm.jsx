@@ -6,7 +6,7 @@ import axios from "axios";
 const { Item } = Form;
 
 const Container = styled.div`
-  background: #000;
+  background: #000033;
   height: 100%;
   width: 100%;
   display: flex;
@@ -34,17 +34,22 @@ const StyledItem = styled(Item)`
 const StyledInput = styled(Input)`
   width: 15rem;
   border: none;
-  background: #000;
+  background: #000033;
   text-align: center;
   color: white;
   border-bottom: 1px solid white;
+  &#address_address {
+    border-bottom: 1px solid white;
+  }
+  transition: none;
   border-radius: 0;
 `;
 
 const StyledButton = styled(Button)`
   flex: 1;
   width: 90%;
-  border-radius: 0.7rem;
+  color: #000033;
+  border-radius: 1.5rem;
   margin-bottom: 1.3rem;
   backgrouncolor: #000;
   font-weight: bold;
@@ -97,11 +102,7 @@ class AddressForm extends Component {
             })(<StyledInput placeholder="집에서 가까운 지하철역 입력" />)}
           </StyledItem>
 
-          <StyledButton
-            size="large"
-            type="secondary"
-            onClick={this.handleSubmit}
-          >
+          <StyledButton type="secondary" onClick={this.handleSubmit}>
             확인
           </StyledButton>
         </StyledForm>
