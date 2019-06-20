@@ -3,13 +3,6 @@ import styled from "styled-components";
 import axios from "axios";
 import { Spin } from "antd";
 import FloatContent from "./FloatContent";
-import ImageContent from "./ImageContent";
-import train from "../icons/1.png";
-import drink from "../icons/2.png";
-import med from "../icons/3.png";
-import delivery from "../icons/4.png";
-import food from "../icons/5.png";
-import Search from "./Search";
 
 const Container = styled.div`
   display: flex;
@@ -17,19 +10,8 @@ const Container = styled.div`
   flex: 1;
 `;
 
-const IconContainer = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-`;
-
-const Icon = styled.img`
-  width: 2.2rem;
-`;
-
 const ContentContainer = styled.div`
-  flex: 3;
+  flex: 10;
   display: flex;
   justify-content: center;
 `;
@@ -39,9 +21,10 @@ const ContentContainer = styled.div`
 //   props.toggleComponent();
 // };
 
-const SearchContainer = styled.div`
-  flex: 1;
+const MakchaContainer = styled.div`
   display: flex;
+  flex: 3;
+  background: #000033;
 `;
 
 export default class Main extends Component {
@@ -83,12 +66,11 @@ export default class Main extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <Container>
-        <SearchContainer>
-          <Search>SearchBox Here</Search>
-        </SearchContainer>
+        <MakchaContainer>
+          <div>hi</div>
+        </MakchaContainer>
         <ContentContainer>
           {Object.keys(this.state.data).length ? (
             <FloatContent data={this.state.data} />
