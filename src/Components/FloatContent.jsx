@@ -2,32 +2,21 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Button } from "antd";
 import uuidv1 from "uuid/v1";
+import { lineColors } from "../Styles/_mixin";
 
 const Container = styled.div`
-  max-width: 100%;
-  border-radius: 0.5rem;
-  border: 1px solid #eee;
-  width: 94%;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
 `;
-// document.querySelector("#root > div > div > div > div.sc-kpOJdX.dxtEmv > div > div > div:nth-child(1) > div:nth-child(3)")
-// #root > div > div > div > div.sc-kpOJdX.dxtEmv > div > div > div:nth-child(1) > div:nth-child(3)
+
 const Card = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   border-bottom: 1px solid #ccc;
-`;
-
-const TopLine = styled.div`
-  border-bottom: 2px solid #bbb;
-  height: 1rem;
-  margin-bottom: 1rem;
-  width: 60%;
 `;
 
 const BarContainer = styled.div`
@@ -58,51 +47,22 @@ const Text = styled.p`
 
 const ButtonContainer = styled.div`
   display: flex;
-  justify-content: stretch;
   position: fixed;
+  justify-content: center;
+  width: 100%;
   bottom: 0;
 `;
-const LeftButton = styled(Button)`
-  margin: 0.5rem;
-  margin-right: 0;
-  flex: 1;
-  color: black;
-  font-size: 0.7rem !important;
-  border: 1px solid black;
-`;
-const RightButton = styled(Button)`
-  flex: 3;
-  background: #5e5e5e;
-  margin: 0.5rem;
-  color: white;
-  font-size: 0.7rem !important;
-`;
 
-const lineColors = {
-  도보: "#ccc",
-  "1호선": "#052f93",
-  "2호선": "#10a643",
-  "3호선": "#ea8406",
-  "4호선": "#00a8e6",
-  "5호선": "#a95094",
-  "6호선": "#d08d1a",
-  "7호선": "#657931",
-  "8호선": "#e74e6d",
-  "9호선": "#be941c",
-  경강선: "#004ea7",
-  경의중앙선: "#79c0a0",
-  경춘선: "#33C7A7",
-  공항철도: "#038fa0",
-  분당선: "#fcd204",
-  서해: "#8be800",
-  수인선: "#fbb901",
-  신분당선: "#cd2234",
-  용인경전철: "#56ab32",
-  우이신설경전철: "#b7b7b7",
-  의정부경전철: "#f6ba02",
-  인천1호선: "#6496df",
-  인천2호선: "#fd9800"
-};
+const StyledButton = styled(Button)`
+  width: 90%;
+  height: 2.2rem;
+  color: white;
+  background: #000033;
+  border-radius: 1.5rem;
+  margin-bottom: 1.3rem;
+  backgrouncolor: #000;
+  font-weight: bold;
+`;
 
 export default class FloatContent extends Component {
   state = {
@@ -244,14 +204,8 @@ export default class FloatContent extends Component {
             </Bar>
           </BarContainer>
         </Card>
-
         <ButtonContainer>
-          <LeftButton type="default" shape="round" size="large">
-            확인
-          </LeftButton>
-          <RightButton type="default" shape="round" size="large">
-            다른 정보 더 보기
-          </RightButton>
+          <StyledButton size="large">다른 정보 더 보기</StyledButton>
         </ButtonContainer>
       </Container>
     );

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { Spin } from "antd";
+import { Spin, Icon } from "antd";
 import FloatContent from "./FloatContent";
 
 const Container = styled.div`
@@ -23,9 +23,14 @@ const ContentContainer = styled.div`
 
 const MakchaContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  color: white;
   flex: 3;
   background: #000033;
 `;
+
+const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 export default class Main extends Component {
   constructor(props) {
@@ -43,7 +48,6 @@ export default class Main extends Component {
     }
     window.navigator.geolocation.getCurrentPosition(pos => {
       const { latitude, longitude } = pos.coords;
-      console.log("pos: ", pos);
       this.setState({ startX: longitude, startY: latitude });
       this.getTrainData(latitude, longitude);
     });
@@ -65,17 +69,45 @@ export default class Main extends Component {
     axios.get(url).then(res => this.setState({ data: res.data }));
   }
 
+  getMakchaTimer({ hr, min, sec }) {
+    const { pathOptionList } = this.state.data;
+
+    const makcha = pathOptionList
+      ? pathOptionList[0].route.lastTimeList[0].lastTimeDay
+      : null;
+    console.log(makcha);
+  }
+
   render() {
+    const { pathOptionList } = this.state.data;
+    const date = new Date();
+    const time = {
+      hr: date.getHours(),
+      min: date.getMinutes(),
+      sec: date.getSeconds()
+    };
+    // console.log(time.hr, time.min, time.sec);
     return (
       <Container>
         <MakchaContainer>
-          <div>hi</div>
+          <p>
+            endX: {this.state.endx} endY: {this.state.endY}
+          </p>
+          <div>
+            <span>막차까지 </span>
+            <span>
+              {pathOptionList
+                ? pathOptionList[0].route.lastTimeList[0].lastTimeDay
+                : "준비중입니다"}
+            </span>
+            <span>{this.getMakchaTimer(time)}</span>
+          </div>
         </MakchaContainer>
         <ContentContainer>
           {Object.keys(this.state.data).length ? (
             <FloatContent data={this.state.data} />
           ) : (
-            <Spin />
+            <Spin indicator={antIcon} />
           )}
         </ContentContainer>
       </Container>
