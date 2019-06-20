@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Button } from "antd";
 import uuidv1 from "uuid/v1";
-import { lineColors } from "../Styles/_mixin";
+import { lineColors, fontSize } from "../Styles/_mixin";
+// import Card from "./Card";
 
 const Container = styled.div`
   display: flex;
@@ -64,17 +65,10 @@ const StyledButton = styled(Button)`
   font-weight: bold;
 `;
 
-export default class FloatContent extends Component {
+export default class OptinList extends Component {
   state = {
     taxi: { time: 0, distance: 0, price: 0 },
     makcha: [{ routeNm: "도보", time: 0 }],
-    pharmList: [
-      {
-        pharmName: "센느약국",
-        pharmAddr: "서울특별시 강남구 테헤란로4길 6 상가 122호",
-        pharmTel: "02-501-2450"
-      }
-    ],
     route: { price: null, lastTimeList: [{ lastTimeDay: "00:00:30 (수서행)" }] }
   };
 
@@ -92,12 +86,6 @@ export default class FloatContent extends Component {
         });
       }
     }
-    // const total = this.state.pathList.reduce((a, obj) => a + obj.time, 0);
-    // this.setState({ total });
-  }
-
-  handleEndReached() {
-    // console.log("load more");
   }
 
   renderBar() {
@@ -150,15 +138,12 @@ export default class FloatContent extends Component {
 
   render() {
     console.log(this.state);
-    const { taxi, makcha } = this.state;
+    const { taxi, makcha, route } = this.state;
     const totalTime = makcha.reduce((a, x) => a + x.time, 0);
     const totalDistance = makcha.reduce((a, x) => a + x.distance, 0) / 1000;
-    const { pharmTel, pharmName, pharmAddr } = this.state.pharmList[0];
     const { lastTimeList } = this.state.route;
     return (
       <Container speed={0.8} horizontal={false}>
-        {/* <TopLine /> */}
-
         <Card>
           <TextContainer>
             <Text>
@@ -180,6 +165,8 @@ export default class FloatContent extends Component {
             {this.renderStn()}
           </BarContainer>
         </Card>
+        {/* <Card makcha={makcha} route={route} />
+        <Card makcha={makcha} route={route} /> */}
 
         <Card>
           <TextContainer>

@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { Spin, Icon } from "antd";
-import FloatContent from "./FloatContent";
+import OptinList from "./OptinList";
+import MakchaDetail from "./MakchaDetail";
 import keys from "../config/keys";
 
 const Container = styled.div`
@@ -17,18 +18,9 @@ const ContentContainer = styled.div`
   justify-content: center;
 `;
 
-// const clearStorage = props => {
-//   localStorage.setItem("addr", "");
-//   props.toggleComponent();
-// };
-
 const MakchaContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  padding: 0.5rem;
-  color: white;
   flex: 3;
-  background: #000033;
 `;
 
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
@@ -49,7 +41,6 @@ export default class Main extends Component {
       const { endX, endY } = JSON.parse(
         localStorage.getItem("loc")
       ).endLocation;
-      // console.log("hi there", endX, endY);
       this.setState({ endX, endY });
     }
     window.navigator.geolocation.getCurrentPosition(pos => {
@@ -58,8 +49,6 @@ export default class Main extends Component {
       this.getTrainData(latitude, longitude);
     });
   }
-  // x: long, y: lat
-  // startX: 127.07684413348886, startY: 37.51428097145118
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.startX !== this.state.startX) {
@@ -86,43 +75,17 @@ export default class Main extends Component {
     );
   }
 
-  getMakchaTimer({ hr, min, sec }) {
-    const { pathOptionList } = this.state.data;
-
-    const makcha = pathOptionList
-      ? pathOptionList[0].route.lastTimeList[0].lastTimeDay
-      : null;
-    console.log(makcha);
-  }
-
   render() {
-    console.log(this.state.currentAddr);
     const { pathOptionList } = this.state.data;
     const { currentAddr } = this.state;
-    const date = new Date();
-    const time = {
-      hr: date.getHours(),
-      min: date.getMinutes(),
-      sec: date.getSeconds()
-    };
-    // console.log(time.hr, time.min, time.sec);
     return (
       <Container>
         <MakchaContainer>
-          <p>{currentAddr}</p>
-          <div>
-            <span>막차까지 </span>
-            <span>
-              {pathOptionList
-                ? pathOptionList[0].route.lastTimeList[0].lastTimeDay
-                : "준비중입니다"}
-            </span>
-            <span>{this.getMakchaTimer(time)}</span>
-          </div>
+          <MakchaDetail pathList={pathOptionList} addr={currentAddr} />
         </MakchaContainer>
         <ContentContainer>
           {Object.keys(this.state.data).length ? (
-            <FloatContent data={this.state.data} />
+            <OptinList data={this.state.data} />
           ) : (
             <Spin indicator={antIcon} />
           )}
