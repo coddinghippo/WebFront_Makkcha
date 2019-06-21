@@ -32,7 +32,9 @@ export default class Main extends Component {
       endX: 126.91509963231,
       endY: 37.568565387939,
       data: {},
-      currentAddr: "확인중..."
+      currentAddr: "확인중...",
+      startX: "",
+      startY: ""
     };
   }
 
@@ -43,7 +45,7 @@ export default class Main extends Component {
       ).endLocation;
       this.setState({ endX, endY });
     }
-    window.navigator.geolocation.getCurrentPosition(pos => {
+    navigator.geolocation.getCurrentPosition(pos => {
       const { latitude, longitude } = pos.coords;
       this.setState({ startX: longitude, startY: latitude });
       this.getTrainData(latitude, longitude);
@@ -76,6 +78,7 @@ export default class Main extends Component {
   }
 
   render() {
+    console.log(this.state);
     const { pathOptionList } = this.state.data;
     const { currentAddr } = this.state;
     return (
