@@ -45,6 +45,10 @@ export default class Main extends Component {
       ).endLocation;
       this.setState({ endX, endY });
     }
+    // Json-server Option
+    this.getTrainData(0, 0);
+
+    // Original
     navigator.geolocation.getCurrentPosition(pos => {
       const { latitude, longitude } = pos.coords;
       this.setState({ startX: longitude, startY: latitude });
@@ -62,23 +66,27 @@ export default class Main extends Component {
 
   getTrainData(lat, long) {
     const { endX, endY } = this.state;
-    let url = `https://makkcha.com/searchMakcha?startX=${long}&startY=${lat}&endX=${endX}&endY=${endY}`;
-    // let url = "http://localhost:4000/db/";
+    // let url = `https://makkcha.com/searchMakcha?startX=${long}&startY=${lat}&endX=${endX}&endY=${endY}`;
+
+    // Json-server Option
+    let url = "http://localhost:3004/db/";
     axios.get(url).then(res => this.setState({ data: res.data }));
   }
 
   getCurrentPosFromGPS(x, y) {
     let url = `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${x}&y=${y}&input_coord=WGS84`;
     let headers = { Authorization: `KakaoAK ${keys.KakaoAK}` };
-    axios.get(url, { headers }).then(res =>
-      this.setState({
-        currentAddr: res.data.documents[0].address.address_name
-      })
+    axios.get(url, { headers }).then(
+      res =>
+        this.setState({
+          currentAddr: res.data.documents[0].address.address_name
+        })
+      // console.log(res)
     );
   }
 
   render() {
-    console.log(this.state);
+    console.log("data: ", this.state.data);
     const { pathOptionList } = this.state.data;
     const { currentAddr } = this.state;
     return (

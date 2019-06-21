@@ -68,19 +68,6 @@ class AddressForm extends Component {
     this.props.form.validateFields();
   }
 
-  // getLocationByStationName(stnName) {
-  //   const stn = encodeURI(stnName);
-  //   axios
-  //     .get(`https://makkcha.com/serachLocation?location=${stn}`)
-  //     .then(res => {
-  //       const endLocation = { endX: res.data.gpsX, endY: res.data.gpsY };
-  //       if (res.status === 200) {
-  //         localStorage.setItem("loc", JSON.stringify({ endLocation, stnName }));
-  //       }
-  //     })
-  //     .then(this.props.toggleComponent);
-  // }
-
   getPosFromAddr(searchVal) {
     let url = `https://dapi.kakao.com/v2/local/search/`;
     let headers = { Authorization: `KakaoAK ${keys.KakaoAK}` };
@@ -118,7 +105,6 @@ class AddressForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // this.getLocationByStationName(values.address);
         this.getPosFromAddr(values.address);
       } else console.log(err);
     });

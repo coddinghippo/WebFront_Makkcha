@@ -28,11 +28,23 @@ const BarContainer = styled.div`
   max-width: 90%;
   height: 1rem;
   background: sky-blue;
+  // &:first-child {
+  //   border-top-left-radius: 5px;
+  //   border-bottom-left-radius: 5px;
+  // }
 `;
 
 const Bar = styled.div`
   text-align: center;
   height: 20px;
+  &:first-of-type {
+    border-top-left-radius: 3rem;
+    border-bottom-left-radius: 3rem;
+  }
+  &:last-of-type {
+    border-top-right-radius: 3rem;
+    border-bottom-right-radius: 3rem;
+  }
 `;
 
 const TextContainer = styled.div`
@@ -56,7 +68,7 @@ const ButtonContainer = styled.div`
 
 const StyledButton = styled(Button)`
   width: 90%;
-  height: 2.2rem;
+  height: 3rem;
   color: white;
   background: #000033;
   border-radius: 1.5rem;
@@ -71,6 +83,15 @@ export default class OptinList extends Component {
     makcha: [{ routeNm: "도보", time: 0 }],
     route: { price: null, lastTimeList: [{ lastTimeDay: "00:00:30 (수서행)" }] }
   };
+
+  // Json-server Option
+  componentDidMount() {
+    const { taxiInfo, pathOptionList } = this.props.data;
+    const makcha = pathOptionList[0].makchaPathList;
+    const route = pathOptionList[0].route;
+
+    this.setState({ taxi: taxiInfo, makcha, route });
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.data !== this.props.data) {
@@ -98,6 +119,7 @@ export default class OptinList extends Component {
       length = String(length) + "%";
       return (
         <Bar
+          className="haha"
           key={uuidv1()}
           style={{
             width: length,
@@ -112,6 +134,7 @@ export default class OptinList extends Component {
   }
 
   renderStn() {
+    console.log("log: ", this.state);
     const makcha = this.state.makcha;
     const totalTime = makcha.reduce((a, x) => a + x.time, 0);
 
@@ -158,7 +181,7 @@ export default class OptinList extends Component {
               원 | {makcha[0].time}분
             </p>
           </TextContainer>
-          <BarContainer style={{ marginBottom: 0 }}>
+          <BarContainer className="nana" style={{ marginBottom: 0 }}>
             {this.renderBar()}
           </BarContainer>
           <BarContainer style={{ marginTop: 0 }}>
