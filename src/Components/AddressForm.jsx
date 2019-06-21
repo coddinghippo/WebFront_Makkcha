@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Form, Input, Button } from "antd";
 import styled from "styled-components";
 import axios from "axios";
+import keys from "../config/keys";
+import { promised } from "q";
 
 const { Item } = Form;
 
@@ -67,24 +69,72 @@ class AddressForm extends Component {
     this.props.form.validateFields();
   }
 
-  getLocationByStationName(stnName) {
-    const stn = encodeURI(stnName);
-    axios
-      .get(`https://makkcha.com/serachLocation?location=${stn}`)
-      .then(res => {
-        const endLocation = { endX: res.data.gpsX, endY: res.data.gpsY };
-        if (res.status === 200) {
-          localStorage.setItem("loc", JSON.stringify({ endLocation, stnName }));
-        }
+  // getLocationByStationName(stnName) {
+  //   const stn = encodeURI(stnName);
+  //   axios
+  //     .get(`https://makkcha.com/serachLocation?location=${stn}`)
+  //     .then(res => {
+  //       const endLocation = { endX: res.data.gpsX, endY: res.data.gpsY };
+  //       if (res.status === 200) {
+  //         localStorage.setItem("loc", JSON.stringify({ endLocation, stnName }));
+  //       }
+  //     })
+  //     .then(this.props.toggleComponent);
+  // }
+
+  getPosFromAddr(searchVal) {
+    let url = `https://dapi.kakao.com/v2/local/search/`;
+    let headers = { Authorization: `KakaoAK ${keys.KakaoAK}` };
+
+    // function posFromAddr() {
+    //   return new Promise(resolve =>
+    //     axios
+    //       .get(url + `address.json?query=${searchVal}`, { headers })
+    //       .then(res => {
+    //         if (res.data.documents.length) resolve(res.data.documents);
+    //       })
+    //   );
+
+    //   // return axios.get(url + `address.json?query=${searchVal}`, { headers });
+    // }
+
+    // function posFromKeyword() {
+    //   return new Promise(resolve =>
+    //     axios
+    //       .get(url + `keyword.json?query=${searchVal}`, { headers })
+    //       .then(res => {
+    //         if (res.data.documents.length) resolve(res.data.documents);
+    //       })
+    //   );
+    //   // return axios.get(url + `keyword.json?query=${searchVal}`, { headers });
+    // }
+
+    // Promise.all([posFromAddr(), posFromKeyword()]).then(results => {
+    //   return results.map(res => {
+    //     if (res.data.documents.length) console.log(res.data.documents);
+    //   });
+    // });
+
+    const posFromAddr = axios.get(url + `address.json?query=${searchVal}`, {
+      headers
+    });
+    const posFromKeyword = axios.get(url + `keyword.json?query=${searchVal}`, {
+      headers
+    });
+
+    Promise.all([posFromAddr, posFromKeyword]).then(results =>
+      results.map(result => {
+        if (result.data.documents.length) console.log(result.data.documents);
       })
-      .then(this.props.toggleComponent);
+    );
   }
 
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.getLocationByStationName(values.address);
+        // this.getLocationByStationName(values.address);
+        this.getPosFromAddr(values.address);
       } else console.log(err);
     });
   };
@@ -106,7 +156,7 @@ class AddressForm extends Component {
           >
             {getFieldDecorator("address", {
               rules: [{ required: false, message: "집 주소를 입력해 주세요!" }]
-            })(<StyledInput placeholder="집에서 가까운 지하철역 입력" />)}
+            })(<StyledInput placeholder="집 주소 입력" />)}
           </StyledItem>
         </StyledForm>
         <ButtonContainer>
