@@ -45,8 +45,8 @@ export default class Main extends Component {
       ).endLocation;
       this.setState({ endX, endY });
     }
-    // Json-server Option
-    this.getTrainData(0, 0);
+    // // Json-server Option
+    // this.getTrainData(0, 0);
 
     // Original
     navigator.geolocation.getCurrentPosition(pos => {
@@ -66,10 +66,10 @@ export default class Main extends Component {
 
   getTrainData(lat, long) {
     const { endX, endY } = this.state;
-    // let url = `https://makkcha.com/searchMakcha?startX=${long}&startY=${lat}&endX=${endX}&endY=${endY}`;
+    let url = `https://makkcha.com/searchMakcha?startX=${long}&startY=${lat}&endX=${endX}&endY=${endY}`;
 
-    // Json-server Option
-    let url = "http://localhost:3004/db/";
+    // // Json-server Option
+    // let url = "http://localhost:3004/db/";
     axios.get(url).then(res => this.setState({ data: res.data }));
   }
 

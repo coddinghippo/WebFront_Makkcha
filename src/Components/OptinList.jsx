@@ -84,14 +84,14 @@ export default class OptinList extends Component {
     route: { price: null, lastTimeList: [{ lastTimeDay: "00:00:30 (수서행)" }] }
   };
 
-  // Json-server Option
-  componentDidMount() {
-    const { taxiInfo, pathOptionList } = this.props.data;
-    const makcha = pathOptionList[0].makchaPathList;
-    const route = pathOptionList[0].route;
+  // // Json-server Option
+  // componentDidMount() {
+  //   const { taxiInfo, pathOptionList } = this.props.data;
+  //   const makcha = pathOptionList[0].makchaPathList;
+  //   const route = pathOptionList[0].route;
 
-    this.setState({ taxi: taxiInfo, makcha, route });
-  }
+  //   this.setState({ taxi: taxiInfo, makcha, route });
+  // }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.data !== this.props.data) {
