@@ -3,7 +3,6 @@ import { Form, Input, Button } from "antd";
 import styled from "styled-components";
 import axios from "axios";
 import keys from "../config/keys";
-import { promised } from "q";
 
 const { Item } = Form;
 
@@ -86,47 +85,33 @@ class AddressForm extends Component {
     let url = `https://dapi.kakao.com/v2/local/search/`;
     let headers = { Authorization: `KakaoAK ${keys.KakaoAK}` };
 
-    // function posFromAddr() {
-    //   return new Promise(resolve =>
-    //     axios
-    //       .get(url + `address.json?query=${searchVal}`, { headers })
-    //       .then(res => {
-    //         if (res.data.documents.length) resolve(res.data.documents);
-    //       })
-    //   );
+    function posFromAddr() {
+      return new Promise(resolve =>
+        axios
+          .get(url + `address.json?query=${searchVal}`, { headers })
+          .then(res => {
+            if (res.data.documents.length) resolve(res.data.documents);
+          })
+      );
+    }
 
-    //   // return axios.get(url + `address.json?query=${searchVal}`, { headers });
-    // }
+    function posFromKeyword() {
+      return new Promise(resolve =>
+        axios
+          .get(url + `keyword.json?query=${searchVal}`, { headers })
+          .then(res => {
+            if (res.data.documents.length) resolve(res.data.documents);
+          })
+      );
+    }
 
-    // function posFromKeyword() {
-    //   return new Promise(resolve =>
-    //     axios
-    //       .get(url + `keyword.json?query=${searchVal}`, { headers })
-    //       .then(res => {
-    //         if (res.data.documents.length) resolve(res.data.documents);
-    //       })
-    //   );
-    //   // return axios.get(url + `keyword.json?query=${searchVal}`, { headers });
-    // }
-
-    // Promise.all([posFromAddr(), posFromKeyword()]).then(results => {
-    //   return results.map(res => {
-    //     if (res.data.documents.length) console.log(res.data.documents);
-    //   });
-    // });
-
-    const posFromAddr = axios.get(url + `address.json?query=${searchVal}`, {
-      headers
-    });
-    const posFromKeyword = axios.get(url + `keyword.json?query=${searchVal}`, {
-      headers
-    });
-
-    Promise.all([posFromAddr, posFromKeyword]).then(results =>
-      results.map(result => {
-        if (result.data.documents.length) console.log(result.data.documents);
+    Promise.race([posFromAddr(), posFromKeyword()])
+      .then(result => {
+        const endLocation = { endX: result[0].x, endY: result[0].y };
+        const addr = result[0].address_name;
+        localStorage.setItem("loc", JSON.stringify({ endLocation, addr }));
       })
-    );
+      .then(this.props.toggleComponent);
   }
 
   handleSubmit = e => {
