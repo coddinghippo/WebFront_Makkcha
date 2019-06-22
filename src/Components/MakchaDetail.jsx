@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Statistic } from "antd";
 import { Text } from "./common";
+import { fontSize } from "../Styles/_mixin";
 
 const { Countdown } = Statistic;
 
@@ -54,8 +55,7 @@ export default class MakchaDetail extends Component {
   }
 
   render() {
-    const { remain, addr } = this.state;
-    console.log(remain);
+    const { defaultInfo, remain, addr } = this.state;
     const deadline = Date.now() + 1000 * remain;
     return (
       <Container>
@@ -72,7 +72,10 @@ export default class MakchaDetail extends Component {
                 title="Countdown"
                 value={deadline}
                 onFinish={this.onFinish}
-                valueStyle={{ color: "white" }}
+                valueStyle={{
+                  color: "white",
+                  fontSize: fontSize.extraLargeFontSize
+                }}
               />
             ) : (
               <p>준비중입니다</p>
@@ -81,9 +84,9 @@ export default class MakchaDetail extends Component {
         </TimerContainer>
         <InfoContainer>
           <Text size="largeFontSize" weight="bold">
-            {/* {defaultInfo.length
-            ? defaultInfo.[0].startStationName
-            : "준비중"} */}
+            {defaultInfo.pathStationList
+              ? defaultInfo.pathStationList[0].startStationName
+              : "준비중"}
           </Text>
         </InfoContainer>
       </Container>

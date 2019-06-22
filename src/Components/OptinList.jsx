@@ -95,12 +95,12 @@ export default class OptinList extends Component {
 
   // // Json-server Option
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevProps.data !== this.props.data) {
-  //     const { taxiInfo, subwayPathOptionList } = this.props.data;
-  //     this.setState({ taxiInfo, subwayPathOptionList });
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.taxiInfo !== this.props.taxiInfo) {
+      const { taxiInfo, subwayPathOptionList } = this.props.data;
+      this.setState({ taxiInfo, subwayPathOptionList });
+    }
+  }
 
   renderBar() {
     const makcha = this.state.makcha;
