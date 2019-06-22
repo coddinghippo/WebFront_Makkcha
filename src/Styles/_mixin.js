@@ -6,9 +6,10 @@ const sizes = {
 };
 
 export const fontSize = {
-  smallFontSize: "9px",
-  normalFontSize: "12px",
-  largeFontSize: "15px"
+  smallFontSize: "0.7rem",
+  normalFontSize: "1rem",
+  largeFontSize: "1.2rem",
+  extraLargeFontSize: "3rem"
 };
 
 export const lineColors = {

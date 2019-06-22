@@ -134,7 +134,6 @@ export default class OptinList extends Component {
   }
 
   renderStn() {
-    console.log("log: ", this.state);
     const makcha = this.state.makcha;
     const totalTime = makcha.reduce((a, x) => a + x.time, 0);
 
@@ -160,7 +159,6 @@ export default class OptinList extends Component {
   }
 
   render() {
-    console.log(this.state);
     const { taxi, makcha, route } = this.state;
     const totalTime = makcha.reduce((a, x) => a + x.time, 0);
     const totalDistance = makcha.reduce((a, x) => a + x.distance, 0) / 1000;
