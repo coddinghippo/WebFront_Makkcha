@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Statistic } from "antd";
+import { Statistic, Icon } from "antd";
 import { Text } from "./common";
-import { fontSize } from "../Styles/_mixin";
+import { fontSize, lineColors } from "../Styles/_mixin";
+import { lineChar } from "./common";
 
 const { Countdown } = Statistic;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0.5rem;
+  padding: 1rem;
   color: white;
   flex: inherit;
   background: #000033;
@@ -30,6 +31,28 @@ const TimerContainer = styled.div`
 const InfoContainer = styled.div`
   display: flex;
   flex: 1;
+  align-items: center;
+`;
+
+const LineIcon = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 3rem;
+  background: white;
+  margin-right: 1rem;
+`;
+
+const LineInner = styled.div`
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 2.4rem;
+  background: ${props => lineColors[props.line]};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default class MakchaDetail extends Component {
@@ -44,7 +67,10 @@ export default class MakchaDetail extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.defaultInfo !== this.props.defaultInfo) {
+    if (
+      prevProps.defaultInfo !== this.props.defaultInfo ||
+      prevProps.addr !== this.props.addr
+    ) {
       const { defaultInfo, addr } = this.props;
       this.setState({ defaultInfo, addr, remain: defaultInfo.remain });
     }
@@ -54,22 +80,34 @@ export default class MakchaDetail extends Component {
     console.log(`Finished`);
   }
 
-  render() {
+  renderDetail() {
     const { defaultInfo, remain, addr } = this.state;
     const deadline = Date.now() + 1000 * remain;
-    return (
-      <Container>
-        <LocContainer>
-          <Text size="normalFontSize">{addr}</Text>
-        </LocContainer>
-        <TimerContainer>
-          <Text size="largeFontSize" weight="bold">
-            막차까지
-          </Text>
-          <div>
-            {remain ? (
+
+    if (remain) {
+      const {
+        startStationName,
+        line,
+        endStationName
+      } = defaultInfo.pathStationList[0];
+
+      return (
+        <>
+          <LocContainer>
+            <Icon
+              type="environment"
+              theme="filled"
+              style={{ marginRight: "1rem" }}
+            />
+            <Text size="normalFontSize">{addr}</Text>
+          </LocContainer>
+
+          <TimerContainer>
+            <>
+              <Text size="largeFontSize" weight="bold">
+                막차까지
+              </Text>
               <Countdown
-                title="Countdown"
                 value={deadline}
                 onFinish={this.onFinish}
                 valueStyle={{
@@ -77,19 +115,26 @@ export default class MakchaDetail extends Component {
                   fontSize: fontSize.extraLargeFontSize
                 }}
               />
-            ) : (
-              <p>준비중입니다</p>
-            )}
-          </div>
-        </TimerContainer>
-        <InfoContainer>
-          <Text size="largeFontSize" weight="bold">
-            {defaultInfo.pathStationList
-              ? defaultInfo.pathStationList[0].startStationName
-              : "준비중"}
-          </Text>
-        </InfoContainer>
-      </Container>
-    );
+            </>
+          </TimerContainer>
+
+          <InfoContainer>
+            <LineIcon>
+              <LineInner line={line}>{lineChar[line]}</LineInner>
+            </LineIcon>
+            <Text size="largeFontSize" weight="bold">
+              {startStationName + "역"}
+            </Text>
+            <Text size="smallFontSize" style={{ marginLeft: "0.6rem" }}>
+              {endStationName + " 방향"}
+            </Text>
+          </InfoContainer>
+        </>
+      );
+    } else return null;
+  }
+
+  render() {
+    return <Container>{this.renderDetail()}</Container>;
   }
 }

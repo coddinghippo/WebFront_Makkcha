@@ -77,12 +77,6 @@ const StyledButton = styled(Button)`
 `;
 
 export default class OptinList extends Component {
-  // state = {
-  //   taxiInfo: { time: 0, distance: 0, price: 0 },
-  //   subwayPathOptionList: { routeList: [], walkInfo: [] },
-  //   defaultOption: {}
-  // };
-
   constructor(props) {
     super(props);
     const { taxiInfo, subwayPathOptionList, defaultInfo } = this.props;
