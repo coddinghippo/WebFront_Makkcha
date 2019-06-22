@@ -1,6 +1,9 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
+import { Statistic } from "antd";
 import { Text } from "./common";
+
+const { Countdown } = Statistic;
 
 const Container = styled.div`
   display: flex;
@@ -28,31 +31,62 @@ const InfoContainer = styled.div`
   flex: 1;
 `;
 
-const MakchaDetail = props => {
-  let { pathList, addr } = props;
-  if (!pathList) pathList = [];
-  return (
-    <Container>
-      <LocContainer>
-        <Text size="normalFontSize">{addr}</Text>
-      </LocContainer>
-      <TimerContainer>
-        <Text size="largeFontSize" weight="bold">
-          막차까지
-        </Text>
-        <Text size="extraLargeFontSize" weight="bold">
-          {pathList.length
-            ? pathList[0].route.lastTimeList[0].lastTimeDay.slice(0, 5)
-            : "준비중입니다"}
-        </Text>
-      </TimerContainer>
-      <InfoContainer>
-        <Text size="largeFontSize" weight="bold">
-          선릉역
-        </Text>
-      </InfoContainer>
-    </Container>
-  );
-};
+export default class MakchaDetail extends Component {
+  constructor(props) {
+    super(props);
+    const { defaultInfo, addr } = props;
+    this.state = {
+      defaultInfo,
+      remain: defaultInfo.reamin || null,
+      addr
+    };
+  }
 
-export default MakchaDetail;
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.defaultInfo !== this.props.defaultInfo) {
+      const { defaultInfo, addr } = this.props;
+      this.setState({ defaultInfo, addr, remain: defaultInfo.remain });
+    }
+  }
+
+  onFinish() {
+    console.log(`Finished`);
+  }
+
+  render() {
+    const { remain, addr } = this.state;
+    console.log(remain);
+    const deadline = Date.now() + 1000 * remain;
+    return (
+      <Container>
+        <LocContainer>
+          <Text size="normalFontSize">{addr}</Text>
+        </LocContainer>
+        <TimerContainer>
+          <Text size="largeFontSize" weight="bold">
+            막차까지
+          </Text>
+          <div>
+            {remain ? (
+              <Countdown
+                title="Countdown"
+                value={deadline}
+                onFinish={this.onFinish}
+                valueStyle={{ color: "white" }}
+              />
+            ) : (
+              <p>준비중입니다</p>
+            )}
+          </div>
+        </TimerContainer>
+        <InfoContainer>
+          <Text size="largeFontSize" weight="bold">
+            {/* {defaultInfo.length
+            ? defaultInfo.[0].startStationName
+            : "준비중"} */}
+          </Text>
+        </InfoContainer>
+      </Container>
+    );
+  }
+}

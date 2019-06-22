@@ -34,10 +34,14 @@ export default class Main extends Component {
     this.state = {
       endX: 126.91509963231,
       endY: 37.568565387939,
-      data: {},
       currentAddr: "확인중...",
       startX: "",
-      startY: ""
+      startY: "",
+      data: {
+        taxiInfo: {},
+        subwayPathOptionList: { routeList: [{}] },
+        defaultInfo: {}
+      }
     };
   }
 
@@ -69,11 +73,18 @@ export default class Main extends Component {
 
   getTrainData(lat, long) {
     const { endX, endY } = this.state;
-    let url = `https://makkcha.com/searchMakcha?startX=${long}&startY=${lat}&endX=${endX}&endY=${endY}`;
+    let url = `https://api.makkcha.com/searchMakcha?startX=${long}&startY=${lat}&endX=${endX}&endY=${endY}`;
 
     // // Json-server Option
     // let url = "http://localhost:3004/db/";
-    axios.get(url).then(res => this.setState({ data: res.data }));
+    axios.get(url).then(res =>
+      this.setState({
+        data: {
+          ...res.data,
+          defaultInfo: res.data.subwayPathOptionList.routeList[0]
+        }
+      })
+    );
   }
 
   getCurrentPosFromGPS(x, y) {
@@ -92,16 +103,19 @@ export default class Main extends Component {
   }
 
   render() {
-    const { pathOptionList } = this.state.data;
+    const { taxiInfo, subwayPathOptionList, defaultInfo } = this.state.data;
     const { currentAddr } = this.state;
     return (
       <Container>
         <MakchaContainer>
-          <MakchaDetail pathList={pathOptionList} addr={currentAddr} />
+          <MakchaDetail defaultInfo={defaultInfo} addr={currentAddr} />
         </MakchaContainer>
         <ContentContainer>
           {Object.keys(this.state.data).length ? (
             <OptinList
+              taxiInfo={taxiInfo}
+              subwayPathOptionList={subwayPathOptionList}
+              defaultInfo={subwayPathOptionList.routeList[0]}
               data={this.state.data}
               onButtonPress={this.onButtonPress.bind(this)}
             />
