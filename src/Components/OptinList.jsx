@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Button } from "antd";
 import uuidv1 from "uuid/v1";
-import { lineColors, fontSize } from "../Styles/_mixin";
-// import Card from "./Card";
+import { lineColors } from "../Styles/_mixin";
 
 const Container = styled.div`
   display: flex;
@@ -78,36 +77,30 @@ const StyledButton = styled(Button)`
 `;
 
 export default class OptinList extends Component {
-  state = {
-    taxi: { time: 0, distance: 0, price: 0 },
-    makcha: [{ routeNm: "도보", time: 0 }],
-    route: { price: null, lastTimeList: [{ lastTimeDay: "00:00:30 (수서행)" }] }
-  };
+  // state = {
+  //   taxiInfo: { time: 0, distance: 0, price: 0 },
+  //   subwayPathOptionList: { routeList: [], walkInfo: [] },
+  //   defaultOption: {}
+  // };
+
+  constructor(props) {
+    super(props);
+    const { taxiInfo, subwayPathOptionList, defaultInfo } = this.props;
+    this.state = {
+      taxiInfo,
+      subwayPathOptionList,
+      defaultInfo
+    };
+  }
 
   // // Json-server Option
-  // componentDidMount() {
-  //   const { taxiInfo, pathOptionList } = this.props.data;
-  //   const makcha = pathOptionList[0].makchaPathList;
-  //   const route = pathOptionList[0].route;
 
-  //   this.setState({ taxi: taxiInfo, makcha, route });
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevProps.data !== this.props.data) {
+  //     const { taxiInfo, subwayPathOptionList } = this.props.data;
+  //     this.setState({ taxiInfo, subwayPathOptionList });
+  //   }
   // }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.data !== this.props.data) {
-      const { taxiInfo, pathOptionList } = this.props.data;
-      if (pathOptionList.length) {
-        const makcha = pathOptionList[0].makchaPathList;
-        const route = pathOptionList[0].route;
-
-        this.setState({
-          taxi: taxiInfo,
-          makcha,
-          route
-        });
-      }
-    }
-  }
 
   renderBar() {
     const makcha = this.state.makcha;
@@ -159,13 +152,15 @@ export default class OptinList extends Component {
   }
 
   render() {
-    const { taxi, makcha, route } = this.state;
-    const totalTime = makcha.reduce((a, x) => a + x.time, 0);
-    const totalDistance = makcha.reduce((a, x) => a + x.distance, 0) / 1000;
-    const { lastTimeList } = this.state.route;
+    // console.log(this.state.defaultOption);
+    // Object.keys(this.props).forEach(key => console.log(this.props[key]));
+    const { taxiInfo } = this.state;
+    // const totalTime = makcha.reduce((a, x) => a + x.time, 0);
+    // const totalDistance = makcha.reduce((a, x) => a + x.distance, 0) / 1000;
+    // const { lastTimeList } = this.state.route;
     return (
       <Container speed={0.8} horizontal={false}>
-        <Card>
+        {/* <Card>
           <TextContainer>
             <Text>
               지하철 {totalTime}분 | 막차{" "}
@@ -185,19 +180,20 @@ export default class OptinList extends Component {
           <BarContainer style={{ marginTop: 0 }}>
             {this.renderStn()}
           </BarContainer>
-        </Card>
+        </Card> */}
+
         {/* <Card makcha={makcha} route={route} />
         <Card makcha={makcha} route={route} /> */}
 
         <Card>
           <TextContainer>
-            <Text>택시 {taxi.time}분</Text>
+            <Text>택시 {taxiInfo.time}분</Text>
             <p>
-              {(taxi.distance / 1000).toFixed(1)}km | 약{" "}
-              {String(Math.floor(taxi.price / 1000)) +
+              {(taxiInfo.distance / 1000).toFixed(1)}km | 약{" "}
+              {String(Math.floor(taxiInfo.price / 1000)) +
                 "," +
-                String(taxi.price % 1000)}
-              원 | 도보 0분
+                String(taxiInfo.price % 1000)}
+              원
             </p>
           </TextContainer>
           <BarContainer>
@@ -208,7 +204,7 @@ export default class OptinList extends Component {
                 color: "white"
               }}
             >
-              {taxi.time}분
+              {taxiInfo.time}분
             </Bar>
           </BarContainer>
         </Card>
