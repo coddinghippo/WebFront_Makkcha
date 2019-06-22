@@ -16,6 +16,9 @@ const ContentContainer = styled.div`
   flex: 10;
   display: flex;
   justify-content: center;
+  & #spin {
+    margin: 0 auto;
+  }
 `;
 
 const MakchaContainer = styled.div`
@@ -76,12 +79,10 @@ export default class Main extends Component {
   getCurrentPosFromGPS(x, y) {
     let url = `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${x}&y=${y}&input_coord=WGS84`;
     let headers = { Authorization: `KakaoAK ${keys.KakaoAK}` };
-    axios.get(url, { headers }).then(
-      res =>
-        this.setState({
-          currentAddr: res.data.documents[0].address.address_name
-        })
-      // console.log(res)
+    axios.get(url, { headers }).then(res =>
+      this.setState({
+        currentAddr: res.data.documents[0].address.address_name
+      })
     );
   }
 
@@ -105,7 +106,7 @@ export default class Main extends Component {
               onButtonPress={this.onButtonPress.bind(this)}
             />
           ) : (
-            <Spin indicator={antIcon} />
+            <Spin indicator={antIcon} id="spin" />
           )}
         </ContentContainer>
       </Container>
