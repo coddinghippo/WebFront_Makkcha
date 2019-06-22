@@ -85,8 +85,12 @@ export default class Main extends Component {
     );
   }
 
+  onButtonPress() {
+    localStorage.setItem("loc", "");
+    this.props.toggleComponent();
+  }
+
   render() {
-    console.log("data: ", this.state.data);
     const { pathOptionList } = this.state.data;
     const { currentAddr } = this.state;
     return (
@@ -96,7 +100,10 @@ export default class Main extends Component {
         </MakchaContainer>
         <ContentContainer>
           {Object.keys(this.state.data).length ? (
-            <OptinList data={this.state.data} />
+            <OptinList
+              data={this.state.data}
+              onButtonPress={this.onButtonPress.bind(this)}
+            />
           ) : (
             <Spin indicator={antIcon} />
           )}
