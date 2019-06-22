@@ -39,7 +39,7 @@ export default class Main extends Component {
       startY: "",
       data: {
         taxiInfo: {},
-        subwayPathOptionList: { routeList: [{}] },
+        subwayPathOptionList: { routeList: [] },
         defaultInfo: {}
       }
     };
@@ -73,10 +73,11 @@ export default class Main extends Component {
 
   getTrainData(lat, long) {
     const { endX, endY } = this.state;
-    let url = `https://api.makkcha.com/searchMakcha?startX=${long}&startY=${lat}&endX=${endX}&endY=${endY}`;
+    // let url = `https://api.makkcha.com/searchMakcha?startX=${long}&startY=${lat}&endX=${endX}&endY=${endY}`;
 
-    // // Json-server Option
-    // let url = "http://localhost:3004/db/";
+    // Json-server Option
+    let url = "http://localhost:3004/db/";
+    //
     axios.get(url).then(res =>
       this.setState({
         data: {
@@ -90,11 +91,11 @@ export default class Main extends Component {
   getCurrentPosFromGPS(x, y) {
     let url = `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${x}&y=${y}&input_coord=WGS84`;
     let headers = { Authorization: `KakaoAK ${keys.KakaoAK}` };
-    axios.get(url, { headers }).then(res =>
+    axios.get(url, { headers }).then(res => {
       this.setState({
         currentAddr: res.data.documents[0].address.address_name
-      })
-    );
+      });
+    });
   }
 
   onButtonPress() {
@@ -111,7 +112,7 @@ export default class Main extends Component {
           <MakchaDetail defaultInfo={defaultInfo} addr={currentAddr} />
         </MakchaContainer>
         <ContentContainer>
-          {Object.keys(this.state.data).length ? (
+          {subwayPathOptionList.routeList.length ? (
             <OptinList
               taxiInfo={taxiInfo}
               subwayPathOptionList={subwayPathOptionList}
@@ -120,7 +121,15 @@ export default class Main extends Component {
               onButtonPress={this.onButtonPress.bind(this)}
             />
           ) : (
-            <Spin indicator={antIcon} id="spin" />
+            <Spin
+              indicator={antIcon}
+              style={{
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            />
           )}
         </ContentContainer>
       </Container>
