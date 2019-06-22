@@ -215,7 +215,9 @@ export default class OptinList extends Component {
           </BarContainer>
         </Card>
         <ButtonContainer>
-          <StyledButton size="large">다른 정보 더 보기</StyledButton>
+          <StyledButton size="large" onClick={this.props.onButtonPress}>
+            목적지 재설정
+          </StyledButton>
         </ButtonContainer>
       </Container>
     );
