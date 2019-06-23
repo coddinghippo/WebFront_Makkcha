@@ -6,6 +6,7 @@ import OptinList from "./OptinList";
 import MakchaDetail from "./MakchaDetail";
 import keys from "../config/keys";
 import { Text } from "./common";
+import { makchaApi } from "../api";
 
 const Container = styled.div`
   display: flex;
@@ -25,7 +26,7 @@ const ContentContainer = styled.div`
 
 const MakchaContainer = styled.div`
   display: flex;
-  flex: 3;
+  flex: 4;
 `;
 
 const SpinContainer = styled.div`
@@ -33,7 +34,7 @@ const SpinContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  height: 60%;
+  height: 80%;
   color: #000033;
 `;
 
@@ -81,26 +82,22 @@ export default class Main extends Component {
     navigator.geolocation.getCurrentPosition(pos => {
       const { latitude, longitude } = pos.coords;
       this.setState({ startX: longitude, startY: latitude });
-      this.getTrainData(latitude, longitude);
+      this.getData(latitude, longitude);
     });
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.startX !== this.state.startX) {
       const { startX, startY } = this.state;
-      this.getTrainData(startY, startX);
+      this.getData(startY, startX);
       this.getCurrentPosFromGPS(startX, startY);
     }
   }
 
-  getTrainData(lat, long) {
+  getData(startY, startX) {
     const { endX, endY } = this.state;
-    let url = `https://api.makkcha.com/searchMakcha?startX=${long}&startY=${lat}&endX=${endX}&endY=${endY}`;
 
-    // // Json-server Option
-    // let url = "http://localhost:3004/db/";
-    //
-    axios.get(url).then(res =>
+    makchaApi.getData({ startX, startY, endX, endY }).then(res =>
       this.setState({
         data: {
           ...res.data,
@@ -111,9 +108,7 @@ export default class Main extends Component {
   }
 
   getCurrentPosFromGPS(x, y) {
-    let url = `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${x}&y=${y}&input_coord=WGS84`;
-    let headers = { Authorization: `KakaoAK ${keys.KakaoAK}` };
-    axios.get(url, { headers }).then(res => {
+    makchaApi.getPosFromGPS(x, y).then(res => {
       this.setState({
         currentAddr: res.data.documents[0].address.address_name
       });
@@ -144,17 +139,7 @@ export default class Main extends Component {
             />
           ) : (
             <SpinContainer>
-              <Spin
-                indicator={antIcon}
-                style={
-                  {
-                    // height: "100%",
-                    // display: "flex",
-                    // justifyContent: "center",
-                    // alignItems: "center"
-                  }
-                }
-              />
+              <Spin indicator={antIcon} />
               <Text size="largeFontSize">경로를 탐색 중입니다...</Text>
               <StyledButton onClick={this.onButtonPress.bind(this)}>
                 목적지 다시 입력하기

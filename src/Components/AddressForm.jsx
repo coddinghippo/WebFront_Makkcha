@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Form, Input, Button } from "antd";
 import styled from "styled-components";
-import axios from "axios";
-import keys from "../config/keys";
+import { makchaApi } from "../api";
 
 const { Item } = Form;
 
@@ -68,27 +67,20 @@ class AddressForm extends Component {
     this.props.form.validateFields();
   }
 
-  getPosFromAddr(searchVal) {
-    let url = `https://dapi.kakao.com/v2/local/search/`;
-    let headers = { Authorization: `KakaoAK ${keys.KakaoAK}` };
-
+  getPos(searchVal) {
     function posFromAddr() {
       return new Promise(resolve =>
-        axios
-          .get(url + `address.json?query=${searchVal}`, { headers })
-          .then(res => {
-            if (res.data.documents.length) resolve(res.data.documents);
-          })
+        makchaApi.getPosFromAddr(searchVal).then(res => {
+          if (res.data.documents.length) resolve(res.data.documents);
+        })
       );
     }
 
     function posFromKeyword() {
       return new Promise(resolve =>
-        axios
-          .get(url + `keyword.json?query=${searchVal}`, { headers })
-          .then(res => {
-            if (res.data.documents.length) resolve(res.data.documents);
-          })
+        makchaApi.getPosFromKeyword(searchVal).then(res => {
+          if (res.data.documents.length) resolve(res.data.documents);
+        })
       );
     }
 
@@ -105,7 +97,7 @@ class AddressForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.getPosFromAddr(values.address);
+        this.getPos(values.address);
       } else console.log(err);
     });
   };
