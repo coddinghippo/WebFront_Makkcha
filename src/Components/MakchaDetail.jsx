@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Statistic, Icon } from "antd";
-import { Text } from "./common";
+import { Button, Statistic, Icon } from "antd";
 import { fontSize, lineColors } from "../Styles/_mixin";
-import { lineChar } from "./common";
+import { lineChar, Text } from "./common";
 
 const { Countdown } = Statistic;
 
@@ -53,6 +52,12 @@ const LineInner = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const StyledButton = styled(Button)`
+  color: white;
+  position: absolute;
+  right: 1rem;
 `;
 
 export default class MakchaDetail extends Component {
@@ -128,6 +133,14 @@ export default class MakchaDetail extends Component {
             <Text size="smallFontSize" style={{ marginLeft: "0.6rem" }}>
               {endStationName + " 방향"}
             </Text>
+
+            <StyledButton
+              type="ghost"
+              shape="round"
+              onClick={() => window.alert("알림을 설정했습니다")}
+            >
+              알림 받기
+            </StyledButton>
           </InfoContainer>
         </>
       );
