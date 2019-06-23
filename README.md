@@ -1,6 +1,7 @@
 #  ️🚌️ 밤길 (BAMGIL) - client 🚌
 
 ## Description
+막차에 대한 카운트다운과 귀가 옵션을 제공하는 웹 어플리케이션.
 
 ## Dev stack
 - React
@@ -15,9 +16,9 @@
 ### Prerequisites
 | Require                              | Description                                                          |
 | ------------------------------------ | -------------------------------------------------------------------- |
-| [Node.js](nodejs.org)                | 10.15.3 LTS or above                                                 |
+| [Node.js](nodejs.org)                | 10.16.0 LTS or above                                                 |
 | [Yarn](https://yarnpkg.com/lang/en/) | Recommend [stable version](https://github.com/yarnpkg/yarn/releases) |
-| Secret Key                           | Public API Secret Key as env-variable                                |
+| Secret Key                           | Secret key for Kakao REST API needed                                 |
 
 #### Install project
 ```bash
@@ -28,6 +29,7 @@ $ yarn install
 $ yarn build
 ```
 #### Test project
+Currently not supported.
 ```bash
 $ yarn test
 ```
