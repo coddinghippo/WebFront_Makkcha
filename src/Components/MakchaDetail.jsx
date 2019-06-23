@@ -61,7 +61,7 @@ export default class MakchaDetail extends Component {
     const { defaultInfo, addr } = props;
     this.state = {
       defaultInfo,
-      remain: defaultInfo.reamin || null,
+      remain: defaultInfo.remain || 0,
       addr
     };
   }
