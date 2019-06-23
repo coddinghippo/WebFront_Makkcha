@@ -140,7 +140,7 @@ export default class OptinList extends Component {
             color: "white"
           }}
         >
-          {runTime[key]}분
+          {Math.floor(runTime[key] / 60)}분
         </Bar>
       );
     });
