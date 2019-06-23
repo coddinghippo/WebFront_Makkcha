@@ -146,6 +146,7 @@ export default class OptinList extends Component {
   }
 
   render() {
+    console.log(this.state);
     // console.log(this.state.defaultOption);
     // Object.keys(this.props).forEach(key => console.log(this.props[key]));
     const { taxiInfo } = this.state;
