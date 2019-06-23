@@ -84,7 +84,8 @@ export default class OptinList extends Component {
     this.state = {
       taxiInfo,
       subwayPathOptionList,
-      defaultInfo
+      defaultInfo,
+      runTime: { total: null, runTime: {} }
     };
   }
 
@@ -93,6 +94,7 @@ export default class OptinList extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.taxiInfo !== this.props.taxiInfo) {
       const { taxiInfo, subwayPathOptionList } = this.props.data;
+      this.getTime(0);
       this.setState({ taxiInfo, subwayPathOptionList });
     }
   }
@@ -115,90 +117,95 @@ export default class OptinList extends Component {
         cum = 0;
       }
     });
-    console.log(runTimeObj);
+    let total = 0;
+    Object.keys(runTimeObj).forEach(key => (total += runTimeObj[key]));
+    this.setState({ runTime: { runTime: runTimeObj, total } });
   }
 
   renderBar() {
-    const makcha = this.state.makcha;
-    const totalTime = makcha.reduce((a, x) => a + x.time, 0);
-
-    return makcha.map((item, idx) => {
-      let length = Math.floor((Number(item.time) / totalTime) * 100);
-      if (length < 24) length = 24;
+    const { total, runTime } = this.state.runTime;
+    const results = [];
+    Object.keys(runTime).forEach(key => {
+      // console.log(runTime[key], total);
+      let length = Math.floor((Number(runTime[key]) / total) * 100);
+      // if (length < 24) length = 24;
       length = String(length) + "%";
-      return (
+      results.push(
         <Bar
           className="haha"
           key={uuidv1()}
           style={{
             width: length,
-            backgroundColor: lineColors[item.routeNm],
+            backgroundColor: lineColors[key],
             color: "white"
           }}
         >
-          {item.time}분
+          {runTime[key]}분
         </Bar>
       );
     });
+    return results.map(item => item);
   }
 
-  renderStn() {
-    const makcha = this.state.makcha;
-    const totalTime = makcha.reduce((a, x) => a + x.time, 0);
+  // renderStn() {
+  //   const makcha = this.state.makcha;
+  //   const totalTime = makcha.reduce((a, x) => a + x.time, 0);
 
-    return makcha.map((item, idx) => {
-      let length = Math.floor((Number(item.time) / totalTime) * 100);
-      if (length < 24) length = 24;
-      length = String(length) + "%";
-      return (
-        <Bar
-          key={uuidv1()}
-          style={{
-            width: length,
-            color: "black",
-            textAlign: "left"
-          }}
-        >
-          <span style={{ fontSize: 8 }}>
-            {item.routeNm === "도보" ? "도보" : item.fname}
-          </span>
-        </Bar>
-      );
-    });
-  }
+  //   return makcha.map((item, idx) => {
+  //     let length = Math.floor((Number(item.time) / totalTime) * 100);
+  //     if (length < 24) length = 24;
+  //     length = String(length) + "%";
+  //     return (
+  //       <Bar
+  //         key={uuidv1()}
+  //         style={{
+  //           width: length,
+  //           color: "black",
+  //           textAlign: "left"
+  //         }}
+  //       >
+  //         <span style={{ fontSize: 8 }}>
+  //           {item.routeNm === "도보" ? "도보" : item.fname}
+  //         </span>
+  //       </Bar>
+  //     );
+  //   });
+
+  // }
 
   render() {
     // console.log(this.state.defaultOption);
     // Object.keys(this.props).forEach(key => console.log(this.props[key]));
-    const { taxiInfo } = this.state;
+    const { taxiInfo, defaultInfo } = this.state;
+    const { total, runTime } = this.state.runTime;
     // const totalTime = makcha.reduce((a, x) => a + x.time, 0);
     // const totalDistance = makcha.reduce((a, x) => a + x.distance, 0) / 1000;
     // const { lastTimeList } = this.state.route;
-    if (this.state.subwayPathOptionList) this.getTime(0);
+    // if (this.state.subwayPathOptionList) this.getTime(0);
+    console.log(this.state);
     // console.log(this.state);
     return (
       <Container speed={0.8} horizontal={false}>
-        {/* <Card>
+        <Card>
           <TextContainer>
             <Text>
-              지하철 {totalTime}분 | 막차{" "}
-              {lastTimeList[0].lastTimeDay.slice(0, 5)}
+              지하철 {Math.floor(total / 60)}분 | 막차 {defaultInfo.lastTime}
             </Text>
-            <p>
+            {/* <p>
               {totalDistance.toFixed(1)}km |{" "}
               {String(Math.floor(this.state.route.price / 1000)) +
                 "," +
                 String(this.state.route.price % 1000)}
               원 | {makcha[0].time}분
-            </p>
+            </p> */}
           </TextContainer>
           <BarContainer className="nana" style={{ marginBottom: 0 }}>
             {this.renderBar()}
           </BarContainer>
           <BarContainer style={{ marginTop: 0 }}>
-            {this.renderStn()}
+            {/* {this.renderStn()} */}
           </BarContainer>
-        </Card> */}
+        </Card>
 
         {/* <Card makcha={makcha} route={route} />
         <Card makcha={makcha} route={route} /> */}
