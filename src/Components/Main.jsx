@@ -82,7 +82,7 @@ export default class Main extends Component {
       this.setState({
         data: {
           ...res.data,
-          defaultInfo: res.data.subwayPathOptionList.routeList[0]
+          defaultInfo: res.data.subwayPathOptionList.routeList[0] || {}
         }
       })
     );
