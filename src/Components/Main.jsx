@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { Spin, Icon } from "antd";
+import { Spin, Icon, Button } from "antd";
 import OptinList from "./OptinList";
 import MakchaDetail from "./MakchaDetail";
 import keys from "../config/keys";
+import { Text } from "./common";
 
 const Container = styled.div`
   display: flex;
@@ -16,14 +17,35 @@ const ContentContainer = styled.div`
   flex: 10;
   display: flex;
   justify-content: center;
-  & #spin {
-    margin: 0 auto;
+  & .anticon-spin {
+    position: absolute;
+    top: 3rem;
   }
 `;
 
 const MakchaContainer = styled.div`
   display: flex;
   flex: 3;
+`;
+
+const SpinContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 60%;
+  color: #000033;
+`;
+
+const StyledButton = styled(Button)`
+  width: 90%;
+  height: 3rem;
+  color: white;
+  background: #000033;
+  border-radius: 1.5rem;
+  margin-bottom: 1.3rem;
+  backgrouncolor: #000;
+  font-weight: bold;
 `;
 
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
@@ -121,15 +143,23 @@ export default class Main extends Component {
               onButtonPress={this.onButtonPress.bind(this)}
             />
           ) : (
-            <Spin
-              indicator={antIcon}
-              style={{
-                height: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            />
+            <SpinContainer>
+              <Spin
+                indicator={antIcon}
+                style={
+                  {
+                    // height: "100%",
+                    // display: "flex",
+                    // justifyContent: "center",
+                    // alignItems: "center"
+                  }
+                }
+              />
+              <Text size="largeFontSize">경로를 탐색 중입니다...</Text>
+              <StyledButton onClick={this.onButtonPress.bind(this)}>
+                목적지 다시 입력하기
+              </StyledButton>
+            </SpinContainer>
           )}
         </ContentContainer>
       </Container>

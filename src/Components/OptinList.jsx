@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Button } from "antd";
 import uuidv1 from "uuid/v1";
 import { lineColors } from "../Styles/_mixin";
+import { parse } from "@babel/core";
 
 const Container = styled.div`
   display: flex;
@@ -96,6 +97,27 @@ export default class OptinList extends Component {
     }
   }
 
+  getTime(idx) {
+    // get routeList idx as a param
+    const { pathStationList } = this.state.subwayPathOptionList.routeList[idx];
+
+    // store sum of runTime for each line
+    let cum = 0;
+    let runTimeObj = {};
+    pathStationList.map(item => {
+      let time = item.runTime;
+      if (time !== null) {
+        time = parseInt(time.slice(0, 2)) * 60 + parseInt(time.slice(3));
+        cum += time;
+        runTimeObj[item.line] = cum;
+      } else {
+        runTimeObj[item.line] = cum;
+        cum = 0;
+      }
+    });
+    console.log(runTimeObj);
+  }
+
   renderBar() {
     const makcha = this.state.makcha;
     const totalTime = makcha.reduce((a, x) => a + x.time, 0);
@@ -146,13 +168,14 @@ export default class OptinList extends Component {
   }
 
   render() {
-    console.log(this.state);
     // console.log(this.state.defaultOption);
     // Object.keys(this.props).forEach(key => console.log(this.props[key]));
     const { taxiInfo } = this.state;
     // const totalTime = makcha.reduce((a, x) => a + x.time, 0);
     // const totalDistance = makcha.reduce((a, x) => a + x.distance, 0) / 1000;
     // const { lastTimeList } = this.state.route;
+    if (this.state.subwayPathOptionList) this.getTime(0);
+    // console.log(this.state);
     return (
       <Container speed={0.8} horizontal={false}>
         {/* <Card>

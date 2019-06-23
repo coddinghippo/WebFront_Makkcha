@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { fontSize } from "../../Styles/_mixin";
 
 export const Text = styled.p`
-  font-size: ${props => fontSize[props.size]};
+  font-size: ${props => fontSize[props.size] || fontSize.normalFontSize};
   font-weight: ${props => props.weight};
 `;
 
