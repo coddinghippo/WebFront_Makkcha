@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Button, Statistic, Icon } from "antd";
 import { fontSize, lineColors } from "../Styles/_mixin";
-import { lineChar, Text } from "./common";
+import { Text } from "./common";
+import { lineChar } from "../Styles/_mixin";
 
 const { Countdown } = Statistic;
 

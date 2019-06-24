@@ -3,15 +3,8 @@ import styled from "styled-components";
 import { Spin, Icon, Button } from "antd";
 import OptinList from "./OptinList";
 import MakchaDetail from "./MakchaDetail";
-import { Text } from "./common";
+import { Text, Container } from "./common";
 import { makchaApi } from "../api";
-
-const Container = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-  flex-direction: column;
-`;
 
 const ContentContainer = styled.div`
   display: flex;

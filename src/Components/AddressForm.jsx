@@ -3,15 +3,12 @@ import { Form, Input, Button } from "antd";
 import styled from "styled-components";
 import { makchaApi } from "../api";
 import { fontSize } from "../Styles/_mixin";
+import { Container as DefaultContainer } from "./common";
 
 const { Item } = Form;
 
-const Container = styled.div`
+const Container = styled(DefaultContainer)`
   background: #000033;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;

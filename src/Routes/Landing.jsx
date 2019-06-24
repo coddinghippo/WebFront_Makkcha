@@ -1,14 +1,7 @@
 import React, { Component } from "react";
 import AddressForm from "../Components/AddressForm";
-import styled from "styled-components";
 import Main from "../Components/Main";
-
-const Container = styled.div`
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-`;
+import { Container } from "../Components/common";
 
 class Landing extends Component {
   state = {

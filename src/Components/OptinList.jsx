@@ -3,13 +3,7 @@ import styled from "styled-components";
 import { Button } from "antd";
 import uuidv1 from "uuid/v1";
 import { lineColors, fontSize } from "../Styles/_mixin";
-
-const Container = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-`;
+import { Container, Text } from "./common";
 
 const Card = styled.div`
   width: 100%;
@@ -27,10 +21,6 @@ const BarContainer = styled.div`
   max-width: 90%;
   height: 1rem;
   background: sky-blue;
-  // &:first-child {
-  //   border-top-left-radius: 5px;
-  //   border-bottom-left-radius: 5px;
-  // }
 `;
 
 const Bar = styled.div`
@@ -49,12 +39,6 @@ const Bar = styled.div`
 const TextContainer = styled.div`
   width: 90%;
   margin: 1rem 0;
-`;
-
-const Text = styled.p`
-  margin: 0.5rem 0;
-  width: 90%;
-  font-weight: 700;
 `;
 
 const ButtonContainer = styled.div`
@@ -174,12 +158,14 @@ export default class OptinList extends Component {
       <Container>
         <Card>
           <TextContainer>
-            <Text>지하철 {Math.floor(total / 60)}분</Text>
-            <p weight="normal">
+            <Text weight="bold" lineHeight="2rem">
+              지하철 {Math.floor(total / 60)}분
+            </Text>
+            <Text weight="normal">
               {(distance / 1000).toFixed(1)}km |{" "}
               {String(Math.floor(price / 1000)) + "," + String(price % 1000)}원
               | 막차 {defaultInfo.lastTime.slice(0, 5)} | 도보 {walkInfo.time}분
-            </p>
+            </Text>
           </TextContainer>
           <BarContainer className="nana" style={{ marginBottom: 0 }}>
             {this.renderBar()}
@@ -189,14 +175,16 @@ export default class OptinList extends Component {
 
         <Card>
           <TextContainer>
-            <Text>택시 {taxiInfo.time}분</Text>
-            <p>
+            <Text weight="bold" lineHeight="2rem">
+              택시 {taxiInfo.time}분
+            </Text>
+            <Text>
               {(taxiInfo.distance / 1000).toFixed(1)}km | 약{" "}
               {String(Math.floor(taxiInfo.price / 1000)) +
                 "," +
                 String(taxiInfo.price % 1000)}
               원
-            </p>
+            </Text>
           </TextContainer>
           <BarContainer>
             <Bar
