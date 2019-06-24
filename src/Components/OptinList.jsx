@@ -85,7 +85,7 @@ export default class OptinList extends Component {
       taxiInfo,
       subwayPathOptionList,
       defaultInfo,
-      runTime: { total: null, runTime: {} }
+      subwayRoutes: { 0: { runTime: [], total: 0 }, walkInfo: { time: 0 } }
     };
   }
 
@@ -94,121 +94,97 @@ export default class OptinList extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.taxiInfo !== this.props.taxiInfo) {
       const { taxiInfo, subwayPathOptionList } = this.props.data;
-      this.getTime(0);
+      this.getRouteInfo(0);
       this.setState({ taxiInfo, subwayPathOptionList });
     }
   }
 
-  getTime(idx) {
+  getRouteInfo(idx) {
     // get routeList idx as a param
-    const { pathStationList } = this.state.subwayPathOptionList.routeList[idx];
+    const {
+      pathStationList,
+      distance,
+      price
+    } = this.state.subwayPathOptionList.routeList[idx];
+
+    const { walkInfo } = this.state.subwayPathOptionList;
 
     // store sum of runTime for each line
     let cum = 0;
-    let runTimeObj = {};
+    let runTimeArr = [{ line: "도보", time: walkInfo.time * 60 }];
     pathStationList.map(item => {
       let time = item.runTime;
+      let line = item.line;
       if (time !== null) {
         time = parseInt(time.slice(0, 2)) * 60 + parseInt(time.slice(3));
         cum += time;
-        runTimeObj[item.line] = cum;
       } else {
-        runTimeObj[item.line] = cum;
+        runTimeArr.push({ line, time: cum });
         cum = 0;
       }
     });
-    let total = 0;
-    Object.keys(runTimeObj).forEach(key => (total += runTimeObj[key]));
-    this.setState({ runTime: { runTime: runTimeObj, total } });
+    runTimeArr.push({
+      line: pathStationList[pathStationList.length - 1].line,
+      time: cum
+    });
+
+    // Object.keys(runTimeObj).forEach(key => (total += runTimeObj[key]));
+    let total = runTimeArr.reduce((a, x) => {
+      return a + x.time;
+    }, 0);
+    total += walkInfo.time;
+    this.setState({
+      subwayRoutes: {
+        [idx]: { runTime: runTimeArr, total, distance, price },
+        walkInfo
+      }
+    });
   }
 
   renderBar() {
-    const { total, runTime } = this.state.runTime;
-    const results = [];
-    Object.keys(runTime).forEach(key => {
-      // console.log(runTime[key], total);
-      let length = Math.floor((Number(runTime[key]) / total) * 100);
-      // if (length < 24) length = 24;
+    let idx = 0;
+    const { total, runTime } = this.state.subwayRoutes[idx];
+    return runTime.map(item => {
+      let length = Math.floor((Number(item.time) / total) * 100);
+      if (length < 24) length = 24;
       length = String(length) + "%";
-      results.push(
+      return (
         <Bar
           className="haha"
           key={uuidv1()}
           style={{
             width: length,
-            backgroundColor: lineColors[key],
+            backgroundColor: lineColors[item.line],
             color: "white"
           }}
         >
-          {Math.floor(runTime[key] / 60)}분
+          {Math.floor(Number(item.time) / 60)}분
         </Bar>
       );
     });
-    return results.map(item => item);
   }
 
-  // renderStn() {
-  //   const makcha = this.state.makcha;
-  //   const totalTime = makcha.reduce((a, x) => a + x.time, 0);
-
-  //   return makcha.map((item, idx) => {
-  //     let length = Math.floor((Number(item.time) / totalTime) * 100);
-  //     if (length < 24) length = 24;
-  //     length = String(length) + "%";
-  //     return (
-  //       <Bar
-  //         key={uuidv1()}
-  //         style={{
-  //           width: length,
-  //           color: "black",
-  //           textAlign: "left"
-  //         }}
-  //       >
-  //         <span style={{ fontSize: 8 }}>
-  //           {item.routeNm === "도보" ? "도보" : item.fname}
-  //         </span>
-  //       </Bar>
-  //     );
-  //   });
-
-  // }
-
   render() {
-    // console.log(this.state.defaultOption);
-    // Object.keys(this.props).forEach(key => console.log(this.props[key]));
     const { taxiInfo, defaultInfo } = this.state;
-    const { total, runTime } = this.state.runTime;
-    // const totalTime = makcha.reduce((a, x) => a + x.time, 0);
-    // const totalDistance = makcha.reduce((a, x) => a + x.distance, 0) / 1000;
-    // const { lastTimeList } = this.state.route;
-    // if (this.state.subwayPathOptionList) this.getTime(0);
+    const { total, distance, price } = this.state.subwayRoutes[0];
+    const { walkInfo } = this.state.subwayRoutes;
     console.log(this.state);
-    // console.log(this.state);
     return (
-      <Container speed={0.8} horizontal={false}>
+      <Container>
         <Card>
           <TextContainer>
+            <Text>지하철 {Math.floor(total / 60)}분</Text>
             <Text>
-              지하철 {Math.floor(total / 60)}분 | 막차 {defaultInfo.lastTime}
+              {(distance / 1000).toFixed(1)}km |{" "}
+              {String(Math.floor(price / 1000)) + "," + String(price % 1000)}원
+              | 막차 {defaultInfo.lastTime.slice(0, 5)} | 도보 {walkInfo.time}분
             </Text>
-            {/* <p>
-              {totalDistance.toFixed(1)}km |{" "}
-              {String(Math.floor(this.state.route.price / 1000)) +
-                "," +
-                String(this.state.route.price % 1000)}
-              원 | {makcha[0].time}분
-            </p> */}
           </TextContainer>
           <BarContainer className="nana" style={{ marginBottom: 0 }}>
             {this.renderBar()}
           </BarContainer>
-          <BarContainer style={{ marginTop: 0 }}>
-            {/* {this.renderStn()} */}
-          </BarContainer>
+          <BarContainer style={{ marginTop: 0 }} />
         </Card>
-
-        {/* <Card makcha={makcha} route={route} />
-        <Card makcha={makcha} route={route} /> */}
 
         <Card>
           <TextContainer>
