@@ -120,7 +120,7 @@ class AddressForm extends Component {
               rules: [
                 { required: false, message: "집 근처 역 이름을 입력해 주세요!" }
               ]
-            })(<StyledInput placeholder="집 주변 역 명 입력" />)}
+            })(<StyledInput placeholder="집 주변 역 입력" />)}
           </StyledItem>
         </StyledForm>
         <ButtonContainer>
