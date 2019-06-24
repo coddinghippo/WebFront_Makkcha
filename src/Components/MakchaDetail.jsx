@@ -12,12 +12,14 @@ const Container = styled.div`
   padding: 1rem;
   color: white;
   flex: inherit;
+  max-height: 35vh;
   background: #000033;
 `;
 
 const LocContainer = styled.div`
   display: flex;
   flex: 1;
+  max-height: 1rem;
 `;
 
 const TimerContainer = styled.div`

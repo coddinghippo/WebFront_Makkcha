@@ -1,22 +1,21 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import axios from "axios";
 import { Spin, Icon, Button } from "antd";
 import OptinList from "./OptinList";
 import MakchaDetail from "./MakchaDetail";
-import keys from "../config/keys";
 import { Text } from "./common";
 import { makchaApi } from "../api";
 
 const Container = styled.div`
   display: flex;
+  width: 100%;
+  height: 100%;
   flex-direction: column;
-  flex: 1;
 `;
 
 const ContentContainer = styled.div`
-  flex: 10;
   display: flex;
+  flex: 5;
   justify-content: center;
   & .anticon-spin {
     position: absolute;
@@ -26,7 +25,8 @@ const ContentContainer = styled.div`
 
 const MakchaContainer = styled.div`
   display: flex;
-  flex: 4;
+  flex: 2;
+  // max-height: 10rem;
 `;
 
 const SpinContainer = styled.div`
