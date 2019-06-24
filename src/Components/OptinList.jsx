@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Button } from "antd";
 import uuidv1 from "uuid/v1";
 import { lineColors } from "../Styles/_mixin";
-import { parse } from "@babel/core";
 
 const Container = styled.div`
   display: flex;
@@ -85,63 +84,65 @@ export default class OptinList extends Component {
       taxiInfo,
       subwayPathOptionList,
       defaultInfo,
-      subwayRoutes: { 0: { runTime: [], total: 0 }, walkInfo: { time: 0 } }
+      subwayRoutes: [{ total: 0, runTime: [] }],
+      walkInfo: { time: 0 }
     };
   }
 
   // // Json-server Option
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.taxiInfo !== this.props.taxiInfo) {
-      const { taxiInfo, subwayPathOptionList } = this.props.data;
-      this.getRouteInfo(0);
-      this.setState({ taxiInfo, subwayPathOptionList });
-    }
-  }
-
-  getRouteInfo(idx) {
-    // get routeList idx as a param
-    const {
-      pathStationList,
-      distance,
-      price
-    } = this.state.subwayPathOptionList.routeList[idx];
-
+  componentDidMount() {
+    const { taxiInfo, subwayPathOptionList } = this.props.data;
     const { walkInfo } = this.state.subwayPathOptionList;
 
-    // store sum of runTime for each line
-    let cum = 0;
-    let runTimeArr = [{ line: "도보", time: walkInfo.time * 60 }];
-    pathStationList.map(item => {
-      let time = item.runTime;
-      let line = item.line;
-      if (time !== null) {
-        time = parseInt(time.slice(0, 2)) * 60 + parseInt(time.slice(3));
-        cum += time;
-      } else {
-        runTimeArr.push({ line, time: cum });
-        cum = 0;
-      }
-    });
-    runTimeArr.push({
-      line: pathStationList[pathStationList.length - 1].line,
-      time: cum
-    });
+    this.getRouteInfo();
 
-    // Object.keys(runTimeObj).forEach(key => (total += runTimeObj[key]));
-    let total = runTimeArr.reduce((a, x) => {
-      return a + x.time;
-    }, 0);
-    total += walkInfo.time;
-    this.setState({
-      subwayRoutes: {
-        [idx]: { runTime: runTimeArr, total, distance, price },
-        walkInfo
-      }
-    });
+    this.setState({ taxiInfo, subwayPathOptionList, walkInfo });
+  }
+
+  getRouteInfo() {
+    const { routeList } = this.state.subwayPathOptionList;
+    const subwayRoutes = [];
+    const { walkInfo } = this.state.subwayPathOptionList;
+    for (let idx = 0; idx < routeList.length; idx++) {
+      console.log(walkInfo.time);
+      let {
+        pathStationList,
+        distance,
+        price
+      } = this.state.subwayPathOptionList.routeList[Number(idx)];
+      let runTimeArr = [{ line: "도보", time: walkInfo.time * 60 }];
+      // store sum of runTime for each line
+      let cum = 0;
+      pathStationList.map(item => {
+        let time = item.runTime;
+        let line = item.line;
+        if (time !== null) {
+          time = parseInt(time.slice(0, 2)) * 60 + parseInt(time.slice(3));
+          cum += time;
+        } else {
+          runTimeArr.push({ line, time: cum });
+          cum = 0;
+        }
+      });
+      runTimeArr.push({
+        line: pathStationList[pathStationList.length - 1].line,
+        time: cum
+      });
+
+      // Object.keys(runTimeObj).forEach(key => (total += runTimeObj[key]));
+      let total = runTimeArr.reduce((a, x) => {
+        return a + x.time;
+      }, 0);
+      total += walkInfo.time;
+
+      subwayRoutes.push({ runTime: runTimeArr, total, distance, price });
+    }
+    this.setState({ subwayRoutes });
   }
 
   renderBar() {
+    // Hard Coded idx
     let idx = 0;
     const { total, runTime } = this.state.subwayRoutes[idx];
     return runTime.map(item => {
@@ -158,6 +159,7 @@ export default class OptinList extends Component {
             color: "white"
           }}
         >
+          {item.line === "도보" ? "도보" : null}
           {Math.floor(Number(item.time) / 60)}분
         </Bar>
       );
@@ -165,20 +167,18 @@ export default class OptinList extends Component {
   }
 
   render() {
-    const { taxiInfo, defaultInfo } = this.state;
+    const { taxiInfo, defaultInfo, walkInfo } = this.state;
     const { total, distance, price } = this.state.subwayRoutes[0];
-    const { walkInfo } = this.state.subwayRoutes;
-    console.log(this.state);
     return (
       <Container>
         <Card>
           <TextContainer>
             <Text>지하철 {Math.floor(total / 60)}분</Text>
-            <Text>
+            <p weight="normal">
               {(distance / 1000).toFixed(1)}km |{" "}
               {String(Math.floor(price / 1000)) + "," + String(price % 1000)}원
               | 막차 {defaultInfo.lastTime.slice(0, 5)} | 도보 {walkInfo.time}분
-            </Text>
+            </p>
           </TextContainer>
           <BarContainer className="nana" style={{ marginBottom: 0 }}>
             {this.renderBar()}

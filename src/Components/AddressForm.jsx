@@ -118,8 +118,10 @@ class AddressForm extends Component {
             help={addressError || ""}
           >
             {getFieldDecorator("address", {
-              rules: [{ required: false, message: "집 주소를 입력해 주세요!" }]
-            })(<StyledInput placeholder="집 주소 입력" />)}
+              rules: [
+                { required: false, message: "집 근처 역 이름을 입력해 주세요!" }
+              ]
+            })(<StyledInput placeholder="집 주변 역 명 입력" />)}
           </StyledItem>
         </StyledForm>
         <ButtonContainer>
