@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Form, Input, Button } from "antd";
 import styled from "styled-components";
 import { makchaApi } from "../api";
+import { fontSize } from "../Styles/_mixin";
 
 const { Item } = Form;
 
@@ -17,7 +18,7 @@ const Container = styled.div`
 
 const StyledForm = styled(Form)`
   display: flex;
-  flex: 1;
+  height: 100%;
   width: 100%;
   flex-direction: column;
   align-items: center;
@@ -47,19 +48,20 @@ const StyledInput = styled(Input)`
 const ButtonContainer = styled.div`
   display: flex;
   width: 100%;
-  postion: fixed;
+  postion: absolute;
   bottom: 0;
   justify-content: center;
 `;
 
 const StyledButton = styled(Button)`
   width: 90%;
-  height: 2.2rem;
+  height: 2.6rem;
   color: #000033;
   border-radius: 1.5rem;
   margin-bottom: 1.3rem;
   backgrouncolor: #000;
   font-weight: bold;
+  font-size: ${fontSize.largeFontSize};
 `;
 
 class AddressForm extends Component {
