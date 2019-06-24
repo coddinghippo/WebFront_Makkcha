@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Button } from "antd";
 import uuidv1 from "uuid/v1";
-import { lineColors } from "../Styles/_mixin";
+import { lineColors, fontSize } from "../Styles/_mixin";
 
 const Container = styled.div`
   display: flex;
@@ -74,6 +74,7 @@ const StyledButton = styled(Button)`
   margin-bottom: 1.3rem;
   backgrouncolor: #000;
   font-weight: bold;
+  font-size: ${fontSize.largeFontSize};
 `;
 
 export default class OptinList extends Component {
