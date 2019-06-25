@@ -26,10 +26,11 @@ const StyledItem = styled(Item)`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 80%;
 `;
 
 const StyledInput = styled(Input)`
-  width: 15rem;
+  width: 100%;
   border: none;
   background: #000033;
   text-align: center;
@@ -40,6 +41,7 @@ const StyledInput = styled(Input)`
   }
   transition: none;
   border-radius: 0;
+  font-size: ${fontSize.largeFontSize};
 `;
 
 const ButtonContainer = styled.div`
@@ -120,7 +122,12 @@ class AddressForm extends Component {
               rules: [
                 { required: false, message: "집 근처 역 이름을 입력해 주세요!" }
               ]
-            })(<StyledInput placeholder="집 주변 역을 입력해 주세요" />)}
+            })(
+              <StyledInput
+                placeholder="집 근처 역을 입력해 주세요"
+                onPressEnter={this.handleSubmit}
+              />
+            )}
           </StyledItem>
         </StyledForm>
         <ButtonContainer>
