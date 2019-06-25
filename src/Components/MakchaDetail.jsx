@@ -30,6 +30,12 @@ const TimerContainer = styled.div`
   align-items: center;
 `;
 
+const Textcontainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const InfoContainer = styled.div`
   display: flex;
   flex: 1;
@@ -112,9 +118,12 @@ export default class MakchaDetail extends Component {
 
           <TimerContainer>
             <>
-              <Text size="largeFontSize" weight="bold">
-                막차까지
-              </Text>
+              <Textcontainer>
+                <Text size="largeFontSize" weight="bold" lineHeight="1.5rem">
+                  막차까지
+                </Text>
+                <Text size="smallFontSize">(현재 위치 기준)</Text>
+              </Textcontainer>
               <Countdown
                 value={deadline}
                 onFinish={this.onFinish}
