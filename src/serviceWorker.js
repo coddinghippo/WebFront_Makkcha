@@ -10,6 +10,8 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
 
+const makchaCache = "makcha-1.0.0";
+
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
     // [::1] is the IPv6 localhost address.
@@ -50,6 +52,44 @@ export function register(config) {
         // Is not localhost. Just register service worker
         registerValidSW(swUrl, config);
       }
+    });
+    // Create and open makchaCache
+    window.addEventListener("install", e => {
+      console.log(`sw install`);
+      e.waitUntil(caches.open(makchaCache));
+    });
+
+    // Clear outdated cache
+    window.addEventListener("activate", e => {
+      let cacheCleaned = caches.keys().then(keys => {
+        keys.forEach(key => {
+          if (key !== makchaCache) return caches.delete(key);
+        });
+      });
+      e.waitUntil(cacheCleaned);
+    });
+
+    // SW fetch handler
+    window.addEventListener("fetch", e => {
+      // Cache with Network Fallback
+      let res = caches.match(e.request).then(res => {
+        // Check cache has response
+        if (res) return res;
+
+        // Fallback to Network
+        return fetch(e.request).then(fetchRes => {
+          // Cache fetched response
+          caches
+            .open(makchaCache)
+            .then(cache => cache.put(e.request, fetchRes));
+
+          // Return clone of fethced response
+          return fetchRes.clone();
+        });
+      });
+
+      // Respond
+      e.respondWith(res);
     });
   }
 }
