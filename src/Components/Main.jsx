@@ -19,7 +19,6 @@ const ContentContainer = styled.div`
 const MakchaContainer = styled.div`
   display: flex;
   flex: 2;
-  // max-height: 10rem;
 `;
 
 const SpinContainer = styled.div`
@@ -68,10 +67,7 @@ export default class Main extends Component {
       ).endLocation;
       this.setState({ endX, endY });
     }
-    // // Json-server Option
-    // this.getTrainData(0, 0);
 
-    // Original
     navigator.geolocation.getCurrentPosition(pos => {
       const { latitude, longitude } = pos.coords;
       this.setState({ startX: longitude, startY: latitude });

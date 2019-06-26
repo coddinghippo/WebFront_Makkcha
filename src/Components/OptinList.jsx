@@ -74,8 +74,6 @@ export default class OptinList extends Component {
     };
   }
 
-  // // Json-server Option
-
   componentDidMount() {
     const { taxiInfo, subwayPathOptionList } = this.props.data;
     const { walkInfo } = this.state.subwayPathOptionList;
@@ -97,6 +95,7 @@ export default class OptinList extends Component {
         price
       } = this.state.subwayPathOptionList.routeList[Number(idx)];
       let runTimeArr = [{ line: "도보", time: walkInfo.time * 60 }];
+
       // store sum of runTime for each line
       let cum = 0;
       pathStationList.map(item => {
@@ -115,7 +114,6 @@ export default class OptinList extends Component {
         time: cum
       });
 
-      // Object.keys(runTimeObj).forEach(key => (total += runTimeObj[key]));
       let total = runTimeArr.reduce((a, x) => {
         return a + x.time;
       }, 0);

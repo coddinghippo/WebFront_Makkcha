@@ -1,13 +1,19 @@
 import axios from "axios";
 import keys from "./config/keys";
+import uuidv1 from "uuid/v1";
 
 // Use json-server db when in dev env
 let apiURL = "https://api.makkcha.com/";
 if (process.env.NODE_ENV === "development") apiURL = "http://localhost:3004";
 
+const Uid = uuidv1();
+
 const api = axios.create({
-  baseURL: apiURL
+  baseURL: apiURL,
+  headers: { Uid }
 });
+
+console.log(Uid);
 
 const kakaoApi = axios.create({
   baseURL: "https://dapi.kakao.com/v2/local/",
