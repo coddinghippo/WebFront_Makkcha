@@ -120,7 +120,7 @@ class AddressForm extends Component {
           >
             {getFieldDecorator("address", {
               rules: [
-                { required: false, message: "집 근처 역 이름을 입력해 주세요!" }
+                { required: false, message: "집 근처 역을 입력해 주세요!" }
               ]
             })(
               <StyledInput

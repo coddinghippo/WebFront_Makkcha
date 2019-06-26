@@ -1,45 +1,10 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { Button } from "antd";
-import uuidv1 from "uuid/v1";
-import { lineColors, fontSize } from "../Styles/_mixin";
-import { Container, Text } from "./common";
-
-const Card = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-bottom: 1px solid #ccc;
-`;
-
-const BarContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1rem;
-  width: 90%;
-  max-width: 90%;
-  height: 1rem;
-  background: sky-blue;
-`;
-
-const Bar = styled.div`
-  text-align: center;
-  height: 20px;
-  &:first-of-type {
-    border-top-left-radius: 3rem;
-    border-bottom-left-radius: 3rem;
-  }
-  &:last-of-type {
-    border-top-right-radius: 3rem;
-    border-bottom-right-radius: 3rem;
-  }
-`;
-
-const TextContainer = styled.div`
-  width: 90%;
-  margin: 1rem 0;
-`;
+import { fontSize } from "../Styles/_mixin";
+import { Container } from "./common";
+import TaxiCard from "./TaxiCard";
+import SubwayCard from "./SubwayCard";
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -78,17 +43,17 @@ export default class OptinList extends Component {
     const { taxiInfo, subwayPathOptionList } = this.props.data;
     const { walkInfo } = this.state.subwayPathOptionList;
 
-    this.getRouteInfo();
+    this.setSubwayRouteInfo();
 
     this.setState({ taxiInfo, subwayPathOptionList, walkInfo });
   }
 
-  getRouteInfo() {
+  // Set Subway routes info
+  setSubwayRouteInfo() {
     const { routeList } = this.state.subwayPathOptionList;
     const subwayRoutes = [];
     const { walkInfo } = this.state.subwayPathOptionList;
     for (let idx = 0; idx < routeList.length; idx++) {
-      console.log(walkInfo.time);
       let {
         pathStationList,
         distance,
@@ -104,11 +69,14 @@ export default class OptinList extends Component {
         if (time !== null) {
           time = parseInt(time.slice(0, 2)) * 60 + parseInt(time.slice(3));
           cum += time;
+          return null;
         } else {
           runTimeArr.push({ line, time: cum });
           cum = 0;
+          return null;
         }
       });
+
       runTimeArr.push({
         line: pathStationList[pathStationList.length - 1].line,
         time: cum
@@ -124,78 +92,33 @@ export default class OptinList extends Component {
     this.setState({ subwayRoutes });
   }
 
-  renderBar() {
-    // Hard Coded idx
-    let idx = 0;
-    const { total, runTime } = this.state.subwayRoutes[idx];
-    return runTime.map(item => {
-      let length = Math.floor((Number(item.time) / total) * 100);
-      if (length < 24) length = 24;
-      length = String(length) + "%";
-      return (
-        <Bar
-          className="haha"
-          key={uuidv1()}
-          style={{
-            width: length,
-            backgroundColor: lineColors[item.line],
-            color: "white"
-          }}
-        >
-          {item.line === "도보" ? "도보" : null}
-          {Math.floor(Number(item.time) / 60)}분
-        </Bar>
-      );
-    });
+  // Render All SubwayRoutes
+  renderSubwayRoutes() {
+    const { subwayRoutes, defaultInfo, walkInfo } = this.state;
+    if (subwayRoutes[0].runTime.length) {
+      return subwayRoutes.map((route, idx) => {
+        const { total, price, runTime } = route;
+        return (
+          <SubwayCard
+            key={idx}
+            defaultInfo={defaultInfo}
+            walkInfo={walkInfo}
+            total={total}
+            price={price}
+            runTime={runTime}
+          />
+        );
+      });
+    } else return null;
   }
 
   render() {
-    const { taxiInfo, defaultInfo, walkInfo } = this.state;
-    const { total, distance, price } = this.state.subwayRoutes[0];
+    const { taxiInfo } = this.state;
     return (
       <Container>
-        <Card>
-          <TextContainer>
-            <Text weight="bold" lineHeight="2rem">
-              지하철 {Math.floor(total / 60)}분
-            </Text>
-            <Text weight="normal">
-              {(distance / 1000).toFixed(1)}km |{" "}
-              {String(Math.floor(price / 1000)) + "," + String(price % 1000)}원
-              | 막차 {defaultInfo.lastTime.slice(0, 5)} | 도보 {walkInfo.time}분
-            </Text>
-          </TextContainer>
-          <BarContainer className="nana" style={{ marginBottom: 0 }}>
-            {this.renderBar()}
-          </BarContainer>
-          <BarContainer style={{ marginTop: 0 }} />
-        </Card>
+        {this.renderSubwayRoutes()}
+        <TaxiCard taxiInfo={taxiInfo} />
 
-        <Card>
-          <TextContainer>
-            <Text weight="bold" lineHeight="2rem">
-              택시 {taxiInfo.time}분
-            </Text>
-            <Text>
-              {(taxiInfo.distance / 1000).toFixed(1)}km | 약{" "}
-              {String(Math.floor(taxiInfo.price / 1000)) +
-                "," +
-                String(taxiInfo.price % 1000)}
-              원
-            </Text>
-          </TextContainer>
-          <BarContainer>
-            <Bar
-              style={{
-                width: "100%",
-                backgroundColor: "#ffd300",
-                color: "white"
-              }}
-            >
-              {taxiInfo.time}분
-            </Bar>
-          </BarContainer>
-        </Card>
         <ButtonContainer>
           <StyledButton size="large" onClick={this.props.onButtonPress}>
             목적지 재설정

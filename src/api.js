@@ -13,8 +13,6 @@ const api = axios.create({
   headers: { Uid }
 });
 
-console.log(Uid);
-
 const kakaoApi = axios.create({
   baseURL: "https://dapi.kakao.com/v2/local/",
   headers: { Authorization: `KakaoAK ${keys.KakaoAK}` }
