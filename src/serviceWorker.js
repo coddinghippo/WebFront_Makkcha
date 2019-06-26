@@ -10,7 +10,7 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
 
-const makchaCache = "makcha-1.0.1";
+// const makchaCache = "makcha-1.0.1";
 
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
