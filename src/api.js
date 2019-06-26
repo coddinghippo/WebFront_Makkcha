@@ -10,7 +10,7 @@ const Uid = uuidv1();
 
 const api = axios.create({
   baseURL: apiURL,
-  headers: { Uid }
+  headers: { Uid }s
 });
 
 console.log(Uid);
