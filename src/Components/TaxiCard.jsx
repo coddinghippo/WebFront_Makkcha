@@ -2,19 +2,19 @@ import React from "react";
 import { Card, Text, BarContainer, Bar, TextContainer } from "./common";
 
 const TaxiCard = props => {
-  const { taxiInfo } = props;
+  const { taxi } = props;
 
   return (
     <Card>
       <TextContainer>
         <Text weight="bold" lineHeight="2rem">
-          택시 {taxiInfo.time}분
+          택시 {taxi.time}분
         </Text>
         <Text>
-          {(taxiInfo.distance / 1000).toFixed(1)}km | 약{" "}
-          {String(Math.floor(taxiInfo.price / 1000)) +
+          {(taxi.distance / 1000).toFixed(1)}km | 약{" "}
+          {String(Math.floor(taxi.price / 1000)) +
             "," +
-            String(taxiInfo.price % 1000)}
+            String(taxi.price % 1000)}
           원
         </Text>
       </TextContainer>
@@ -26,7 +26,7 @@ const TaxiCard = props => {
             color: "white"
           }}
         >
-          {taxiInfo.time}분
+          {taxi.time}분
         </Bar>
       </BarContainer>
     </Card>

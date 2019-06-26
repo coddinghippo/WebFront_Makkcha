@@ -4,7 +4,7 @@ import { lineColors } from "../Styles/_mixin";
 import { Card, Text, BarContainer, Bar, TextContainer } from "./common";
 
 const SubwayCard = props => {
-  const { defaultInfo, walkInfo, total, price, runTime } = props;
+  const { defaultSub, walkInfo, total, price, runTime } = props;
 
   // Render SubwayBar for each route
   const renderEachSubwayBar = (total, runTime) => {
@@ -18,11 +18,11 @@ const SubwayCard = props => {
           key={uuidv1()}
           style={{
             width: length,
-            backgroundColor: lineColors[item.line],
+            backgroundColor: lineColors[item.type],
             color: "white"
           }}
         >
-          {item.line === "도보" ? "도보" : null}
+          {item.type === "도보" ? "도보" : null}
           {Math.floor(Number(item.time) / 60)}분
         </Bar>
       );
@@ -37,7 +37,7 @@ const SubwayCard = props => {
         </Text>
         <Text weight="normal">
           {String(Math.floor(price / 1000)) + "," + String(price % 1000)}원 |
-          막차 {defaultInfo.lastTime.slice(0, 5)} | 도보 {walkInfo.time}분
+          막차 {defaultSub.lastTime.slice(0, 5)} | 도보 {walkInfo.time}분
         </Text>
       </TextContainer>
       <BarContainer className="nana" style={{ marginBottom: 0 }}>

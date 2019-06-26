@@ -5,6 +5,7 @@ import { fontSize } from "../Styles/_mixin";
 import { Container } from "./common";
 import TaxiCard from "./TaxiCard";
 import SubwayCard from "./SubwayCard";
+// import BusNSubwayCard from "./BusNSubWayCard";
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -29,79 +30,32 @@ const StyledButton = styled(Button)`
 export default class OptinList extends Component {
   constructor(props) {
     super(props);
-    const { taxiInfo, subwayPathOptionList, defaultInfo } = this.props;
+    const { taxi, sub, defaultSub, busNSub, bus } = this.props;
+
     this.state = {
-      taxiInfo,
-      subwayPathOptionList,
-      defaultInfo,
-      subwayRoutes: [{ total: 0, runTime: [] }],
-      walkInfo: { time: 0 }
+      taxi,
+      sub,
+      bus,
+      busNSub,
+      defaultSub
     };
   }
 
-  componentDidMount() {
-    const { taxiInfo, subwayPathOptionList } = this.props.data;
-    const { walkInfo } = this.state.subwayPathOptionList;
-
-    this.setSubwayRouteInfo();
-
-    this.setState({ taxiInfo, subwayPathOptionList, walkInfo });
-  }
-
-  // Set Subway routes info
-  setSubwayRouteInfo() {
-    const { routeList } = this.state.subwayPathOptionList;
-    const subwayRoutes = [];
-    const { walkInfo } = this.state.subwayPathOptionList;
-    for (let idx = 0; idx < routeList.length; idx++) {
-      let {
-        pathStationList,
-        distance,
-        price
-      } = this.state.subwayPathOptionList.routeList[Number(idx)];
-      let runTimeArr = [{ line: "도보", time: walkInfo.time * 60 }];
-
-      // store sum of runTime for each line
-      let cum = 0;
-      pathStationList.map(item => {
-        let time = item.runTime;
-        let line = item.line;
-        if (time !== null) {
-          time = parseInt(time.slice(0, 2)) * 60 + parseInt(time.slice(3));
-          cum += time;
-          return null;
-        } else {
-          runTimeArr.push({ line, time: cum });
-          cum = 0;
-          return null;
-        }
-      });
-
-      runTimeArr.push({
-        line: pathStationList[pathStationList.length - 1].line,
-        time: cum
-      });
-
-      let total = runTimeArr.reduce((a, x) => {
-        return a + x.time;
-      }, 0);
-      total += walkInfo.time;
-
-      subwayRoutes.push({ runTime: runTimeArr, total, distance, price });
-    }
-    this.setState({ subwayRoutes });
-  }
+  // Render Bus and Subway Routes
+  renderBusNSubwayRoutes() {}
 
   // Render All SubwayRoutes
   renderSubwayRoutes() {
-    const { subwayRoutes, defaultInfo, walkInfo } = this.state;
-    if (subwayRoutes[0].runTime.length) {
-      return subwayRoutes.map((route, idx) => {
+    const { sub, defaultSub } = this.state;
+    const { routes, walkInfo } = sub;
+
+    if (routes[0].runTime.length) {
+      return routes.map((route, idx) => {
         const { total, price, runTime } = route;
         return (
           <SubwayCard
             key={idx}
-            defaultInfo={defaultInfo}
+            defaultSub={defaultSub}
             walkInfo={walkInfo}
             total={total}
             price={price}
@@ -113,11 +67,11 @@ export default class OptinList extends Component {
   }
 
   render() {
-    const { taxiInfo } = this.state;
+    const { taxi } = this.state;
     return (
       <Container>
         {this.renderSubwayRoutes()}
-        <TaxiCard taxiInfo={taxiInfo} />
+        <TaxiCard taxi={taxi} />
 
         <ButtonContainer>
           <StyledButton size="large" onClick={this.props.onButtonPress}>

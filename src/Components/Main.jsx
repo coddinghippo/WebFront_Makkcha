@@ -4,7 +4,7 @@ import { Spin, Icon, Button } from "antd";
 import OptinList from "./OptinList";
 import MakchaDetail from "./MakchaDetail";
 import { Text, Container } from "./common";
-import { makchaApi } from "../api";
+import { makchaApi, dataHandler } from "../api";
 
 const ContentContainer = styled.div`
   display: flex;
@@ -46,18 +46,7 @@ const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 export default class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      endX: 126.91509963231,
-      endY: 37.568565387939,
-      currentAddr: "확인중...",
-      startX: "",
-      startY: "",
-      data: {
-        taxiInfo: {},
-        subwayPathOptionList: { routeList: [] },
-        defaultInfo: {}
-      }
-    };
+    this.state = { currentPos: null };
   }
 
   componentDidMount() {
@@ -65,20 +54,26 @@ export default class Main extends Component {
       const { endX, endY } = JSON.parse(
         localStorage.getItem("loc")
       ).endLocation;
-      this.setState({ endX, endY });
+      this.setState({ currentPos: { ...this.state.currentPos, endX, endY } });
     }
 
     navigator.geolocation.getCurrentPosition(pos => {
       const { latitude, longitude } = pos.coords;
-      this.setState({ startX: longitude, startY: latitude });
+      this.setState({
+        currentPos: {
+          ...this.state.currentPos,
+          startX: longitude,
+          startY: latitude
+        }
+      });
       this.getData(latitude, longitude);
     });
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.startX !== this.state.startX) {
-      const { startX, startY } = this.state;
-      this.getData(startY, startX);
+      const { startX, startY } = this.state.currentPos;
+      // this.getData(startY, startX);
       this.getCurrentPosFromGPS(startX, startY);
     }
   }
@@ -86,20 +81,27 @@ export default class Main extends Component {
   getData(startY, startX) {
     const { endX, endY } = this.state;
 
-    makchaApi.getData({ startX, startY, endX, endY }).then(res =>
+    makchaApi.getData({ startX, startY, endX, endY }).then(res => {
+      const { bus, busNSub, defaultSub, sub, taxi } = dataHandler(res.data);
       this.setState({
-        data: {
-          ...res.data,
-          defaultInfo: res.data.subwayPathOptionList.routeList[0] || {}
-        }
-      })
-    );
+        bus,
+        busNSub,
+        defaultSub,
+        sub,
+        taxi
+      });
+    });
   }
 
-  getCurrentPosFromGPS(x, y) {
-    makchaApi.getPosFromGPS(x, y).then(res => {
+  getCurrentPosFromGPS(startX, startY) {
+    makchaApi.getPosFromGPS(startX, startY).then(res => {
       this.setState({
-        currentAddr: res.data.documents[0].address.address_name
+        currentPos: {
+          ...this.state.currentPos,
+          addr: res.data.documents[0].address.address_name,
+          startX,
+          startY
+        }
       });
     });
   }
@@ -110,20 +112,23 @@ export default class Main extends Component {
   }
 
   render() {
-    const { taxiInfo, subwayPathOptionList, defaultInfo } = this.state.data;
-    const { currentAddr } = this.state;
+    // const { taxiInfo, subwayPathOptionList, defaultInfo } = this.state.data;
+    const { currentPos, bus, sub, busNSub, taxi, defaultSub } = this.state;
     return (
       <Container>
         <MakchaContainer>
-          <MakchaDetail defaultInfo={defaultInfo} addr={currentAddr} />
+          {defaultSub && currentPos ? (
+            <MakchaDetail defaultSub={defaultSub} addr={currentPos.addr} />
+          ) : null}
         </MakchaContainer>
         <ContentContainer>
-          {subwayPathOptionList.routeList.length ? (
+          {sub && taxi ? (
             <OptinList
-              taxiInfo={taxiInfo}
-              subwayPathOptionList={subwayPathOptionList}
-              defaultInfo={subwayPathOptionList.routeList[0]}
-              data={this.state.data}
+              taxi={taxi}
+              sub={sub}
+              defaultSub={defaultSub}
+              bus={bus}
+              busNSub={busNSub}
               onButtonPress={this.onButtonPress.bind(this)}
             />
           ) : (

@@ -72,10 +72,11 @@ const StyledButton = styled(Button)`
 export default class MakchaDetail extends Component {
   constructor(props) {
     super(props);
-    const { defaultInfo, addr } = props;
+
+    const { defaultSub, addr } = props;
     this.state = {
-      defaultInfo,
-      remain: defaultInfo.remain || 0,
+      defaultSub,
+      remain: defaultSub.remain,
       addr
     };
   }
@@ -85,8 +86,8 @@ export default class MakchaDetail extends Component {
       prevProps.defaultInfo !== this.props.defaultInfo ||
       prevProps.addr !== this.props.addr
     ) {
-      const { defaultInfo, addr } = this.props;
-      this.setState({ defaultInfo, addr, remain: defaultInfo.remain });
+      const { defaultSub, addr } = this.props;
+      this.setState({ defaultSub, addr, remain: defaultSub.remain });
     }
   }
 
@@ -95,7 +96,7 @@ export default class MakchaDetail extends Component {
   }
 
   renderDetail() {
-    const { defaultInfo, remain, addr } = this.state;
+    const { defaultSub, remain, addr } = this.state;
     const deadline = Date.now() + 1000 * remain;
 
     if (remain) {
@@ -103,7 +104,7 @@ export default class MakchaDetail extends Component {
         startStationName,
         line,
         endStationName
-      } = defaultInfo.pathStationList[0];
+      } = defaultSub.pathStationList[0];
 
       return (
         <>

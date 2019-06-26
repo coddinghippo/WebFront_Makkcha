@@ -1,6 +1,7 @@
 import axios from "axios";
-import keys from "./config/keys";
+import keys from "../config/keys";
 import uuidv1 from "uuid/v1";
+import { dataHandler } from "./data_handler";
 
 // Use json-server db when in dev env
 let apiURL = "https://api.makkcha.com/";
@@ -31,3 +32,5 @@ export const makchaApi = {
   getPosFromKeyword: keyword =>
     kakaoApi.get(`search/keyword.json?query=${keyword}`)
 };
+
+export { dataHandler };
