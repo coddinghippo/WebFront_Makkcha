@@ -46,7 +46,7 @@ const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 export default class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = { currentPos: null };
+    this.state = { currentPos: { startX: null, startY: null } };
   }
 
   componentDidMount() {
@@ -66,20 +66,21 @@ export default class Main extends Component {
           startY: latitude
         }
       });
-      this.getData(latitude, longitude);
+      // this.getData(latitude, longitude);
     });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.startX !== this.state.startX) {
+    if (prevState.currentPos.startX !== this.state.currentPos.startX) {
       const { startX, startY } = this.state.currentPos;
-      // this.getData(startY, startX);
       this.getCurrentPosFromGPS(startX, startY);
+      this.getData(startY, startX);
     }
   }
 
   getData(startY, startX) {
-    const { endX, endY } = this.state;
+    const { endX, endY } = this.state.currentPos;
+    console.log("success");
 
     makchaApi.getData({ startX, startY, endX, endY }).then(res => {
       const { bus, busNSub, defaultSub, sub, taxi } = dataHandler(res.data);
@@ -111,18 +112,15 @@ export default class Main extends Component {
     this.props.toggleComponent();
   }
 
-  render() {
-    // const { taxiInfo, subwayPathOptionList, defaultInfo } = this.state.data;
+  renderMain() {
     const { currentPos, bus, sub, busNSub, taxi, defaultSub } = this.state;
-    return (
-      <Container>
-        <MakchaContainer>
-          {defaultSub && currentPos ? (
+    if (defaultSub) {
+      return (
+        <>
+          <MakchaContainer>
             <MakchaDetail defaultSub={defaultSub} addr={currentPos.addr} />
-          ) : null}
-        </MakchaContainer>
-        <ContentContainer>
-          {sub && taxi ? (
+          </MakchaContainer>
+          <ContentContainer>
             <OptinList
               taxi={taxi}
               sub={sub}
@@ -131,17 +129,26 @@ export default class Main extends Component {
               busNSub={busNSub}
               onButtonPress={this.onButtonPress.bind(this)}
             />
-          ) : (
-            <SpinContainer>
-              <Spin indicator={antIcon} />
-              <Text size="largeFontSize">경로를 탐색 중입니다...</Text>
-              <StyledButton onClick={this.onButtonPress.bind(this)}>
-                목적지 다시 입력하기
-              </StyledButton>
-            </SpinContainer>
-          )}
-        </ContentContainer>
-      </Container>
-    );
+          </ContentContainer>
+        </>
+      );
+    } else
+      return (
+        <SpinContainer>
+          <Spin indicator={antIcon} />
+          <Text size="largeFontSize">경로를 탐색 중입니다...</Text>
+          <StyledButton onClick={this.onButtonPress.bind(this)}>
+            목적지 다시 입력하기
+          </StyledButton>
+        </SpinContainer>
+      );
+  }
+
+  render() {
+    console.log(this.state);
+    // console.log(this.props, this.state);
+    // const { taxiInfo, subwayPathOptionList, defaultInfo } = this.state.data;
+    // const { currentPos, bus, sub, busNSub, taxi, defaultSub } = this.state;
+    return <Container>{this.renderMain()}</Container>;
   }
 }

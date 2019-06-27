@@ -1,3 +1,5 @@
+const busLines = {};
+
 export const dataHandler = data => {
   const {
     busAndSubwayPathOptionList,
@@ -6,8 +8,11 @@ export const dataHandler = data => {
     subwayPathOptionList
   } = data;
 
+  // if (subwayPathOptionList) {
   let sub, busNSub, bus;
-  const defaultSub = subwayPathOptionList.routeList[0];
+  const defaultSub = subwayPathOptionList
+    ? subwayPathOptionList.routeList[0]
+    : null;
   const taxi = taxiInfo;
 
   function handleSub() {
@@ -53,6 +58,47 @@ export const dataHandler = data => {
 
   function handleBusNSub() {
     busNSub = busAndSubwayPathOptionList;
+    const { routeList } = busNSub;
+    let routes = [];
+    routeList.sort((a, b) => a.totalTime - b.totalTime);
+    let minTime = routeList[0];
+    routeList.sort((a, b) => a.transferNum - b.transferNum);
+    let minTransferNum = routeList[0];
+
+    let temp = [];
+    if (minTime !== minTransferNum) temp.push(minTime);
+    temp.push(minTransferNum);
+
+    temp.map((eachRoute, idx) => {
+      const { distance, price, totalTime, pathList } = eachRoute;
+      const route = [];
+      pathList.map(pathItem => {
+        let path = {};
+        switch (pathItem.type) {
+          case "BUS":
+            // BUS HANDLING
+            path = {};
+            path["lines"] = pathItem.routes.map(line => line.name);
+            path["type"] = pathItem.routes[0].name;
+            path["time"] = pathItem.duration;
+            return route.push(path);
+          case "SUBWAY":
+            // SUBWAY HANDLING
+            path = {};
+            path["lines"] = pathItem.routes.map(line => line.name);
+            path["time"] = pathItem.duration;
+            path["type"] = pathItem.routes[0].name;
+            return route.push(path);
+          default:
+            path = {};
+            return route.push(path);
+          // WALKING HANDLING
+        }
+      });
+      routes.push({ [idx]: route, distance, price, totalTime });
+    });
+    busNSub = { ...busAndSubwayPathOptionList, routes };
+    // console.log(busNSub);
   }
   function handleBus() {
     bus = busPathOptionList;
@@ -66,4 +112,5 @@ export const dataHandler = data => {
 
   main();
   return { taxi, sub, busNSub, bus, defaultSub };
+  // } else return null;
 };
