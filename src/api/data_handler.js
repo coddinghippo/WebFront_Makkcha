@@ -8,6 +8,8 @@ export const dataHandler = data => {
     subwayPathOptionList
   } = data;
 
+  console.log(data);
+
   // if (subwayPathOptionList) {
   let sub, busNSub, bus;
   const defaultSub = subwayPathOptionList
@@ -100,6 +102,7 @@ export const dataHandler = data => {
     busNSub = { ...busAndSubwayPathOptionList, routes };
     // console.log(busNSub);
   }
+
   function handleBus() {
     bus = busPathOptionList;
   }

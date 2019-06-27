@@ -5,7 +5,7 @@ import { fontSize } from "../Styles/_mixin";
 import { Container } from "./common";
 import TaxiCard from "./TaxiCard";
 import SubwayCard from "./SubwayCard";
-// import BusNSubwayCard from "./BusNSubWayCard";
+import BusNSubwayCard from "./BusNSubWayCard";
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -42,7 +42,11 @@ export default class OptinList extends Component {
   }
 
   // Render Bus and Subway Routes
-  renderBusNSubwayRoutes() {}
+  renderBusNSubwayRoutes() {
+    const { busNSub } = this.state;
+    const { routes } = busNSub;
+    if (routes) console.log(routes);
+  }
 
   // Render All SubwayRoutes
   renderSubwayRoutes() {
@@ -72,6 +76,7 @@ export default class OptinList extends Component {
       <Container>
         {this.renderSubwayRoutes()}
         <TaxiCard taxi={taxi} />
+        {this.renderBusNSubwayRoutes()}
 
         <ButtonContainer>
           <StyledButton size="large" onClick={this.props.onButtonPress}>

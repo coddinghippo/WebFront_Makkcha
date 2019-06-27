@@ -145,7 +145,6 @@ export default class Main extends Component {
   }
 
   render() {
-    console.log(this.state);
     // console.log(this.props, this.state);
     // const { taxiInfo, subwayPathOptionList, defaultInfo } = this.state.data;
     // const { currentPos, bus, sub, busNSub, taxi, defaultSub } = this.state;
