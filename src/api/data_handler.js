@@ -73,9 +73,11 @@ export const dataHandler = data => {
 
     temp.map((eachRoute, idx) => {
       const { distance, price, totalTime, pathList } = eachRoute;
-      const route = [];
+      // const route = [];
+      const runTime = [];
       pathList.map(pathItem => {
         let path = {};
+
         switch (pathItem.type) {
           case "BUS":
             // BUS HANDLING
@@ -83,21 +85,26 @@ export const dataHandler = data => {
             path["lines"] = pathItem.routes.map(line => line.name);
             path["type"] = pathItem.routes[0].name;
             path["time"] = pathItem.duration;
-            return route.push(path);
+            path["color"] = pathItem.routes[0].type.color;
+            return runTime.push(path);
           case "SUBWAY":
             // SUBWAY HANDLING
             path = {};
             path["lines"] = pathItem.routes.map(line => line.name);
             path["time"] = pathItem.duration;
             path["type"] = pathItem.routes[0].name;
-            return route.push(path);
+            path["color"] = pathItem.routes[0].type.color;
+            return runTime.push(path);
           default:
-            path = {};
-            return route.push(path);
+            path = { type: "도보" };
+            path["time"] = pathItem.duration;
+            path["color"] = "#ccc";
+            return runTime.push(path);
           // WALKING HANDLING
         }
       });
-      routes.push({ [idx]: route, distance, price, totalTime });
+      // route.map(item => runTime.push({ type: item.type, time: item.time }));
+      routes.push({ distance, price, totalTime, runTime });
     });
     busNSub = { ...busAndSubwayPathOptionList, routes };
     // console.log(busNSub);

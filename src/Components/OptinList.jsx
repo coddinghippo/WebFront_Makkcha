@@ -51,7 +51,21 @@ export default class OptinList extends Component {
   renderBusNSubwayRoutes() {
     const { busNSub } = this.state;
     const { routes } = busNSub;
-    if (routes) console.log(routes);
+    if (routes) {
+      return routes.map((item, idx) => {
+        const { runTime, distance, price, totalTime } = item;
+
+        return (
+          <BusNSubwayCard
+            key={idx}
+            distance={distance}
+            total={totalTime}
+            price={price}
+            runTime={runTime}
+          />
+        );
+      });
+    }
   }
 
   // Render All SubwayRoutes
