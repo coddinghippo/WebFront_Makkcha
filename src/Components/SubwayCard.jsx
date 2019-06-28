@@ -7,7 +7,7 @@ const SubwayCard = props => {
   const { defaultSub, walkInfo, total, price, runTime } = props;
 
   // Render SubwayBar for each route
-  const renderEachSubwayBar = (total, runTime) => {
+  const renderVehicleBar = (total, runTime) => {
     return runTime.map(item => {
       let length = Math.floor((Number(item.time) / total) * 100);
       if (length < 24) length = 24;
@@ -22,8 +22,36 @@ const SubwayCard = props => {
             color: "white"
           }}
         >
-          {item.type === "도보" ? "도보" : null}
           {Math.floor(Number(item.time) / 60)}분
+        </Bar>
+      );
+    });
+  };
+
+  const renderVehicleIcon = (total, runTime) => {
+    return runTime.map(item => {
+      let length = Math.floor((Number(item.time) / total) * 100);
+      let icon = "fas fa-train";
+      if (length < 24) length = 24;
+
+      length = String(length) + "%";
+      if (item.type === "도보") icon = "fas fa-walking";
+
+      return (
+        <Bar
+          className="haha"
+          key={uuidv1()}
+          style={{
+            width: length
+          }}
+        >
+          <i
+            className={icon}
+            style={{ color: lineColors[item.type], fontSize: "0.8rem" }}
+          >
+            {" "}
+            {item.type === "도보" ? null : item.type}
+          </i>
         </Bar>
       );
     });
@@ -40,10 +68,12 @@ const SubwayCard = props => {
           막차 {defaultSub.lastTime.slice(0, 5)} | 도보 {walkInfo.time}분
         </Text>
       </TextContainer>
-      <BarContainer className="nana" style={{ marginBottom: 0 }}>
-        {renderEachSubwayBar(total, runTime)}
+      <BarContainer style={{ marginBottom: 0 }}>
+        {renderVehicleBar(total, runTime)}
       </BarContainer>
-      <BarContainer style={{ marginTop: 0 }} />
+      <BarContainer style={{ marginTop: "0.5rem" }}>
+        {renderVehicleIcon(total, runTime)}
+      </BarContainer>
     </Card>
   );
 };

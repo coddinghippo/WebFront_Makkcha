@@ -82,6 +82,7 @@ export const dataHandler = data => {
           case "BUS":
             // BUS HANDLING
             path = {};
+            path["icon"] = "fas fa-bus";
             path["lines"] = pathItem.routes.map(line => line.name);
             path["type"] = pathItem.routes[0].name;
             path["time"] = pathItem.duration;
@@ -90,6 +91,7 @@ export const dataHandler = data => {
           case "SUBWAY":
             // SUBWAY HANDLING
             path = {};
+            path["icon"] = "fas fa-train";
             path["lines"] = pathItem.routes.map(line => line.name);
             path["time"] = pathItem.duration;
             path["type"] = pathItem.routes[0].name;
@@ -97,6 +99,7 @@ export const dataHandler = data => {
             return runTime.push(path);
           default:
             path = { type: "도보" };
+            path["icon"] = "fas fa-walking";
             path["time"] = pathItem.duration;
             path["color"] = "#ccc";
             return runTime.push(path);

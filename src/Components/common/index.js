@@ -21,13 +21,14 @@ export const BarContainer = styled.div`
   margin-bottom: 1rem;
   width: 90%;
   max-width: 90%;
-  height: 1rem;
-  background: sky-blue;
 `;
 
 export const Bar = styled.div`
-  text-align: center;
-  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  height: 1.2rem;
   &:first-of-type {
     border-top-left-radius: 3rem;
     border-bottom-left-radius: 3rem;

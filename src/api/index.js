@@ -5,7 +5,7 @@ import { dataHandler } from "./data_handler";
 
 // Use json-server db when in dev env
 let apiURL = "https://api.makkcha.com/";
-// if (process.env.NODE_ENV === "development") apiURL = "http://localhost:3004";
+if (process.env.NODE_ENV === "development") apiURL = "http://localhost:3004";
 
 const Uid = uuidv1();
 
@@ -22,7 +22,8 @@ const kakaoApi = axios.create({
 export const makchaApi = {
   getData: ({ startX, startY, endX, endY }) =>
     api.get(
-      `searchMakcha?startX=${startX}&startY=${startY}&endX=${endX}&endY=${endY}`
+      // `searchMakcha?startX=${startX}&startY=${startY}&endX=${endX}&endY=${endY}`
+      `/db`
       // `searchMakcha?startX=126.9153689271&startY=37.5678973956&endX=127.051217&endY=37.505447`
     ),
   getPosFromGPS: (x, y) =>

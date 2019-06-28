@@ -16,6 +16,10 @@ const ButtonContainer = styled.div`
   padding: 1.3rem;
 `;
 
+const Option = styled.div`
+  margin-bottom: 5rem;
+`;
+
 // const ResetButton = styled(Button)`
 //   // width: 90%;
 //   height: 3rem;
@@ -51,16 +55,18 @@ export default class OptinList extends Component {
   renderBusNSubwayRoutes() {
     const { busNSub } = this.state;
     const { routes } = busNSub;
+    let routeType = "최소 시간 기준";
     if (routes) {
       return routes.map((item, idx) => {
         const { runTime, distance, price, totalTime } = item;
-
+        if (idx === 1) routeType = "최소 환승 기준";
         return (
           <BusNSubwayCard
             key={idx}
             distance={distance}
             total={totalTime}
             price={price}
+            routeType={routeType}
             runTime={runTime}
           />
         );
@@ -94,9 +100,11 @@ export default class OptinList extends Component {
     const { taxi } = this.state;
     return (
       <Container>
-        {this.renderSubwayRoutes()}
-        <TaxiCard taxi={taxi} />
-        {this.renderBusNSubwayRoutes()}
+        <Option>
+          {this.renderSubwayRoutes()}
+          <TaxiCard taxi={taxi} />
+          {this.renderBusNSubwayRoutes()}
+        </Option>
 
         <ButtonContainer>
           <StyledButton
