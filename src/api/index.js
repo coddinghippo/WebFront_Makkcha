@@ -22,8 +22,9 @@ const kakaoApi = axios.create({
 export const makchaApi = {
   getData: ({ startX, startY, endX, endY }) =>
     api.get(
-      // `searchMakcha?startX=${startX}&startY=${startY}&endX=${endX}&endY=${endY}`
-      `/db`
+      process.env.NODE_ENV === "development"
+        ? `/db`
+        : `searchMakcha?startX=${startX}&startY=${startY}&endX=${endX}&endY=${endY}`
       // `searchMakcha?startX=126.9153689271&startY=37.5678973956&endX=127.051217&endY=37.505447`
     ),
   getPosFromGPS: (x, y) =>
