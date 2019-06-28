@@ -150,9 +150,9 @@ export default class MakchaDetail extends Component {
             <StyledButton
               type="ghost"
               shape="round"
-              onClick={() => window.alert("준비 중입니다")}
+              onClick={this.props.onButtonPress}
             >
-              알림 받기
+              목적지 재설정
             </StyledButton>
           </InfoContainer>
         </>

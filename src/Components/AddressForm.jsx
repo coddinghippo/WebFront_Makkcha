@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Carousel } from "antd";
 import styled from "styled-components";
 import { makchaApi } from "../api";
 import { fontSize } from "../Styles/_mixin";
@@ -9,8 +9,27 @@ const { Item } = Form;
 
 const Container = styled(DefaultContainer)`
   background: #000033;
-  justify-content: center;
-  align-items: center;
+  // justify-content: center;
+  // align-items: center;
+  &.slick-slide {
+    text-align: center;
+    height: 160px;
+    line-height: 160px;
+    background: #000033;
+    overflow: hidden;
+  }
+
+  & h3 {
+    color: #fff;
+  }t
+`;
+
+const Test = styled.div`
+  height: 160px;
+  width: 100%;
+  background: ${props => props.background};
+  overflow: hidden;
+  text-align: center;
 `;
 
 const StyledForm = styled(Form)`
@@ -54,7 +73,7 @@ const ButtonContainer = styled.div`
 
 const StyledButton = styled(Button)`
   width: 90%;
-  height: 2.6rem;
+  height: 3rem;
   color: #000033;
   border-radius: 1.5rem;
   margin-bottom: 1.3rem;

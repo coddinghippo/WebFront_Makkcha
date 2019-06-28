@@ -118,7 +118,11 @@ export default class Main extends Component {
       return (
         <>
           <MakchaContainer>
-            <MakchaDetail defaultSub={defaultSub} addr={currentPos.addr} />
+            <MakchaDetail
+              defaultSub={defaultSub}
+              addr={currentPos.addr}
+              onButtonPress={this.onButtonPress.bind(this)}
+            />
           </MakchaContainer>
           <ContentContainer>
             <OptinList
@@ -127,7 +131,6 @@ export default class Main extends Component {
               defaultSub={defaultSub}
               bus={bus}
               busNSub={busNSub}
-              onButtonPress={this.onButtonPress.bind(this)}
             />
           </ContentContainer>
         </>

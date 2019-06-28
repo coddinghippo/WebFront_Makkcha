@@ -10,21 +10,27 @@ import BusNSubwayCard from "./BusNSubWayCard";
 const ButtonContainer = styled.div`
   display: flex;
   position: fixed;
-  justify-content: center;
+  justify-content: space-around;
   width: 100%;
   bottom: 0;
+  padding: 1.3rem;
 `;
 
+// const ResetButton = styled(Button)`
+//   // width: 90%;
+//   height: 3rem;
+//   color: white;
+//   background: #000033;
+//   border-radius: 1.5rem;
+//   margin-bottom: 1.3rem;
+//   backgrouncolor: #000;
+//   font-weight: bold;
+//   font-size: ${fontSize.largeFontSize};
+// `;
+
 const StyledButton = styled(Button)`
-  width: 90%;
   height: 3rem;
-  color: white;
   background: #000033;
-  border-radius: 1.5rem;
-  margin-bottom: 1.3rem;
-  backgrouncolor: #000;
-  font-weight: bold;
-  font-size: ${fontSize.largeFontSize};
 `;
 
 export default class OptinList extends Component {
@@ -79,8 +85,14 @@ export default class OptinList extends Component {
         {this.renderBusNSubwayRoutes()}
 
         <ButtonContainer>
-          <StyledButton size="large" onClick={this.props.onButtonPress}>
-            목적지 재설정
+          <StyledButton
+            type="primary"
+            shape="round"
+            size="large"
+            block={true}
+            onClick={() => {}}
+          >
+            피드백 하기
           </StyledButton>
         </ButtonContainer>
       </Container>
