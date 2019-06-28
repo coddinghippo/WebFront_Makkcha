@@ -31,10 +31,11 @@ const TimerContainer = styled.div`
   align-items: center;
 `;
 
-const Textcontainer = styled.div`
+const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 `;
 
 const InfoContainer = styled.div`
@@ -135,32 +136,43 @@ export default class MakchaDetail extends Component {
 
           <TimerContainer>
             <>
-              <Textcontainer>
-                <Text size="largeFontSize" weight="bold" lineHeight="1.5rem">
-                  막차까지
-                </Text>
-                <Text size="smallFontSize">(현재 위치 기준)</Text>
-              </Textcontainer>
+              <InfoContainer>
+                {/* 원 막차 위치 */}
+                <LineIcon>
+                  <LineInner line={line}>{lineChar[line]}</LineInner>
+                </LineIcon>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start"
+                  }}
+                >
+                  <Text
+                    size="smallFontSize"
+                    //  style={{ marginLeft: "0.6rem" }}
+                  >
+                    {endStationName + " 방향"}
+                  </Text>
+                  <Text size="largeFontSize" weight="bold">
+                    {startStationName + "역"}
+                  </Text>
+                </div>
+              </InfoContainer>
               <Countdown
                 value={deadline}
                 onFinish={this.onFinish}
                 valueStyle={{
                   color: "white",
-                  fontSize: fontSize.extraLargeFontSize
+                  fontSize: fontSize.superLargeFontSize
                 }}
               />
             </>
           </TimerContainer>
 
-          <InfoContainer>
-            <LineIcon>
-              <LineInner line={line}>{lineChar[line]}</LineInner>
-            </LineIcon>
-            <Text size="largeFontSize" weight="bold">
-              {startStationName + "역"}
-            </Text>
-            <Text size="smallFontSize" style={{ marginLeft: "0.6rem" }}>
-              {endStationName + " 방향"}
+          {/* <TextContainer>
+            <Text size="largeFontSize" weight="bold" lineHeight="1.5rem">
+              막차
             </Text>
 
             <StyledButton
@@ -170,7 +182,7 @@ export default class MakchaDetail extends Component {
             >
               목적지 재설정
             </StyledButton>
-          </InfoContainer>
+          </TextContainer> */}
         </>
       );
     } else return null;

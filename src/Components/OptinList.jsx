@@ -18,6 +18,9 @@ const ButtonContainer = styled.div`
 
 const Option = styled.div`
   margin-bottom: 5rem;
+  // &:first-of-type {
+  //   border-bottom: 3rem solid grey;
+  // }
 `;
 
 // const ResetButton = styled(Button)`
@@ -105,7 +108,6 @@ export default class OptinList extends Component {
           <TaxiCard taxi={taxi} />
           {this.renderBusNSubwayRoutes()}
         </Option>
-
         <ButtonContainer>
           <StyledButton
             type="primary"
