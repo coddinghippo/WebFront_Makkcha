@@ -21,6 +21,7 @@ const LocContainer = styled.div`
   display: flex;
   flex: 1;
   max-height: 1rem;
+  align-items: center;
 `;
 
 const TimerContainer = styled.div`
@@ -69,6 +70,18 @@ const StyledButton = styled(Button)`
   right: 1rem;
 `;
 
+const NowButton = styled.div`
+  border: 1px solid #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+  height: 1.5rem;
+  width: 5rem;
+  font-size: 0.8rem;
+  margin-right: 0.7rem;
+`;
+
 export default class MakchaDetail extends Component {
   constructor(props) {
     super(props);
@@ -109,12 +122,15 @@ export default class MakchaDetail extends Component {
       return (
         <>
           <LocContainer>
-            <Icon
-              type="environment"
-              theme="filled"
-              style={{ marginRight: "1rem" }}
-            />
-            <Text size="normalFontSize">{addr}</Text>
+            <NowButton>
+              <Icon
+                type="environment"
+                theme="filled"
+                style={{ marginRight: "0.3rem" }}
+              />
+              현위치
+            </NowButton>
+            <Text size="normalFontSize"> {addr}</Text>
           </LocContainer>
 
           <TimerContainer>
