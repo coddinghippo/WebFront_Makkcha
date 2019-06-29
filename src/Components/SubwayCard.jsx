@@ -60,10 +60,11 @@ const SubwayCard = props => {
   return (
     <Card>
       <TextContainer>
-        <Text weight="bold" lineHeight="2rem">
-          지하철 {Math.floor(total / 60)}분
+        <Text size="largeFontSize" weight="bold" lineHeight="2rem">
+          지하철
         </Text>
         <Text weight="normal">
+          {Math.floor(total / 60)}분 소요 |{" "}
           {String(Math.floor(price / 1000)) + "," + String(price % 1000)}원 |
           막차 {defaultSub.lastTime.slice(0, 5)} | 도보 {walkInfo.time}분
         </Text>

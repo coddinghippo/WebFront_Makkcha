@@ -56,10 +56,11 @@ const BusNSubwayCard = props => {
   return (
     <Card>
       <TextContainer>
-        <Text weight="bold" lineHeight="2rem">
-          버스 + 지하철 {Math.floor(total)}분
+        <Text size="largeFontSize" weight="bold" lineHeight="2rem">
+          버스 + 지하철
         </Text>
         <Text weight="normal">
+          {Math.floor(total)}분 소요 |{" "}
           {String(Math.floor(price / 1000)) + "," + String(price % 1000)}원 |{" "}
           {routeType}
         </Text>

@@ -17,7 +17,7 @@ const ButtonContainer = styled.div`
 `;
 
 const Option = styled.div`
-  margin-bottom: 5rem;
+  margin-bottom: 8rem;
   // &:first-of-type {
   //   border-bottom: 3rem solid grey;
   // }
@@ -38,6 +38,7 @@ const Option = styled.div`
 const StyledButton = styled(Button)`
   height: 3rem;
   background: #000033;
+  border: none;
 `;
 
 export default class OptinList extends Component {

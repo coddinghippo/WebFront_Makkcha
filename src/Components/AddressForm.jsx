@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Input, Button, Carousel } from "antd";
+import { Form, Input, Button } from "antd";
 import styled from "styled-components";
 import { makchaApi } from "../api";
 import { fontSize } from "../Styles/_mixin";

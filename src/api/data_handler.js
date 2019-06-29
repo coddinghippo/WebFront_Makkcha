@@ -61,56 +61,59 @@ export const dataHandler = data => {
   function handleBusNSub() {
     busNSub = busAndSubwayPathOptionList;
     const { routeList } = busNSub;
-    let routes = [];
-    routeList.sort((a, b) => a.totalTime - b.totalTime);
-    let minTime = routeList[0];
-    routeList.sort((a, b) => a.transferNum - b.transferNum);
-    let minTransferNum = routeList[0];
+    if (routeList) {
+      let routes = [];
+      routeList.sort((a, b) => a.totalTime - b.totalTime);
+      let minTime = routeList[0];
+      routeList.sort((a, b) => a.transferNum - b.transferNum);
+      let minTransferNum = routeList[0];
 
-    let temp = [];
-    if (minTime !== minTransferNum) temp.push(minTime);
-    temp.push(minTransferNum);
+      let temp = [];
+      if (minTime !== minTransferNum) temp.push(minTime);
+      temp.push(minTransferNum);
 
-    temp.map((eachRoute, idx) => {
-      const { distance, price, totalTime, pathList } = eachRoute;
-      // const route = [];
-      const runTime = [];
-      pathList.map(pathItem => {
-        let path = {};
+      temp.map((eachRoute, idx) => {
+        const { distance, price, totalTime, pathList } = eachRoute;
+        console.log(eachRoute);
+        // const route = [];
+        const runTime = [];
+        pathList.map(pathItem => {
+          let path = {};
 
-        switch (pathItem.type) {
-          case "BUS":
-            // BUS HANDLING
-            path = {};
-            path["icon"] = "fas fa-bus";
-            path["lines"] = pathItem.routes.map(line => line.name);
-            path["type"] = pathItem.routes[0].name;
-            path["time"] = pathItem.duration;
-            path["color"] = pathItem.routes[0].type.color;
-            return runTime.push(path);
-          case "SUBWAY":
-            // SUBWAY HANDLING
-            path = {};
-            path["icon"] = "fas fa-train";
-            path["lines"] = pathItem.routes.map(line => line.name);
-            path["time"] = pathItem.duration;
-            path["type"] = pathItem.routes[0].name;
-            path["color"] = pathItem.routes[0].type.color;
-            return runTime.push(path);
-          default:
-            path = { type: "도보" };
-            path["icon"] = "fas fa-walking";
-            path["time"] = pathItem.duration;
-            path["color"] = "#ccc";
-            return runTime.push(path);
-          // WALKING HANDLING
-        }
+          switch (pathItem.type) {
+            case "BUS":
+              // BUS HANDLING
+              path = {};
+              path["icon"] = "fas fa-bus";
+              path["lines"] = pathItem.routes.map(line => line.name);
+              path["type"] = pathItem.routes[0].name;
+              path["time"] = pathItem.duration;
+              path["color"] = pathItem.routes[0].type.color;
+              return runTime.push(path);
+            case "SUBWAY":
+              // SUBWAY HANDLING
+              path = {};
+              path["icon"] = "fas fa-train";
+              path["lines"] = pathItem.routes.map(line => line.name);
+              path["time"] = pathItem.duration;
+              path["type"] = pathItem.routes[0].name;
+              path["color"] = pathItem.routes[0].type.color;
+              return runTime.push(path);
+            default:
+              path = { type: "도보" };
+              path["icon"] = "fas fa-walking";
+              path["time"] = pathItem.duration;
+              path["color"] = "#ccc";
+              return runTime.push(path);
+            // WALKING HANDLING
+          }
+        });
+        // route.map(item => runTime.push({ type: item.type, time: item.time }));
+        routes.push({ distance, price, totalTime, runTime });
       });
-      // route.map(item => runTime.push({ type: item.type, time: item.time }));
-      routes.push({ distance, price, totalTime, runTime });
-    });
-    busNSub = { ...busAndSubwayPathOptionList, routes };
-    // console.log(busNSub);
+      busNSub = { ...busAndSubwayPathOptionList, routes };
+      // console.log(busNSub);
+    }
   }
 
   function handleBus() {

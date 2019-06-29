@@ -7,11 +7,11 @@ const TaxiCard = props => {
   return (
     <Card>
       <TextContainer>
-        <Text weight="bold" lineHeight="2rem">
-          택시 {taxi.time}분
+        <Text size="largeFontSize" weight="bold" lineHeight="2rem">
+          택시
         </Text>
         <Text>
-          {(taxi.distance / 1000).toFixed(1)}km | 약{" "}
+          {taxi.time}분 소요 | {(taxi.distance / 1000).toFixed(1)}km | 약{" "}
           {String(Math.floor(taxi.price / 1000)) +
             "," +
             String(taxi.price % 1000)}
