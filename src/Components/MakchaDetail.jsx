@@ -40,8 +40,12 @@ const TextContainer = styled.div`
 
 const InfoContainer = styled.div`
   display: flex;
-  flex: 1;
+  flex-direction: column;
   align-items: center;
+`;
+
+const IconContainer = styled.div`
+  display: flex;
 `;
 
 const LineIcon = styled.div`
@@ -137,27 +141,28 @@ export default class MakchaDetail extends Component {
           <TimerContainer>
             <>
               <InfoContainer>
-                {/* 원 막차 위치 */}
-                <LineIcon>
-                  <LineInner line={line}>{lineChar[line]}</LineInner>
-                </LineIcon>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start"
-                  }}
-                >
-                  <Text
-                    size="smallFontSize"
-                    //  style={{ marginLeft: "0.6rem" }}
+                <IconContainer>
+                  <LineIcon>
+                    <LineInner line={line}>{lineChar[line]}</LineInner>
+                  </LineIcon>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-start"
+                    }}
                   >
-                    {endStationName + " 방향"}
-                  </Text>
-                  <Text size="largeFontSize" weight="bold">
-                    {startStationName + "역"}
-                  </Text>
-                </div>
+                    <Text
+                      size="smallFontSize"
+                      //  style={{ marginLeft: "0.6rem" }}
+                    >
+                      {endStationName + " 방향"}
+                    </Text>
+                    <Text size="largeFontSize" weight="bold">
+                      {startStationName + "역"}
+                    </Text>
+                  </div>
+                </IconContainer>
               </InfoContainer>
               <Countdown
                 value={deadline}
