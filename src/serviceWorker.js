@@ -1,16 +1,10 @@
-// This optional code is used to register a service worker.
-// register() is not called by default.
+// Service Worker
 
-// This lets the app load faster on subsequent visits in production, and gives
-// it offline capabilities. However, it also means that developers (and users)
-// will only see deployed updates on subsequent visits to a page, after all the
-// existing tabs open on the page have been closed, since previously cached
-// resources are updated in the background.
+// Cache name
+const makchaCache = "makcha_v_0_0_1";
 
-// To learn more about the benefits of this model and instructions on how to
-// opt-in, read https://bit.ly/CRA-PWA
-
-// const makchaCache = "makcha-1.0.1";
+// Static assets to cache on install
+const staticCache = ["/"];
 
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
@@ -33,143 +27,45 @@ export function register(config) {
       return;
     }
 
-    window.addEventListener("load", () => {
-      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
-
-      if (isLocalhost) {
-        // This is running on localhost. Let's check if a service worker still exists or not.
-        checkValidServiceWorker(swUrl, config);
-
-        // Add some additional logging to localhost, pointing developers to the
-        // service worker/PWA documentation.
-        navigator.serviceWorker.ready.then(() => {
-          console.log(
-            "This web app is being served cache-first by a service " +
-              "worker. To learn more, visit https://bit.ly/CRA-PWA"
-          );
-        });
-      } else {
-        // Is not localhost. Just register service worker
-        registerValidSW(swUrl, config);
-      }
-    });
-    // // Create and open makchaCache
-    // window.addEventListener("install", e => {
-    //   console.log(`sw install`);
-    //   e.waitUntil(caches.open(makchaCache).add("/index.html"));
-    // });
-
-    // // Clear outdated cache
-    // window.addEventListener("activate", e => {
-    //   let cacheCleaned = caches.keys().then(keys => {
-    //     keys.forEach(key => {
-    //       if (key !== makchaCache) return caches.delete(key);
-    //     });
-    //   });
-    //   e.waitUntil(cacheCleaned);
-    // });
-
-    // // SW fetch handler
-    // window.addEventListener("fetch", e => {
-    //   // Cache with Network Fallback
-    //   let res = caches.match(e.request).then(res => {
-    //     // Check cache has response
-    //     if (res) return res;
-
-    //     // Fallback to Network
-    //     return fetch(e.request).then(fetchRes => {
-    //       // Cache fetched response
-    //       caches
-    //         .open(makchaCache)
-    //         .then(cache => cache.put(e.request, fetchRes));
-
-    //       // Return clone of fethced response
-    //       return fetchRes.clone();
-    //     });
-    //   });
-
-    //   // Respond
-    //   e.respondWith(res);
-    // });
-  }
-}
-
-function registerValidSW(swUrl, config) {
-  navigator.serviceWorker
-    .register(swUrl)
-    .then(registration => {
-      registration.onupdatefound = () => {
-        const installingWorker = registration.installing;
-        if (installingWorker == null) {
-          return;
-        }
-        installingWorker.onstatechange = () => {
-          if (installingWorker.state === "installed") {
-            if (navigator.serviceWorker.controller) {
-              // At this point, the updated precached content has been fetched,
-              // but the previous service worker will still serve the older
-              // content until all client tabs are closed.
-              console.log(
-                "New content is available and will be used when all " +
-                  "tabs for this page are closed. See https://bit.ly/CRA-PWA."
-              );
-
-              // Execute callback
-              if (config && config.onUpdate) {
-                config.onUpdate(registration);
-              }
-            } else {
-              // At this point, everything has been precached.
-              // It's the perfect time to display a
-              // "Content is cached for offline use." message.
-              console.log("Content is cached for offline use.");
-
-              // Execute callback
-              if (config && config.onSuccess) {
-                config.onSuccess(registration);
-              }
-            }
-          }
-        };
-      };
-    })
-    .catch(error => {
-      console.error("Error during service worker registration:", error);
-    });
-}
-
-function checkValidServiceWorker(swUrl, config) {
-  // Check if the service worker can be found. If it can't reload the page.
-  fetch(swUrl)
-    .then(response => {
-      // Ensure service worker exists, and that we really are getting a JS file.
-      const contentType = response.headers.get("content-type");
-      if (
-        response.status === 404 ||
-        (contentType != null && contentType.indexOf("javascript") === -1)
-      ) {
-        // No service worker found. Probably a different app. Reload the page.
-        navigator.serviceWorker.ready.then(registration => {
-          registration.unregister().then(() => {
-            window.location.reload();
-          });
-        });
-      } else {
-        // Service worker found. Proceed as normal.
-        registerValidSW(swUrl, config);
-      }
-    })
-    .catch(() => {
-      console.log(
-        "No internet connection found. App is running in offline mode."
+    // code here
+    // SW install and cache static assets
+    window.addEventListener("install", e => {
+      e.waitUntil(
+        caches.open(makchaCache).then(cache => cache.addAll(staticCache))
       );
     });
-}
 
-export function unregister() {
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.ready.then(registration => {
-      registration.unregister();
+    // SW Activate and cache cleanup
+    window.addEventListener("activate", e => {
+      let cacheCleaned = caches.keys().then(keys => {
+        keys.forEach(key => {
+          if (key !== makchaCache) return caches.delete(key);
+        });
+      });
+      e.waitUntil(cacheCleaned);
+    });
+
+    // SW fetch handler
+    window.addEventListener("fetch", e => {
+      // Cache with Network Fallback
+      let res = caches.match(e.request).then(res => {
+        // Check cache has response
+        if (res) return res;
+
+        // Fallback to Network
+        return fetch(e.request).then(fetchRes => {
+          // Cache fetched response
+          caches
+            .open(makchaCache)
+            .then(cache => cache.put(e.request, fetchRes));
+
+          // Return clone of fethced response
+          return fetchRes.clone();
+        });
+      });
+
+      // Respond
+      e.respondWith(res);
     });
   }
 }

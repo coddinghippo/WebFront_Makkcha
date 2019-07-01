@@ -3,6 +3,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import styled from "styled-components";
 import { GlobalStyle } from "./Styles/global_styles";
 import Landing from "./Routes/Landing";
+import Feedback from "./Routes/Feedback";
 
 const AppContainer = styled.div`
   height: 100%;
@@ -16,6 +17,7 @@ const App = () => {
       <BrowserRouter>
         <AppContainer className="app">
           <Route exact path="/" component={Landing} />
+          <Route path="/feedback" component={Feedback} />
         </AppContainer>
       </BrowserRouter>
     </>

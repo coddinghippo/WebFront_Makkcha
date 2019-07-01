@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { Button } from "antd";
+import { Link } from "react-router-dom";
 import { fontSize } from "../Styles/_mixin";
 import { Container } from "./common";
 import TaxiCard from "./TaxiCard";
@@ -110,15 +111,16 @@ export default class OptinList extends Component {
           {this.renderBusNSubwayRoutes()}
         </Option>
         <ButtonContainer>
-          <StyledButton
-            type="primary"
-            shape="round"
-            size="large"
-            block={true}
-            onClick={() => {}}
-          >
-            피드백 하기
-          </StyledButton>
+          <Link to="/feedback">
+            <StyledButton
+              type="primary"
+              shape="round"
+              size="large"
+              block={true}
+            >
+              피드백 하기
+            </StyledButton>
+          </Link>
         </ButtonContainer>
       </Container>
     );
