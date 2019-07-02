@@ -61,7 +61,8 @@ export const lineChar = {
   우이신설경전철: "우이",
   경전철의정부: "의정",
   in: "인1",
-  in2: "인2"
+  in2: "인2",
+  도보: "도보"
 };
 
 export const headerHeight = "3rem";

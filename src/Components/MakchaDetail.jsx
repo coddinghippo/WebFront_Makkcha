@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { Button, Statistic, Icon } from "antd";
-import { fontSize, lineColors } from "../Styles/_mixin";
+import { fontSize, lineColors, lineChar } from "../Styles/_mixin";
 import { Text } from "./common";
-import { lineChar } from "../Styles/_mixin";
+import StationCard from "./StationCard";
 
 const { Countdown } = Statistic;
 
@@ -11,6 +11,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1rem;
+  padding-bottom: 0;
   color: white;
   flex: inherit;
   max-height: 35vh;
@@ -26,53 +27,32 @@ const LocContainer = styled.div`
 
 const TimerContainer = styled.div`
   display: flex;
-  flex: 2;
+  flex: 3;
   justify-content: space-between;
   align-items: center;
 `;
 
-const TextContainer = styled.div`
+const StationCardContainer = styled.div`
+  height: 70%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 `;
 
-const InfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+const CountdownContainer = styled(StationCardContainer)`
+  align-items: flex-end;
 `;
 
-const IconContainer = styled.div`
-  display: flex;
-`;
-
-const LineIcon = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 3rem;
-  background: white;
-  margin-right: 1rem;
-`;
-
-const LineInner = styled.div`
-  width: 2.4rem;
-  height: 2.4rem;
-  border-radius: 2.4rem;
-  background: ${props => lineColors[props.line]};
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const VerticalLine = styled.div`
+  margin-left: 1.5rem;
+  width: 10px;
+  height: 16%;
+  border-left: 2px dotted #fff;
 `;
 
 const StyledButton = styled(Button)`
   color: white;
-  position: absolute;
-  right: 1rem;
+  width: 60%;
 `;
 
 const NowButton = styled.div`
@@ -139,40 +119,37 @@ export default class MakchaDetail extends Component {
           </LocContainer>
 
           <TimerContainer>
-            <>
-              <InfoContainer>
-                <IconContainer>
-                  <LineIcon>
-                    <LineInner line={line}>{lineChar[line]}</LineInner>
-                  </LineIcon>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "flex-start"
-                    }}
-                  >
-                    <Text
-                      size="smallFontSize"
-                      //  style={{ marginLeft: "0.6rem" }}
-                    >
-                      {endStationName + " 방향"}
-                    </Text>
-                    <Text size="largeFontSize" weight="bold">
-                      {startStationName + "역"}
-                    </Text>
-                  </div>
-                </IconContainer>
-              </InfoContainer>
+            <StationCardContainer>
+              <StationCard
+                line={line}
+                endStationName={endStationName}
+                startStationName={startStationName}
+              />
+              <VerticalLine />
+              <StationCard
+                line="2"
+                endStationName={endStationName}
+                startStationName={startStationName}
+              />
+            </StationCardContainer>
+            <CountdownContainer>
               <Countdown
                 value={deadline}
                 onFinish={this.onFinish}
                 valueStyle={{
                   color: "white",
-                  fontSize: fontSize.superLargeFontSize
+                  fontSize: fontSize.superLargeFontSize,
+                  lineHeight: 1
                 }}
               />
-            </>
+              <StyledButton
+                type="ghost"
+                shape="round"
+                onClick={this.props.onButtonPress}
+              >
+                목적지 재설정
+              </StyledButton>
+            </CountdownContainer>
           </TimerContainer>
 
           {/* <TextContainer>

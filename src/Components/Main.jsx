@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Spin, Icon, Button } from "antd";
 import OptinList from "./OptinList";
 import MakchaDetail from "./MakchaDetail";
+import DefaultOption from "./DefaultOption";
 import { Text, Container } from "./common";
 import { makchaApi, dataHandler } from "../api";
 
@@ -125,13 +126,14 @@ export default class Main extends Component {
             />
           </MakchaContainer>
           <ContentContainer>
-            <OptinList
+            {/* <OptinList
               taxi={taxi}
               sub={sub}
               defaultSub={defaultSub}
               bus={bus}
               busNSub={busNSub}
-            />
+            /> */}
+            <DefaultOption defaultSub={defaultSub} sub={sub} />
           </ContentContainer>
         </>
       );
