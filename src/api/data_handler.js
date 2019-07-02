@@ -18,44 +18,73 @@ export const dataHandler = data => {
   const taxi = taxiInfo;
 
   function handleSub() {
-    const { routeList, walkInfo } = subwayPathOptionList;
-    const routes = [];
+    sub = subwayPathOptionList;
+    const { routeList } = sub;
+    let subOnly = { subOnlyList: [], lineList: [] };
 
-    for (let idx = 0; idx < routeList.length; idx++) {
-      let { pathStationList, distance, price } = subwayPathOptionList.routeList[
-        Number(idx)
-      ];
-      let runTimeArr = [{ type: "도보", time: walkInfo.time * 60 }];
+    if (routeList) {
+      let routes = [];
+      routeList.sort((a, b) => a.totalTime - b.totalTime);
+      let minTime = routeList[0];
+      routeList.sort((a, b) => a.transferNum - b.transferNum);
+      let minTransferNum = routeList[0];
 
-      // store sum of runTime for each line
-      let cum = 0;
-      pathStationList.map(item => {
-        let time = item.runTime;
-        let type = item.line;
-        if (time !== null) {
-          time = parseInt(time.slice(0, 2)) * 60 + parseInt(time.slice(3));
-          cum += time;
-          return null;
-        } else {
-          runTimeArr.push({ type, time: cum });
-          cum = 0;
-          return null;
-        }
+      let temp = [];
+      if (minTime !== minTransferNum) temp.push(minTime);
+      temp.push(minTransferNum);
+
+      temp.map((eachRoute, idx) => {
+        const { distance, price, totalTime, pathList } = eachRoute;
+        // const route = [];
+        const runTime = [];
+        pathList.map(pathItem => {
+          let path = {};
+
+          switch (pathItem.type) {
+            case "BUS":
+              // BUS HANDLING
+              path = {};
+              path["icon"] = "fas fa-bus";
+              path["lines"] = pathItem.routes.map(line => line.name);
+              path["type"] = pathItem.routes[0].name;
+              path["time"] = pathItem.duration;
+              path["color"] = pathItem.routes[0].type.color;
+              return runTime.push(path);
+            case "SUBWAY":
+              // SUBWAY HANDLING
+              path = {};
+              path["icon"] = "fas fa-train";
+              path["stationName"] = pathItem.displayCode;
+              path["lines"] = pathItem.routes.map(line => line.name);
+              path["time"] = pathItem.duration;
+              path["type"] = pathItem.routes[0].name;
+              path["color"] = pathItem.routes[0].type.color;
+              if (idx == 0) {
+                subOnly = {
+                  subOnlyList: [...subOnly.subOnlyList, ...pathItem.stations],
+                  lineList: [
+                    ...subOnly.lineList,
+                    { lineName: path["type"], lineColor: path["color"] }
+                  ]
+                };
+              }
+              return runTime.push(path);
+            default:
+              path = { type: "도보" };
+              path["icon"] = "fas fa-walking";
+              path["time"] = pathItem.duration;
+              path["color"] = "#ccc";
+              return runTime.push(path);
+            // WALKING HANDLING
+          }
+        });
+        // route.map(item => runTime.push({ type: item.type, time: item.time }));
+        routes.push({ distance, price, totalTime, runTime });
       });
-
-      runTimeArr.push({
-        type: pathStationList[pathStationList.length - 1].line,
-        time: cum
-      });
-
-      let total = runTimeArr.reduce((a, x) => {
-        return a + x.time;
-      }, 0);
-      total += walkInfo.time;
-
-      routes.push({ runTime: runTimeArr, total, distance, price });
+      sub = { ...subwayPathOptionList, routes, subOnly };
+      console.log("sub");
+      console.log(sub);
     }
-    sub = { ...subwayPathOptionList, routes, walkInfo };
   }
 
   function handleBusNSub() {
@@ -74,7 +103,6 @@ export const dataHandler = data => {
 
       temp.map((eachRoute, idx) => {
         const { distance, price, totalTime, pathList } = eachRoute;
-        console.log(eachRoute);
         // const route = [];
         const runTime = [];
         pathList.map(pathItem => {

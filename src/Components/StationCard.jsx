@@ -28,7 +28,7 @@ const LineInner = styled.div`
   width: 2.4rem;
   height: 2.4rem;
   border-radius: 2.4rem;
-  background: ${props => lineColors[props.line]};
+  background: ${props => props.lineColor};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,12 +42,12 @@ const StationInfo = styled.div`
 `;
 
 const StationCard = props => {
-  const { line, endStationName, startStationName } = props;
+  const { lineColor, lineName, endStationName, startStationName } = props;
   return (
     <InfoContainer>
       <IconContainer>
         <LineIcon>
-          <LineInner line={line}>{lineChar[line]}</LineInner>
+          <LineInner lineColor={lineColor}>{lineName.slice(0, 1)}</LineInner>
         </LineIcon>
         <StationInfo>
           <Text
@@ -57,7 +57,7 @@ const StationCard = props => {
             {endStationName + " 방향"}
           </Text>
           <Text size="largeFontSize" weight="bold">
-            {startStationName + "역"}
+            {startStationName}
           </Text>
         </StationInfo>
       </IconContainer>

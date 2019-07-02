@@ -71,21 +71,22 @@ export default class MakchaDetail extends Component {
   constructor(props) {
     super(props);
 
-    const { defaultSub, addr } = props;
+    const { sub, addr } = props;
     this.state = {
-      defaultSub,
-      remain: defaultSub.remain,
+      sub,
+      remain: sub.routeList[0].remain,
       addr
     };
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (
-      prevProps.defaultInfo !== this.props.defaultInfo ||
+      prevProps.sub !== this.props.sub ||
       prevProps.addr !== this.props.addr
     ) {
-      const { defaultSub, addr } = this.props;
-      this.setState({ defaultSub, addr, remain: defaultSub.remain });
+      const { addr, sub } = this.props;
+      const { remain } = sub.routeList[0];
+      this.setState({ addr, remain });
     }
   }
 
@@ -94,15 +95,14 @@ export default class MakchaDetail extends Component {
   }
 
   renderDetail() {
-    const { defaultSub, remain, addr } = this.state;
+    const { remain, addr, sub } = this.state;
+    const { subOnly } = sub;
     const deadline = Date.now() + 1000 * remain;
+    const { subOnlyList, lineList } = subOnly;
 
     if (remain) {
-      const {
-        startStationName,
-        line,
-        endStationName
-      } = defaultSub.pathStationList[0];
+      const startStation = subOnlyList[0].displayName;
+      const endStation = subOnlyList[1].displayName;
 
       return (
         <>
@@ -121,15 +121,17 @@ export default class MakchaDetail extends Component {
           <TimerContainer>
             <StationCardContainer>
               <StationCard
-                line={line}
-                endStationName={endStationName}
-                startStationName={startStationName}
+                lineColor={lineList[0].lineColor}
+                lineName={lineList[0].lineName}
+                endStationName={endStation}
+                startStationName={startStation}
               />
               <VerticalLine />
               <StationCard
-                line="2"
-                endStationName={endStationName}
-                startStationName={startStationName}
+                lineColor={lineList[lineList.length - 1].lineColor}
+                lineName={lineList[lineList.length - 1].lineName}
+                endStationName={endStation}
+                startStationName={startStation}
               />
             </StationCardContainer>
             <CountdownContainer>
@@ -138,9 +140,11 @@ export default class MakchaDetail extends Component {
                 onFinish={this.onFinish}
                 valueStyle={{
                   color: "white",
-                  fontSize: fontSize.superLargeFontSize,
+                  // fontSize: fontSize.superLargeFontSize,
+                  fontSize: "2.4rem",
                   lineHeight: 1
                 }}
+                format="m분 ss초"
               />
               <StyledButton
                 type="ghost"

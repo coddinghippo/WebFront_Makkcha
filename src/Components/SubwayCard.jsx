@@ -4,12 +4,14 @@ import { lineColors } from "../Styles/_mixin";
 import { Card, Text, BarContainer, Bar, TextContainer } from "./common";
 
 const SubwayCard = props => {
-  const { defaultSub, walkInfo, total, price, runTime } = props;
+  const { totalTime, price, runTime, lastTime } = props;
+  console.log("props");
+  console.log(props);
 
   // Render SubwayBar for each route
-  const renderVehicleBar = (total, runTime) => {
+  const renderVehicleBar = (totalTime, runTime) => {
     return runTime.map(item => {
-      let length = Math.floor((Number(item.time) / total) * 100);
+      let length = Math.floor((Number(item.time) / totalTime) * 100);
       if (length < 24) length = 24;
       length = String(length) + "%";
       return (
@@ -18,19 +20,19 @@ const SubwayCard = props => {
           key={uuidv1()}
           style={{
             width: length,
-            backgroundColor: lineColors[item.type],
+            backgroundColor: item.color,
             color: "white"
           }}
         >
-          {Math.floor(Number(item.time) / 60)}분
+          {item.time}분
         </Bar>
       );
     });
   };
 
-  const renderVehicleIcon = (total, runTime) => {
+  const renderVehicleIcon = (totalTime, runTime) => {
     return runTime.map(item => {
-      let length = Math.floor((Number(item.time) / total) * 100);
+      let length = Math.floor((Number(item.time) / totalTime) * 100);
       let icon = "fas fa-train";
       if (length < 24) length = 24;
 
@@ -64,16 +66,16 @@ const SubwayCard = props => {
           지하철
         </Text>
         <Text weight="normal">
-          {Math.floor(total / 60)}분 소요 |{" "}
-          {String(Math.floor(price / 1000)) + "," + String(price % 1000)}원 |
-          막차 {defaultSub.lastTime.slice(0, 5)} | 도보 {walkInfo.time}분
+          <span>막차 {lastTime.slice(0, 5)}</span> | {totalTime}분 소요
+          {/* {String(Math.floor(price / 1000)) + "," + String(price % 1000)}원 |
+          도보? */}
         </Text>
       </TextContainer>
       <BarContainer style={{ marginBottom: 0 }}>
-        {renderVehicleBar(total, runTime)}
+        {renderVehicleBar(totalTime, runTime)}
       </BarContainer>
       <BarContainer style={{ marginTop: "0.5rem" }}>
-        {renderVehicleIcon(total, runTime)}
+        {renderVehicleIcon(totalTime, runTime)}
       </BarContainer>
     </Card>
   );

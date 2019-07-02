@@ -84,11 +84,10 @@ export default class Main extends Component {
     console.log("success");
 
     makchaApi.getData({ startX, startY, endX, endY }).then(res => {
-      const { bus, busNSub, defaultSub, sub, taxi } = dataHandler(res.data);
+      const { bus, busNSub, sub, taxi } = dataHandler(res.data);
       this.setState({
         bus,
         busNSub,
-        defaultSub,
         sub,
         taxi
       });
@@ -114,13 +113,13 @@ export default class Main extends Component {
   }
 
   renderMain() {
-    const { currentPos, bus, sub, busNSub, taxi, defaultSub } = this.state;
-    if (defaultSub) {
+    const { currentPos, bus, sub, busNSub, taxi } = this.state;
+    if (sub) {
       return (
         <>
           <MakchaContainer>
             <MakchaDetail
-              defaultSub={defaultSub}
+              sub={sub}
               addr={currentPos.addr}
               onButtonPress={this.onButtonPress.bind(this)}
             />
@@ -133,7 +132,7 @@ export default class Main extends Component {
               bus={bus}
               busNSub={busNSub}
             /> */}
-            <DefaultOption defaultSub={defaultSub} sub={sub} />
+            <DefaultOption sub={sub} />
           </ContentContainer>
         </>
       );
@@ -150,7 +149,6 @@ export default class Main extends Component {
   }
 
   render() {
-    // console.log(this.props, this.state);
     // const { taxiInfo, subwayPathOptionList, defaultInfo } = this.state.data;
     // const { currentPos, bus, sub, busNSub, taxi, defaultSub } = this.state;
     return <Container>{this.renderMain()}</Container>;

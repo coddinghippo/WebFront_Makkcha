@@ -9,8 +9,8 @@ export const fontSize = {
   smallFontSize: "0.7rem",
   normalFontSize: "1rem",
   largeFontSize: "1.2rem",
-  extraLargeFontSize: "2.4rem",
-  superLargeFontSize: "3.3rem"
+  extraLargeFontSize: "2rem",
+  superLargeFontSize: "3rem"
 };
 
 export const lineColors = {
