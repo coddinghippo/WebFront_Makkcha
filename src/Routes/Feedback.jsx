@@ -42,11 +42,9 @@ const StyledTextArea = styled(TextArea)`
 const ButtonContainer = styled.div`
   display: flex;
   flex: 2;
-  width: 90%;
-  margin: 0 auto;
-  display: flex;
+  justify-content: center;
   align-items: flex-end;
-  padding-bottom: 2rem;
+  padding: 1rem;
 `;
 
 class Feedback extends Component {
@@ -90,8 +88,8 @@ class Feedback extends Component {
                 autosize={{ minRows: 1, maxRows: 5 }}
                 style={{
                   border: "none",
-                  borderBottom: "1px solid #fff",
-                  textAlign: "center"
+                  borderBottom: "1px solid #fff"
+                  // textAlign: "center"
                 }}
               />
             )}
@@ -105,7 +103,7 @@ class Feedback extends Component {
             block
             onClick={this.handleSubmit}
           >
-            확인
+            <Link to="/">확인</Link>
           </Button>
           <Button shape="round" type="ghost" style={{ color: "white" }} block>
             <Link to="/">취소</Link>

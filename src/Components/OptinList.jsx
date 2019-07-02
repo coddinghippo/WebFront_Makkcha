@@ -14,7 +14,7 @@ const ButtonContainer = styled.div`
   justify-content: space-around;
   width: 100%;
   bottom: 0;
-  padding: 1.3rem;
+  // padding: 1.3rem;
 `;
 
 const Option = styled.div`
@@ -37,6 +37,8 @@ const Option = styled.div`
 // `;
 
 const StyledButton = styled(Button)`
+  width: 90%;
+  margin-bottom: 1rem;
   height: 3rem;
   background: #000033;
   border: none;
@@ -111,16 +113,9 @@ export default class OptinList extends Component {
           {this.renderBusNSubwayRoutes()}
         </Option>
         <ButtonContainer>
-          <Link to="/feedback">
-            <StyledButton
-              type="primary"
-              shape="round"
-              size="large"
-              block={true}
-            >
-              피드백 하기
-            </StyledButton>
-          </Link>
+          <StyledButton type="primary" shape="round" size="large" block={true}>
+            <Link to="/feedback">피드백 하기</Link>
+          </StyledButton>
         </ButtonContainer>
       </Container>
     );
