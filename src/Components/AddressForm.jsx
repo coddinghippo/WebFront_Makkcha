@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { makchaApi } from "../api";
 import { fontSize } from "../Styles/_mixin";
 import { Container as DefaultContainer } from "./common";
+import { stationInfo } from "../static/station_info";
+import Hangul from "hangul-js";
 
 const { Item } = Form;
 
@@ -122,6 +124,24 @@ class AddressForm extends Component {
     });
   };
 
+  onInputChange = e => {
+    e.preventDefault();
+    let result = new Array();
+    let currentIdx = 0;
+    const max = 5;
+
+    let keyword = e.target.value;
+
+    for (let idx in stationInfo) {
+      if (Hangul.search(stationInfo[idx].long_name, keyword) === 0) {
+        result[currentIdx] = stationInfo[idx];
+        currentIdx++;
+        if (currentIdx === max) break;
+      }
+    }
+    console.log(result); //여기 저장
+  };
+
   render() {
     const {
       getFieldDecorator,
@@ -144,6 +164,7 @@ class AddressForm extends Component {
             })(
               <StyledInput
                 placeholder="집 근처 역을 입력해 주세요"
+                onChange={this.onInputChange}
                 onPressEnter={this.handleSubmit}
               />
             )}
