@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { Spin, Icon, Button } from "antd";
-import OptinList from "./OptinList";
 import MakchaDetail from "./MakchaDetail";
 import DefaultOption from "./DefaultOption";
 import { Text, Container } from "./common";

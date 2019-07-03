@@ -1,5 +1,3 @@
-const busLines = {};
-
 export const dataHandler = data => {
   const {
     busAndSubwayPathOptionList,
@@ -10,7 +8,6 @@ export const dataHandler = data => {
 
   console.log(data);
 
-  // if (subwayPathOptionList) {
   let sub, busNSub, bus;
   const defaultSub = subwayPathOptionList
     ? subwayPathOptionList.routeList[0]
@@ -78,7 +75,6 @@ export const dataHandler = data => {
             // WALKING HANDLING
           }
         });
-        // route.map(item => runTime.push({ type: item.type, time: item.time }));
         routes.push({ distance, price, totalTime, runTime });
       });
       sub = { ...subwayPathOptionList, routes, subOnly };
@@ -136,11 +132,9 @@ export const dataHandler = data => {
             // WALKING HANDLING
           }
         });
-        // route.map(item => runTime.push({ type: item.type, time: item.time }));
         routes.push({ distance, price, totalTime, runTime });
       });
       busNSub = { ...busAndSubwayPathOptionList, routes };
-      // console.log(busNSub);
     }
   }
 
@@ -156,5 +150,4 @@ export const dataHandler = data => {
 
   main();
   return { taxi, sub, busNSub, bus, defaultSub };
-  // } else return null;
 };

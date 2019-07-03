@@ -4,6 +4,7 @@ import { Button, Statistic, Icon } from "antd";
 import { fontSize, lineColors, lineChar } from "../Styles/_mixin";
 import { Text } from "./common";
 import StationCard from "./StationCard";
+import { askForPermissioToReceiveNotifications } from "../push-notification";
 
 const { Countdown } = Statistic;
 
@@ -144,14 +145,14 @@ export default class MakchaDetail extends Component {
                   fontSize: "2.4rem",
                   lineHeight: 1
                 }}
-                format="m분 ss초"
+                format="H시간 m분 ss초"
               />
               <StyledButton
                 type="ghost"
                 shape="round"
-                onClick={this.props.onButtonPress}
+                onClick={askForPermissioToReceiveNotifications}
               >
-                목적지 재설정
+                푸시 알림
               </StyledButton>
             </CountdownContainer>
           </TimerContainer>
