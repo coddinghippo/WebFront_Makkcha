@@ -166,20 +166,6 @@ export default class MakchaDetail extends Component {
               </StyledButton>
             </CountdownContainer>
           </TimerContainer>
-
-          {/* <TextContainer>
-            <Text size="largeFontSize" weight="bold" lineHeight="1.5rem">
-              막차
-            </Text>
-
-            <StyledButton
-              type="ghost"
-              shape="round"
-              onClick={this.props.onButtonPress}
-            >
-              목적지 재설정
-            </StyledButton>
-          </TextContainer> */}
         </>
       );
     } else return null;

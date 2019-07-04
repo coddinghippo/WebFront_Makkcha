@@ -12,7 +12,7 @@ const SubwayCard = props => {
   const renderVehicleBar = (totalTime, runTime) => {
     return runTime.map(item => {
       let length = Math.floor((Number(item.time) / totalTime) * 100);
-      if (length < 24) length = 24;
+      // if (length < 24 && item.type !== "도보") length = 24;
       length = String(length) + "%";
       return (
         <Bar
@@ -24,7 +24,7 @@ const SubwayCard = props => {
             color: "white"
           }}
         >
-          {item.time}분
+          {item.type !== "도보" ? `${item.time}분` : null}
         </Bar>
       );
     });
@@ -34,7 +34,7 @@ const SubwayCard = props => {
     return runTime.map(item => {
       let length = Math.floor((Number(item.time) / totalTime) * 100);
       let icon = "fas fa-train";
-      if (length < 24) length = 24;
+      // if (length < 24 && item.type !== "도보") length = 24;
 
       length = String(length) + "%";
       if (item.type === "도보") icon = "fas fa-walking";
