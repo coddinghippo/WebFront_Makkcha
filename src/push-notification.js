@@ -18,8 +18,6 @@ export const askForPermissioToReceiveNotifications = async () => {
     const token = await messaging.getToken();
     localStorage.setItem("token", token);
     console.log("userToken:", token);
-    let html = document.getElementById("root");
-    html.innerText = token;
 
     return token;
   } catch (error) {

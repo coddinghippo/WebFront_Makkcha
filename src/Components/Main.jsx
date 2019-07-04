@@ -54,7 +54,11 @@ export default class Main extends Component {
       const { endX, endY } = JSON.parse(
         localStorage.getItem("loc")
       ).endLocation;
-      this.setState({ currentPos: { ...this.state.currentPos, endX, endY } });
+      const token = localStorage.getItem("token");
+      this.setState({
+        currentPos: { ...this.state.currentPos, endX, endY },
+        token
+      });
     }
 
     navigator.geolocation.getCurrentPosition(pos => {
@@ -112,7 +116,7 @@ export default class Main extends Component {
   }
 
   renderMain() {
-    const { currentPos, bus, sub, busNSub, taxi } = this.state;
+    const { currentPos, bus, sub, busNSub, taxi, token } = this.state;
     if (sub) {
       return (
         <>
@@ -131,7 +135,7 @@ export default class Main extends Component {
               bus={bus}
               busNSub={busNSub}
             /> */}
-            <DefaultOption sub={sub} />
+            <DefaultOption sub={sub} token={token} />
           </ContentContainer>
         </>
       );

@@ -51,13 +51,13 @@ const VerticalLine = styled.div`
   border-left: 2px dotted #fff;
 `;
 
-const StyledButton = styled(Button)`
-  color: white;
+const StyledButton = styled.button`
+  color: ${props => (props.toggle ? "#1890ff" : "white")};
+  padding: 0.5rem;
+  background: #000033;
   width: 60%;
-  &::selection {
-    background: none !important;
-    border: white;
-  }
+  border: ${props => (props.toggle ? "1px solid #1890ff" : "1px solid white")};
+  border-radius: 2rem;
 `;
 
 const NowButton = styled.div`
@@ -159,10 +159,8 @@ export default class MakchaDetail extends Component {
               />
 
               <StyledButton
-                type={this.state.toggle ? "primary" : "default"}
-                ghost
-                shape="round"
                 onClick={() => this.onPushButtonClick()}
+                toggle={this.state.toggle}
               >
                 푸시 알림
               </StyledButton>
