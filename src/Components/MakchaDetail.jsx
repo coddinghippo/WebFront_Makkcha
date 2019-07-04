@@ -56,9 +56,7 @@ const StyledButton = styled(Button)`
   width: 60%;
   &::selection {
     background: none !important;
-  }
-  & :after {
-    border: none;
+    border: white;
   }
 `;
 

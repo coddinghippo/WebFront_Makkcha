@@ -16,8 +16,10 @@ export const askForPermissioToReceiveNotifications = async () => {
     const messaging = firebase.messaging();
     await messaging.requestPermission();
     const token = await messaging.getToken();
+    localStorage.setItem("token", token);
     console.log("userToken:", token);
-    window.alert(token);
+    let html = document.getElementById("root");
+    html.innerText = token;
 
     return token;
   } catch (error) {
