@@ -76,7 +76,8 @@ export default class MakchaDetail extends Component {
     this.state = {
       sub,
       remain: sub.routeList[0].remain,
-      addr
+      addr,
+      toggle: false
     };
   }
 
@@ -89,6 +90,11 @@ export default class MakchaDetail extends Component {
       const { remain } = sub.routeList[0];
       this.setState({ addr, remain });
     }
+  }
+
+  onPushButtonClick() {
+    askForPermissioToReceiveNotifications();
+    this.setState({ toggle: !this.state.toggle });
   }
 
   onFinish() {
@@ -148,9 +154,10 @@ export default class MakchaDetail extends Component {
                 format="H시간 m분 ss초"
               />
               <StyledButton
-                type="ghost"
+                type={this.state.toggle ? "primary" : "default"}
+                ghost
                 shape="round"
-                onClick={askForPermissioToReceiveNotifications}
+                onClick={() => this.onPushButtonClick()}
               >
                 푸시 알림
               </StyledButton>
