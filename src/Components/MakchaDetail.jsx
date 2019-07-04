@@ -54,6 +54,12 @@ const VerticalLine = styled.div`
 const StyledButton = styled(Button)`
   color: white;
   width: 60%;
+  &::selection {
+    background: none !important;
+  }
+  & :after {
+    border: none;
+  }
 `;
 
 const NowButton = styled.div`
@@ -147,12 +153,13 @@ export default class MakchaDetail extends Component {
                 onFinish={this.onFinish}
                 valueStyle={{
                   color: "white",
-                  // fontSize: fontSize.superLargeFontSize,
-                  fontSize: "2.4rem",
+                  fontSize: fontSize.superLargeFontSize,
+                  // fontSize: "2.4rem",
                   lineHeight: 1
                 }}
-                format="H시간 m분 ss초"
+                // format="H시간 m분 ss초"
               />
+
               <StyledButton
                 type={this.state.toggle ? "primary" : "default"}
                 ghost
