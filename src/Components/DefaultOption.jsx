@@ -6,33 +6,34 @@ import SubwayCard from "./SubwayCard";
 import { Container } from "./common";
 
 const Item = styled(Timeline.Item)`
-  margin: 2rem;
+  margin-left: 2rem;
 `;
+
+const SubwayContainer = styled.div``;
 
 const TimelineContainer = styled.div`
+  margin-top: 2rem;
   padding: 1rem;
-`;
-
-const LineIcon = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 3rem;
-  background: ${props => props.color};
-  margin-right: 1rem;
+  & li {
+    margin-top: 1rem;
+    & p {
+      margin-left: 1rem;
+    }
+  }
 `;
 
 const LineInner = styled.div`
   color: ${props => props.color};
-  width: 2rem;
-  height: 2rem;
-  border-radius: 2.4rem;
+  width: ${props => (props.type === "도보" ? "1rem" : "2rem")};
+  height: ${props => (props.type === "도보" ? "1rem" : "2rem")};
+  border-radius: ${props => (props.type === "도보" ? "1rem" : "2rem")};
+  border: 2px solid ${props => props.color};
   background: white;
+  // margin-right: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 1rem;
 `;
 
 class DefaultOption extends Component {
@@ -64,20 +65,21 @@ class DefaultOption extends Component {
     console.log(`sub`);
     console.log(sub);
     const { runTime } = sub.routes[0];
+
     return runTime.map((route, idx) => {
       return (
         <Item
           key={idx}
           dot={
-            <LineIcon color={route.color}>
-              <LineInner color={route.color}>
-                {route.type === "도보" ? "도보" : route.type.slice(0, 1)}
-              </LineInner>
-            </LineIcon>
+            <LineInner color={route.color} type={route.type}>
+              {route.type === "도보" ? null : route.type.slice(0, 1)}
+            </LineInner>
           }
         >
-          <span>{route.stationName ? route.stationName + " | " : null}</span>
-          <span>{route.time}분 소요</span>
+          <p>
+            {route.stationName ? route.stationName + " | " : null}
+            {route.time}분 소요
+          </p>
         </Item>
       );
     });
@@ -86,7 +88,7 @@ class DefaultOption extends Component {
   render() {
     return (
       <Container>
-        {this.renderSubwayRoutes()}
+        <SubwayContainer>{this.renderSubwayRoutes()}</SubwayContainer>
         <TimelineContainer>
           <Timeline>{this.renderTimeline()}</Timeline>
         </TimelineContainer>
