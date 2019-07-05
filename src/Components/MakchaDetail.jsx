@@ -41,7 +41,7 @@ const StationCardContainer = styled.div`
   display: flex;
   margin-top: 1rem;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
 
 const CountdownContainer = styled(StationCardContainer)`
@@ -50,7 +50,7 @@ const CountdownContainer = styled(StationCardContainer)`
   height: 100%;
   margin: 0;
   align-items: flex-end;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
 
 const VerticalLine = styled.div`

@@ -79,13 +79,14 @@ class DefaultOption extends Component {
 
     const lastTransfer = runTime[runTime.length - 1];
     const lastStationName = subOnlyList[subOnlyList.length - 1].displayName;
+    const routes = runTime.slice();
 
-    runTime.push({
+    routes.push({
       ...lastTransfer,
       stationName: lastStationName
     });
 
-    return runTime.map((route, idx) => {
+    return routes.map((route, idx) => {
       return route.type !== "도보" ? (
         <Item
           key={idx}
@@ -101,7 +102,7 @@ class DefaultOption extends Component {
               {route.stationName}
             </Text>
             <Text>
-              {runTime[idx - 1].type !== route.type && idx !== 1
+              {routes[idx - 1].type !== route.type && idx !== 1
                 ? `${route.type} 환승`
                 : null}
             </Text>
