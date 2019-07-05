@@ -10,8 +10,6 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
 
-// const makchaCache = "makcha-1.0.1";
-
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
     // [::1] is the IPv6 localhost address.
@@ -35,7 +33,7 @@ export function register(config) {
 
     window.addEventListener("load", () => {
       // const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
-      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+      const swUrl = `${process.env.PUBLIC_URL}/sw.js`;
 
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
@@ -72,10 +70,10 @@ function registerValidSW(swUrl, config) {
               // At this point, the updated precached content has been fetched,
               // but the previous service worker will still serve the older
               // content until all client tabs are closed.
-              // console.log(
-              //   "New content is available and will be used when all " +
-              //     "tabs for this page are closed. See https://bit.ly/CRA-PWA."
-              // );
+              console.log(
+                "New content is available and will be used when all " +
+                  "tabs for this page are closed. See https://bit.ly/CRA-PWA."
+              );
 
               // if (onUpdate) onUpdate();
               // Execute callback
@@ -86,7 +84,7 @@ function registerValidSW(swUrl, config) {
               // At this point, everything has been precached.
               // It's the perfect time to display a
               // "Content is cached for offline use." message.
-              console.log("Content is cached for offline use.");
+              console.log("Content is cached for offline use!");
 
               // Execute callback
               if (config && config.onSuccess) {
