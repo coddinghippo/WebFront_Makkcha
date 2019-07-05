@@ -32,12 +32,14 @@ export const dataHandler = data => {
       temp.push(minTransferNum);
 
       temp.map((eachRoute, idx) => {
-        const { distance, price, totalTime, pathList } = eachRoute;
+        const { distance, price, pathList } = eachRoute;
         // const route = [];
         const runTime = [];
+        let totalTime = 0;
+
         pathList.map(pathItem => {
           let path = {};
-
+          totalTime += pathItem.duration;
           switch (pathItem.type) {
             case "BUS":
               // BUS HANDLING

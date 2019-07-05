@@ -98,6 +98,16 @@ export default class MakchaDetail extends Component {
     }
   }
 
+  onDestinationButtonClick() {
+    const userToken = localStorage.getItem("userToken");
+
+    if (this.state.pushAllow) makchaApi.disallowPush(userToken);
+    localStorage.setItem("loc", "");
+    localStorage.setItem("userToken", "");
+    this.setState({ pushAllow: false });
+    this.props.toggleComponent();
+  }
+
   onPushButtonClick() {
     // When user allows push
     const userToken = localStorage.getItem("userToken");
@@ -110,7 +120,9 @@ export default class MakchaDetail extends Component {
 
       if (!userToken) {
         askForPermissioToReceiveNotifications().then(userToken => {
-          localStorage.setItem("userToken", userToken);
+          if (userToken !== null && userToken !== undefined) {
+            localStorage.setItem("userToken", userToken);
+          }
           makchaApi.allowPush(formData, userToken);
           this.setState({ pushAllow: !this.state.pushAllow });
         });
@@ -186,10 +198,10 @@ export default class MakchaDetail extends Component {
                   style={{
                     width: "6rem"
                   }}
-                  onClick={() => this.onPushButtonClick()}
-                  pushAllow={this.state.pushAllow}
+                  onClick={() => this.onDestinationButtonClick()}
+                  pushAllow={false}
                 >
-                  <i class="fas fa-home" />
+                  <i className="fas fa-home" />
                   {startStation}
                 </StyledButton>
                 <StyledButton

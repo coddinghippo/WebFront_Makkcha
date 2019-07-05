@@ -137,6 +137,7 @@ export default class Main extends Component {
               onButtonPress={this.onButtonPress.bind(this)}
               pushAllow={pushAllow}
               userToken={userToken}
+              toggleComponent={this.props.toggleComponent}
             />
           </MakchaContainer>
           <ContentContainer>
