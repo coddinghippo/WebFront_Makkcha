@@ -52,6 +52,7 @@ const StyledItem = styled(Item)`
   }
   & .ant-input {
     border-radius: 0;
+    font-size: ${fontSize.largeFontSize} !important;
   }
 `;
 

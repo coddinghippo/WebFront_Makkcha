@@ -13,7 +13,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
-  padding-bottom: 0;
   color: white;
   flex: inherit;
   max-height: 35vh;
@@ -31,7 +30,7 @@ const TimerContainer = styled.div`
   display: flex;
   flex: 4;
   padding-top: 2rem;
-  padding-bottom: 1.5rem;
+  padding-bottom: 1rem;
   justify-content: space-between;
   align-items: center;
 `;
