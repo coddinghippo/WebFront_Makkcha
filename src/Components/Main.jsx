@@ -88,6 +88,7 @@ export default class Main extends Component {
 
     makchaApi.getData({ startX, startY, endX, endY }).then(res => {
       const { bus, busNSub, sub, taxi, pushAllow } = dataHandler(res.data);
+      console.log("push", pushAllow);
       this.setState({
         bus,
         busNSub,

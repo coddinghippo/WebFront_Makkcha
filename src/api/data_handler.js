@@ -3,7 +3,8 @@ export const dataHandler = data => {
     busAndSubwayPathOptionList,
     busPathOptionList,
     taxiInfo,
-    subwayPathOptionList
+    subwayPathOptionList,
+    pushAllow
   } = data;
 
   console.log(data);
@@ -149,5 +150,5 @@ export const dataHandler = data => {
   }
 
   main();
-  return { taxi, sub, busNSub, bus, defaultSub };
+  return { taxi, sub, busNSub, bus, defaultSub, pushAllow };
 };
