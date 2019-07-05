@@ -54,10 +54,10 @@ export default class Main extends Component {
       const { endX, endY } = JSON.parse(
         localStorage.getItem("loc")
       ).endLocation;
-      const token = localStorage.getItem("token");
+      const userToken = localStorage.getItem("userToken");
       this.setState({
         currentPos: { ...this.state.currentPos, endX, endY },
-        token
+        userToken
       });
     }
 
@@ -87,12 +87,13 @@ export default class Main extends Component {
     console.log("success");
 
     makchaApi.getData({ startX, startY, endX, endY }).then(res => {
-      const { bus, busNSub, sub, taxi } = dataHandler(res.data);
+      const { bus, busNSub, sub, taxi, pushAllow } = dataHandler(res.data);
       this.setState({
         bus,
         busNSub,
         sub,
-        taxi
+        taxi,
+        pushAllow
       });
     });
   }
@@ -116,7 +117,15 @@ export default class Main extends Component {
   }
 
   renderMain() {
-    const { currentPos, bus, sub, busNSub, taxi, token } = this.state;
+    const {
+      currentPos,
+      bus,
+      sub,
+      busNSub,
+      taxi,
+      pushAllow,
+      userToken
+    } = this.state;
     if (sub) {
       return (
         <>
@@ -125,6 +134,8 @@ export default class Main extends Component {
               sub={sub}
               addr={currentPos.addr}
               onButtonPress={this.onButtonPress.bind(this)}
+              pushAllow={pushAllow}
+              userToken={userToken}
             />
           </MakchaContainer>
           <ContentContainer>
@@ -135,7 +146,7 @@ export default class Main extends Component {
               bus={bus}
               busNSub={busNSub}
             /> */}
-            <DefaultOption sub={sub} token={token} />
+            <DefaultOption sub={sub} />
           </ContentContainer>
         </>
       );

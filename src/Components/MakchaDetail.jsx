@@ -4,6 +4,7 @@ import { Button, Statistic, Icon } from "antd";
 import { fontSize, lineColors, lineChar } from "../Styles/_mixin";
 import { Text } from "./common";
 import StationCard from "./StationCard";
+import { makchaApi } from "../api";
 import { askForPermissioToReceiveNotifications } from "../push-notification";
 
 const { Countdown } = Statistic;
@@ -52,11 +53,12 @@ const VerticalLine = styled.div`
 `;
 
 const StyledButton = styled.button`
-  color: ${props => (props.toggle ? "#1890ff" : "white")};
+  color: ${props => (props.pushAllow ? "#1890ff" : "white")};
   padding: 0.5rem;
   background: #000033;
   width: 60%;
-  border: ${props => (props.toggle ? "1px solid #1890ff" : "1px solid white")};
+  border: ${props =>
+    props.pushAllow ? "1px solid #1890ff" : "1px solid white"};
   border-radius: 2rem;
 `;
 
@@ -76,12 +78,12 @@ export default class MakchaDetail extends Component {
   constructor(props) {
     super(props);
 
-    const { sub, addr } = props;
+    const { sub, addr, pushAllow } = props;
     this.state = {
       sub,
       remain: sub.routeList[0].remain,
       addr,
-      toggle: false
+      pushAllow
     };
   }
 
@@ -97,8 +99,33 @@ export default class MakchaDetail extends Component {
   }
 
   onPushButtonClick() {
-    askForPermissioToReceiveNotifications();
-    this.setState({ toggle: !this.state.toggle });
+    // When user allows push
+    const userToken = localStorage.getItem("userToken");
+    if (!this.state.pushAllow) {
+      const userToken = localStorage.getItem("userToken");
+      const { sub } = this.props;
+      let formData = new FormData();
+
+      formData.append("lastSub", sub.routeList[0].lastTime);
+
+      if (!userToken) {
+        askForPermissioToReceiveNotifications().then(userToken => {
+          localStorage.setItem("userToken", userToken);
+          makchaApi.allowPush(formData, userToken);
+          this.setState({ pushAllow: !this.state.pushAllow });
+        });
+      } else {
+        makchaApi.allowPush(formData, userToken);
+        this.setState({ pushAllow: !this.state.pushAllow });
+      }
+    }
+
+    // When user disallows push
+    else {
+      makchaApi.disallowPush(userToken);
+      localStorage.setItem("userToken", "");
+      this.setState({ pushAllow: !this.state.pushAllow });
+    }
   }
 
   onFinish() {
@@ -160,7 +187,7 @@ export default class MakchaDetail extends Component {
 
               <StyledButton
                 onClick={() => this.onPushButtonClick()}
-                toggle={this.state.toggle}
+                pushAllow={this.state.pushAllow}
               >
                 푸시 알림
               </StyledButton>

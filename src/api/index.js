@@ -23,6 +23,14 @@ export const makchaApi = {
     api.get(
       `searchMakcha?startX=${startX}&startY=${startY}&endX=${endX}&endY=${endY}`
     ),
+  allowPush: (formData, userToken) => {
+    api.defaults.headers.common["userToken"] = userToken;
+    return api.post("push", formData);
+  },
+  disallowPush: userToken => {
+    api.defaults.headers.common["userToken"] = userToken;
+    return api.delete("push");
+  },
   getPosFromGPS: (x, y) =>
     kakaoApi.get(`geo/coord2address.json?x=${x}&y=${y}&input_coord=WGS84`),
   getPosFromAddr: addr => kakaoApi.get(`search/address.json?query=${addr}`),
