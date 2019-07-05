@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Timeline } from "antd";
+import { Link } from "react-router-dom";
+import { Timeline, Button } from "antd";
 import SubwayCard from "./SubwayCard";
 import { Container, Text } from "./common";
 import { fontSize } from "../Styles/_mixin";
@@ -45,6 +46,25 @@ const LineInner = styled.div`
 
 const TextContainer = styled.div`
   display: flex;
+`;
+
+const StyledButton = styled(Button)`
+  width: 90%;
+  height: 3rem;
+  background: #000033;
+  border-radius: 1.5rem;
+  margin-bottom: 1.3rem;
+  color: #fff;
+  // font-weight: bold;
+  font-size: ${fontSize.normalFontSize};
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  width: 100%;
+  postion: absolute;
+  bottom: 0;
+  justify-content: center;
 `;
 
 class DefaultOption extends Component {
@@ -127,6 +147,11 @@ class DefaultOption extends Component {
             {this.renderTimeline()}
           </Timeline>
         </TimelineContainer>
+        <ButtonContainer>
+          <StyledButton>
+            <Link to="/feedback">피드백 남기기</Link>
+          </StyledButton>
+        </ButtonContainer>
       </Container>
     );
   }

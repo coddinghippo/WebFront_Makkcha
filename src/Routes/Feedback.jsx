@@ -10,13 +10,13 @@ const { TextArea } = Input;
 const Textcontainer = styled.div`
   flex: 2;
   justify-content: space-around;
-  padding: 1rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   color: white;
 `;
 const FeedbackContainer = styled.div`
-  padding: 1rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   flex: 6;
@@ -34,7 +34,7 @@ const StyledForm = styled(Form)`
 const StyledTextArea = styled(TextArea)`
   line-height: 2rem;
   background: #000033;
-  border-bottom: 1px solid #fff;
+  border: 1px solid #fff;
   color: white;
   font-size: 1.2rem;
 `;
@@ -44,7 +44,7 @@ const ButtonContainer = styled.div`
   flex: 2;
   justify-content: center;
   align-items: flex-end;
-  padding: 1rem;
+  padding: 2rem;
 `;
 
 class Feedback extends Component {
@@ -85,12 +85,12 @@ class Feedback extends Component {
               <StyledTextArea
                 placeholder="피드백을 입력해주세요"
                 // onPressEnter={this.handleSubmit}
-                autosize={{ minRows: 1, maxRows: 5 }}
-                style={{
-                  border: "none",
-                  borderBottom: "1px solid #fff"
-                  // textAlign: "center"
-                }}
+                autosize={{ minRows: 8, maxRows: 5 }}
+                style={
+                  {
+                    // textAlign: "center"
+                  }
+                }
               />
             )}
           </StyledForm>

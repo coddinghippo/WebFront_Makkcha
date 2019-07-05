@@ -3,7 +3,7 @@
 // Service Worker
 
 // Cache name
-const makchaCache = "cache_v1.0.0";
+const makchaCache = "cache_v1.0.1";
 
 // Static assets to cache on install
 const staticCache = [];
