@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Form, Input, Button, AutoComplete } from "antd";
 import styled from "styled-components";
-import uuidv1 from "uuid/v1";
 import { makchaApi } from "../api";
 import { fontSize } from "../Styles/_mixin";
 import { Container as DefaultContainer } from "./common";
