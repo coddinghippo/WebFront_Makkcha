@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, AutoComplete } from "antd";
 import styled from "styled-components";
+import uuidv1 from "uuid/v1";
 import { makchaApi } from "../api";
 import { fontSize } from "../Styles/_mixin";
 import { Container as DefaultContainer } from "./common";
@@ -11,8 +12,6 @@ const { Item } = Form;
 
 const Container = styled(DefaultContainer)`
   background: #000033;
-  // justify-content: center;
-  // align-items: center;
   &.slick-slide {
     text-align: center;
     height: 160px;
@@ -48,12 +47,18 @@ const StyledItem = styled(Item)`
   justify-content: center;
   align-items: center;
   width: 80%;
+  & .ant-select-search__field__wrap {
+    background: #000033;
+  }
+  & .ant-input {
+    border-radius: 0;
+  }
 `;
 
 const StyledInput = styled(Input)`
   width: 100%;
   border: none;
-  background: #000033;
+  background: "#000033"
   text-align: center;
   color: white;
   border-bottom: 1px solid white;
@@ -61,7 +66,6 @@ const StyledInput = styled(Input)`
     border-bottom: 1px solid white;
   }
   transition: none;
-  border-radius: 0;
   font-size: ${fontSize.largeFontSize};
 `;
 
@@ -84,7 +88,15 @@ const StyledButton = styled(Button)`
   font-size: ${fontSize.largeFontSize};
 `;
 
+const StationOption = styled.p`
+  color: white;
+`;
+
+// Class
+// Class
+// Class
 class AddressForm extends Component {
+  state = { selected: "", searchRes: {} };
   componentDidMount() {
     this.props.form.validateFields();
   }
@@ -115,34 +127,63 @@ class AddressForm extends Component {
       .then(this.props.toggleComponent);
   }
 
+  // setCache() {
+  //   const { selected } = this.state;
+  //   const { pointx, pointy } = selected;
+  //   const endLocation = { endX: pointx, endY: pointy };
+  //   return new Promise(resolve => {
+  //     localStorage.setItem(
+  //       "loc",
+  //       JSON.stringify({ endLocation, stnName: selected.display_name })
+  //     );
+  //   });
+  // }
+
   handleSubmit = e => {
+    const { selected } = this.state;
+    const { pointx, pointy } = selected;
+    const endLocation = { endX: pointx, endY: pointy };
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        this.getPos(values.address);
-      } else console.log(err);
+    localStorage.setItem(
+      "loc",
+      JSON.stringify({ endLocation, stnName: selected.display_name })
+    );
+    this.props.toggleComponent();
+  };
+
+  onInputChange = value => {
+    const { searchRes } = this.state;
+    Object.keys(searchRes).forEach(item => {
+      if (item === value) this.setState({ selected: searchRes[value] });
     });
   };
 
-  onInputChange = e => {
-    e.preventDefault();
-    let result = new Array();
+  handleSearch = value => {
+    let keyword = value;
+    let result = {};
     let currentIdx = 0;
     const max = 5;
 
-    let keyword = e.target.value;
-
     for (let idx in stationInfo) {
       if (Hangul.search(stationInfo[idx].long_name, keyword) === 0) {
-        result[currentIdx] = stationInfo[idx];
+        result[stationInfo[idx].display_name] = stationInfo[idx];
         currentIdx++;
         if (currentIdx === max) break;
       }
     }
-    console.log(result); //여기 저장
+
+    this.setState({
+      dataSource: !value ? [] : Object.keys(result),
+      searchRes: result
+    });
   };
 
+  setSelectToState(val) {
+    this.setState({ selected: val });
+  }
+
   render() {
+    const { dataSource } = this.state;
     const {
       getFieldDecorator,
       getFieldError,
@@ -162,13 +203,29 @@ class AddressForm extends Component {
                 { required: false, message: "집 근처 역을 입력해 주세요!" }
               ]
             })(
-              <StyledInput
-                placeholder="집 근처 역을 입력해 주세요"
+              // <StyledInput
+              //   placeholder="집 근처 역을 입력해 주세요"
+              //   onChange={this.onInputChange}
+              //   onPressEnter={this.handleSubmit}
+              // />
+              <AutoComplete
+                dataSource={dataSource}
+                style={{ width: 200 }}
                 onChange={this.onInputChange}
-                onPressEnter={this.handleSubmit}
+                onSearch={this.handleSearch}
+                style={{ background: "#000033", border: "none" }}
+                children={
+                  <StyledInput
+                    placeholder="집 근처 역을 입력해 주세요"
+                    onChange={this.onInputChange}
+                    onPressEnter={this.handleSubmit}
+                  />
+                }
+                // placeholder="집 근처 역을 입력해 주세요"
               />
             )}
           </StyledItem>
+          {/* {this.renderSearchRes()} */}
         </StyledForm>
         <ButtonContainer>
           <StyledButton type="secondary" onClick={this.handleSubmit}>
