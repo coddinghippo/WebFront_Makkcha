@@ -29,23 +29,6 @@ self.addEventListener("activate", e => {
 self.addEventListener("fetch", e => {
   // Cache with Network Fallback
   let res = caches.match(e.request).then(res => {
-    // Check valid SW
-    const contentType = res.headers.get("content-type");
-    if (
-      res.status === 404 ||
-      (contentType != null && contentType.indexOf("javascript") === -1)
-    ) {
-      // No service worker found. Probably a different app. Reload the page.
-      navigator.serviceWorker.ready.then(registration => {
-        registration.unregister().then(() => {
-          window.location.reload();
-        });
-      });
-    } else {
-      // Service worker found. Proceed as normal.
-      registerValidSW(swUrl, config);
-    }
-
     // Check cache has response
     if (res) return res;
 
