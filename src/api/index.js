@@ -11,14 +11,12 @@ localStorage.setItem("Uid", Uid);
 
 const api = axios.create({
   baseURL: apiURL,
-  headers: { Uid }
+  headers: userToken ? { Uid, userToken } : { Uid }
 });
 
 const kakaoApi = axios.create({
   baseURL: "https://dapi.kakao.com/v2/local/",
-  headers: userToken
-    ? { Authorization: `KakaoAK ${keys.KakaoAK}`, userToken }
-    : { Authorization: `KakaoAK ${keys.KakaoAK}` }
+  headers: { Authorization: `KakaoAK ${keys.KakaoAK}` }
 });
 
 export const makchaApi = {
