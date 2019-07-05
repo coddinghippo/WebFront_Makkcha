@@ -8,7 +8,7 @@ import { makchaApi, dataHandler } from "../api";
 
 const ContentContainer = styled.div`
   display: flex;
-  flex: 5;
+  flex: 2;
   justify-content: center;
   & .anticon-spin {
     position: absolute;
@@ -18,7 +18,8 @@ const ContentContainer = styled.div`
 
 const MakchaContainer = styled.div`
   display: flex;
-  flex: 2;
+  flex: 1;
+  max-height: 16rem;
 `;
 
 const SpinContainer = styled.div`
@@ -148,7 +149,7 @@ export default class Main extends Component {
               bus={bus}
               busNSub={busNSub}
             /> */}
-            <DefaultOption sub={sub} />
+            <DefaultOption sub={sub} subOnlyList={sub.subOnly.subOnlyList} />
           </ContentContainer>
         </>
       );

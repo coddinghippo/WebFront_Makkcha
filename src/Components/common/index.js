@@ -27,8 +27,8 @@ export const Bar = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 0.8rem;
-  height: 1.2rem;
+  font-size: ${props => props.size};
+  height: 1rem;
   &:first-of-type {
     border-top-left-radius: 3rem;
     border-bottom-left-radius: 3rem;

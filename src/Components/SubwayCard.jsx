@@ -1,6 +1,6 @@
 import React from "react";
 import uuidv1 from "uuid/v1";
-import { lineColors } from "../Styles/_mixin";
+import { lineColors, fontSize } from "../Styles/_mixin";
 import { Card, Text, BarContainer, Bar, TextContainer } from "./common";
 
 const SubwayCard = props => {
@@ -18,6 +18,7 @@ const SubwayCard = props => {
         <Bar
           className="haha"
           key={uuidv1()}
+          size={fontSize.smallFontSize}
           style={{
             width: length,
             backgroundColor: item.color,
@@ -49,7 +50,10 @@ const SubwayCard = props => {
         >
           <i
             className={icon}
-            style={{ color: lineColors[item.type], fontSize: "0.8rem" }}
+            style={{
+              color: lineColors[item.type],
+              fontSize: fontSize.smallFontSize
+            }}
           >
             {" "}
             {item.type === "도보" ? null : item.type}
@@ -62,7 +66,7 @@ const SubwayCard = props => {
   return (
     <Card>
       <TextContainer>
-        <Text size="largeFontSize" weight="bold" lineHeight="2rem">
+        <Text size="largeFontSize" weight="bold" lineHeight="3rem">
           지하철
         </Text>
         <Text weight="normal">

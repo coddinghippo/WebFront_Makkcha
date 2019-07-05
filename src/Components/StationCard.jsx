@@ -17,17 +17,17 @@ const LineIcon = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 3rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 2.4rem;
   background: white;
   margin-right: 1rem;
 `;
 
 const LineInner = styled.div`
-  width: 2.4rem;
-  height: 2.4rem;
-  border-radius: 2.4rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 2rem;
   background: ${props => props.lineColor};
   display: flex;
   justify-content: center;

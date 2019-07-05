@@ -12,7 +12,7 @@ const { Countdown } = Statistic;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  padding: 1.5rem;
   padding-bottom: 0;
   color: white;
   flex: inherit;
@@ -29,20 +29,28 @@ const LocContainer = styled.div`
 
 const TimerContainer = styled.div`
   display: flex;
-  flex: 3;
+  flex: 4;
+  padding-top: 2rem;
+  padding-bottom: 1.5rem;
   justify-content: space-between;
   align-items: center;
 `;
 
 const StationCardContainer = styled.div`
-  height: 70%;
+  height: 100%;
   display: flex;
+  margin-top: 1rem;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
 `;
 
 const CountdownContainer = styled(StationCardContainer)`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
   align-items: flex-end;
+  justify-content: space-around;
 `;
 
 const VerticalLine = styled.div`
@@ -56,7 +64,8 @@ const StyledButton = styled.button`
   color: ${props => (props.pushAllow ? "#1890ff" : "white")};
   padding: 0.5rem;
   background: #000033;
-  width: 60%;
+  font-size: ${fontSize.smallFontSize};
+  width: 5rem;
   border: ${props =>
     props.pushAllow ? "1px solid #1890ff" : "1px solid white"};
   border-radius: 2rem;
@@ -195,9 +204,6 @@ export default class MakchaDetail extends Component {
               />
               <div style={{ display: "flex" }}>
                 <StyledButton
-                  style={{
-                    width: "6rem"
-                  }}
                   onClick={() => this.onDestinationButtonClick()}
                   pushAllow={false}
                 >
@@ -205,7 +211,6 @@ export default class MakchaDetail extends Component {
                   {startStation}
                 </StyledButton>
                 <StyledButton
-                  style={{ width: "6rem" }}
                   onClick={() => this.onPushButtonClick()}
                   pushAllow={this.state.pushAllow}
                 >

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { Timeline } from "antd";
-import { lineColors, lineChar } from "../Styles/_mixin";
 import SubwayCard from "./SubwayCard";
-import { Container } from "./common";
+import { Container, Text } from "./common";
+import { fontSize } from "../Styles/_mixin";
 
 const Item = styled(Timeline.Item)`
   margin-left: 2rem;
@@ -12,13 +12,20 @@ const Item = styled(Timeline.Item)`
 const SubwayContainer = styled.div``;
 
 const TimelineContainer = styled.div`
-  margin-top: 2rem;
+  display: flex;
+  height: 100%;
+  align-items: stretch;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   padding: 1rem;
   & li {
-    margin-top: 1rem;
+    height: 100%;
     & p {
       margin-left: 1rem;
     }
+  }
+  & .ant-timeline-item-last {
+    height: 0;
   }
 `;
 
@@ -36,11 +43,15 @@ const LineInner = styled.div`
   font-size: 1rem;
 `;
 
+const TextContainer = styled.div`
+  display: flex;
+`;
+
 class DefaultOption extends Component {
   constructor(props) {
     super(props);
-    const { sub } = this.props;
-    this.state = { sub };
+    const { sub, subOnlyList } = this.props;
+    this.state = { sub, subOnlyList };
   }
 
   renderSubwayRoutes() {
@@ -61,13 +72,21 @@ class DefaultOption extends Component {
   }
 
   renderTimeline() {
-    const { sub } = this.state;
+    const { sub, subOnlyList } = this.state;
     console.log(`sub`);
     console.log(sub);
     const { runTime } = sub.routes[0];
 
+    const lastTransfer = runTime[runTime.length - 1];
+    const lastStationName = subOnlyList[subOnlyList.length - 1].displayName;
+
+    runTime.push({
+      ...lastTransfer,
+      stationName: lastStationName
+    });
+
     return runTime.map((route, idx) => {
-      return (
+      return route.type !== "도보" ? (
         <Item
           key={idx}
           dot={
@@ -76,12 +95,23 @@ class DefaultOption extends Component {
             </LineInner>
           }
         >
-          <p>
+          {" "}
+          <TextContainer>
+            <Text size={fontSize.largeFontSize} weight="bold">
+              {route.stationName}
+            </Text>
+            <Text>
+              {runTime[idx - 1].type !== route.type && idx !== 1
+                ? `${route.type} 환승`
+                : null}
+            </Text>
+          </TextContainer>
+          {/* <p>
             {route.stationName ? route.stationName + " | " : null}
             {route.time}분 소요
-          </p>
+          </p> */}
         </Item>
-      );
+      ) : null;
     });
   }
 
@@ -90,7 +120,15 @@ class DefaultOption extends Component {
       <Container>
         <SubwayContainer>{this.renderSubwayRoutes()}</SubwayContainer>
         <TimelineContainer>
-          <Timeline>{this.renderTimeline()}</Timeline>
+          <Timeline
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between"
+            }}
+          >
+            {this.renderTimeline()}
+          </Timeline>
         </TimelineContainer>
       </Container>
     );
