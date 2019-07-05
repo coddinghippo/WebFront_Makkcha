@@ -107,10 +107,6 @@ class DefaultOption extends Component {
                 : null}
             </Text>
           </TextContainer>
-          {/* <p>
-            {route.stationName ? route.stationName + " | " : null}
-            {route.time}분 소요
-          </p> */}
         </Item>
       ) : null;
     });
