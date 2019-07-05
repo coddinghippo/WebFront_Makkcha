@@ -157,6 +157,7 @@ export default class MakchaDetail extends Component {
     const { subOnly } = sub;
     const deadline = Date.now() + 1000 * remain;
     const { subOnlyList, lineList } = subOnly;
+    const lastStation = subOnlyList[subOnlyList.length - 1].displayName;
 
     if (remain) {
       const startStation = subOnlyList[0].displayName;
@@ -207,7 +208,7 @@ export default class MakchaDetail extends Component {
                   pushAllow={false}
                 >
                   <i className="fas fa-home" />
-                  {startStation}
+                  {lastStation}
                 </StyledButton>
                 <StyledButton
                   onClick={() => this.onPushButtonClick()}
