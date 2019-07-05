@@ -158,16 +158,13 @@ export default class MakchaDetail extends Component {
 
           <TimerContainer>
             <StationCardContainer>
+              <div>
+                <Text size="largeFontSize">막차까지</Text>
+                <Text size="smallFontSize">(현재 위치 기준)</Text>
+              </div>
               <StationCard
                 lineColor={lineList[0].lineColor}
                 lineName={lineList[0].lineName}
-                endStationName={endStation}
-                startStationName={startStation}
-              />
-              <VerticalLine />
-              <StationCard
-                lineColor={lineList[lineList.length - 1].lineColor}
-                lineName={lineList[lineList.length - 1].lineName}
                 endStationName={endStation}
                 startStationName={startStation}
               />
@@ -184,13 +181,25 @@ export default class MakchaDetail extends Component {
                 }}
                 // format="H시간 m분 ss초"
               />
-
-              <StyledButton
-                onClick={() => this.onPushButtonClick()}
-                pushAllow={this.state.pushAllow}
-              >
-                푸시 알림
-              </StyledButton>
+              <div style={{ display: "flex" }}>
+                <StyledButton
+                  style={{
+                    width: "6rem"
+                  }}
+                  onClick={() => this.onPushButtonClick()}
+                  pushAllow={this.state.pushAllow}
+                >
+                  <i class="fas fa-home" />
+                  {startStation}
+                </StyledButton>
+                <StyledButton
+                  style={{ width: "6rem" }}
+                  onClick={() => this.onPushButtonClick()}
+                  pushAllow={this.state.pushAllow}
+                >
+                  푸시 알림
+                </StyledButton>
+              </div>
             </CountdownContainer>
           </TimerContainer>
         </>
