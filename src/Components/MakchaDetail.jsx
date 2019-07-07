@@ -19,6 +19,15 @@ const Container = styled.div`
   background: #000033;
 `;
 
+const ErrorContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+`;
+
 const LocContainer = styled.div`
   display: flex;
   flex: 1;
@@ -89,7 +98,7 @@ export default class MakchaDetail extends Component {
     const { sub, addr, pushAllow } = props;
     this.state = {
       sub,
-      remain: sub.routeList[0].remain,
+      remain: sub.routeList.length ? sub.routeList[0].remain : 0,
       addr,
       pushAllow
     };
@@ -225,6 +234,31 @@ export default class MakchaDetail extends Component {
   }
 
   render() {
-    return <Container>{this.renderDetail()}</Container>;
+    const { remain } = this.state;
+    return (
+      <Container>
+        {remain ? (
+          this.renderDetail()
+        ) : (
+          <ErrorContainer>
+            <Text
+              weight="bold"
+              size="largeFontSize"
+              style={{ marginBottom: "2rem" }}
+            >
+              검색 결과가 없습니다
+            </Text>
+            <Button
+              shape="round"
+              type="default"
+              ghost
+              onClick={() => this.onDestinationButtonClick()}
+            >
+              목적지 재설정
+            </Button>
+          </ErrorContainer>
+        )}
+      </Container>
+    );
   }
 }

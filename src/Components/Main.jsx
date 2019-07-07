@@ -5,6 +5,7 @@ import MakchaDetail from "./MakchaDetail";
 import DefaultOption from "./DefaultOption";
 import { Text, Container } from "./common";
 import { makchaApi, dataHandler } from "../api";
+import TaxiCard from "./TaxiCard";
 
 const ContentContainer = styled.div`
   display: flex;
@@ -149,7 +150,11 @@ export default class Main extends Component {
               bus={bus}
               busNSub={busNSub}
             /> */}
-            <DefaultOption sub={sub} subOnlyList={sub.subOnly.subOnlyList} />
+            {sub.routeList.length ? (
+              <DefaultOption sub={sub} subOnlyList={sub.subOnly.subOnlyList} />
+            ) : (
+              <TaxiCard taxi={taxi} />
+            )}
           </ContentContainer>
         </>
       );
@@ -166,6 +171,7 @@ export default class Main extends Component {
   }
 
   render() {
+    console.log(this.state);
     // const { taxiInfo, subwayPathOptionList, defaultInfo } = this.state.data;
     // const { currentPos, bus, sub, busNSub, taxi, defaultSub } = this.state;
     return <Container>{this.renderMain()}</Container>;
