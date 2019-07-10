@@ -134,7 +134,7 @@ export default class MakchaDetail extends Component {
       let formData = new FormData();
 
       formData.append("lastSub", sub.routeList[0].lastTime);
-
+      window.alert("푸시를 받습니다");
       if (!userToken) {
         askForPermissioToReceiveNotifications().then(userToken => {
           if (userToken !== null && userToken !== undefined) {
@@ -154,6 +154,7 @@ export default class MakchaDetail extends Component {
       makchaApi.disallowPush(userToken);
       localStorage.setItem("userToken", "");
       this.setState({ pushAllow: !this.state.pushAllow });
+      window.alert("푸시를 해제합니다");
     }
   }
 
