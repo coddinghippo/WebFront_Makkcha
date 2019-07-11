@@ -7,6 +7,7 @@ import { Text } from "./common";
 import StationCard from "./StationCard";
 import { makchaApi } from "../api";
 import { askForPermissioToReceiveNotifications } from "../push-notification";
+import { useData } from "../contexts";
 
 const { Countdown } = Statistic;
 
@@ -92,11 +93,11 @@ const NowButton = styled.div`
   margin-right: 0.7rem;
 `;
 
-export default class MakchaDetail extends Component {
+class MakchaDetail extends Component {
   constructor(props) {
     super(props);
 
-    const { sub, addr, pushAllow } = props;
+    const { sub, addr, pushAllow } = props.data.data;
     this.state = {
       sub,
       remain: sub.routeList.length ? sub.routeList[0].remain : 0,
@@ -117,7 +118,7 @@ export default class MakchaDetail extends Component {
   }
 
   onDestinationButtonClick() {
-    const userToken = localStorage.getItem("userToken");
+    const userToken = this.props.data.token;
 
     if (this.state.pushAllow) makchaApi.disallowPush(userToken);
     localStorage.setItem("endLocation", "");
@@ -128,10 +129,10 @@ export default class MakchaDetail extends Component {
 
   onPushButtonClick() {
     // When user allows push
-    const userToken = localStorage.getItem("userToken");
+    const userToken = this.props.data.token;
     if (!this.state.pushAllow) {
-      const userToken = localStorage.getItem("userToken");
-      const { sub } = this.props;
+      const userToken = this.props.data.token;
+      const { sub } = this.props.data.data;
       let formData = new FormData();
 
       formData.append("lastSub", sub.routeList[0].lastTime);
@@ -166,9 +167,7 @@ export default class MakchaDetail extends Component {
   renderDetail() {
     const { remain, addr, sub } = this.state;
     const { subOnly } = sub;
-    const { endX, endY } = JSON.parse(
-      localStorage.getItem("endLocation")
-    ).endLocation;
+    const { endX, endY, startX, startY } = this.props.data.pos;
     const deadline = Date.now() + 1000 * remain;
     const { subOnlyList, lineList } = subOnly;
     const lastStation = subOnlyList[subOnlyList.length - 1].displayName;
@@ -176,8 +175,6 @@ export default class MakchaDetail extends Component {
     if (remain) {
       const startStation = subOnlyList[0].displayName;
       const endStation = subOnlyList[1].displayName;
-      const { startX, startY } = this.props.currentPos;
-      console.log(this.props.currentPos);
 
       return (
         <>
@@ -271,3 +268,5 @@ export default class MakchaDetail extends Component {
     );
   }
 }
+
+export default useData(MakchaDetail);

@@ -5,6 +5,7 @@ import { GlobalStyle } from "./Styles/global_styles";
 import Landing from "./Routes/Landing";
 import Feedback from "./Routes/Feedback";
 import Map from "./Components/Map";
+import { DataProvider } from "./contexts";
 
 const AppContainer = styled.div`
   height: 100%;
@@ -14,7 +15,7 @@ const AppContainer = styled.div`
 class App extends Component {
   render() {
     return (
-      <>
+      <DataProvider>
         <GlobalStyle />
         <BrowserRouter>
           <AppContainer className="app">
@@ -23,7 +24,7 @@ class App extends Component {
             <Route path="/map" component={Map} />
           </AppContainer>
         </BrowserRouter>
-      </>
+      </DataProvider>
     );
   }
 }

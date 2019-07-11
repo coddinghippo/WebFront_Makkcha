@@ -6,6 +6,7 @@ import DefaultOption from "./DefaultOption";
 import { Text, Container } from "./common";
 import { makchaApi, dataHandler } from "../api";
 import TaxiCard from "./TaxiCard";
+import { useData } from "../contexts";
 
 const ContentContainer = styled.div`
   display: flex;
@@ -45,17 +46,19 @@ const StyledButton = styled(Button)`
 
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
-export default class Main extends Component {
+class Main extends Component {
   constructor(props) {
     super(props);
     this.state = { currentPos: { startX: null, startY: null } };
   }
 
   componentDidMount() {
+    this.props.actions.setPos({ a: 10 });
     const { endX, endY } = JSON.parse(
       localStorage.getItem("endLocation")
     ).endLocation;
     const userToken = localStorage.getItem("userToken");
+    this.props.actions.setToken(userToken);
     this.setState({
       currentPos: { ...this.state.currentPos, endX, endY },
       userToken
@@ -74,6 +77,7 @@ export default class Main extends Component {
       });
       // this.getData(latitude, longitude);
     });
+    this.props.actions.setPos(this.state.currentPos);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -81,6 +85,7 @@ export default class Main extends Component {
       const { startX, startY } = this.state.currentPos;
       this.getCurrentPosFromGPS(startX, startY);
       this.getData(startY, startX);
+      this.props.actions.setPos(this.state.currentPos);
     }
   }
 
@@ -90,6 +95,7 @@ export default class Main extends Component {
 
     makchaApi.getData({ startX, startY, endX, endY }).then(res => {
       const { bus, busNSub, sub, taxi, pushAllow } = dataHandler(res.data);
+      this.props.actions.setData({ bus, busNSub, sub, taxi, pushAllow });
       console.log("push", pushAllow);
       this.setState({
         bus,
@@ -133,15 +139,7 @@ export default class Main extends Component {
       return (
         <>
           <MakchaContainer>
-            <MakchaDetail
-              sub={sub}
-              currentPos={currentPos}
-              addr={currentPos.addr}
-              onButtonPress={this.onButtonPress.bind(this)}
-              pushAllow={pushAllow}
-              userToken={userToken}
-              toggleComponent={this.props.toggleComponent}
-            />
+            <MakchaDetail toggleComponent={this.props.toggleComponent} />
           </MakchaContainer>
           <ContentContainer>
             {/* <OptinList
@@ -172,9 +170,11 @@ export default class Main extends Component {
   }
 
   render() {
-    console.log(this.state);
+    console.log(this.props);
     // const { taxiInfo, subwayPathOptionList, defaultInfo } = this.state.data;
     // const { currentPos, bus, sub, busNSub, taxi, defaultSub } = this.state;
     return <Container>{this.renderMain()}</Container>;
   }
 }
+
+export default useData(Main);

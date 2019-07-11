@@ -9,7 +9,7 @@ class Landing extends Component {
   };
 
   componentDidMount() {
-    const addr = localStorage.getItem("loc");
+    const addr = localStorage.getItem("endLocation");
     if (addr) this.setState({ component: "main" });
   }
 
