@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { Spin, Icon, Button } from "antd";
+import { Link } from "react-router-dom";
 import MakchaDetail from "./MakchaDetail";
 import DefaultOption from "./DefaultOption";
 import { Text, Container } from "./common";
 import { makchaApi, dataHandler } from "../api";
 import TaxiCard from "./TaxiCard";
 import { useData } from "../contexts";
+import AddressForm from "./AddressForm";
 
 const ContentContainer = styled.div`
   display: flex;
@@ -53,31 +55,17 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    this.props.actions.setPos({ a: 10 });
-    const { endX, endY } = JSON.parse(
-      localStorage.getItem("endLocation")
-    ).endLocation;
-    const userToken = localStorage.getItem("userToken");
-    this.props.actions.setToken(userToken);
-    this.setState({
-      currentPos: { ...this.state.currentPos, endX, endY },
-      userToken
-    });
-
-    navigator.geolocation.getCurrentPosition(pos => {
-      const { latitude, longitude } = pos.coords;
-      const startX = longitude;
-      const startY = latitude;
-      this.setState({
-        currentPos: {
-          ...this.state.currentPos,
-          startX,
-          startY
-        }
+    const { endLocation } = this.props.data.pos;
+    console.log("endlocation", this.props.data.pos);
+    if (endLocation) {
+      const { endX, endY } = endLocation;
+      window.navigator.geolocation.getCurrentPosition(pos => {
+        const startX = pos.coords.longitude;
+        const startY = pos.coords.latitude;
+        this.props.actions.setPos({ endX, endY, startX, startY });
+        this.setState({ currentPos: { endX, endY, startX, startY } });
       });
-      // this.getData(latitude, longitude);
-    });
-    this.props.actions.setPos(this.state.currentPos);
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -122,7 +110,6 @@ class Main extends Component {
 
   onButtonPress() {
     localStorage.setItem("endLocation", "");
-    this.props.toggleComponent();
   }
 
   renderMain() {
@@ -139,7 +126,7 @@ class Main extends Component {
       return (
         <>
           <MakchaContainer>
-            <MakchaDetail toggleComponent={this.props.toggleComponent} />
+            <MakchaDetail />
           </MakchaContainer>
           <ContentContainer>
             {/* <OptinList
@@ -173,7 +160,15 @@ class Main extends Component {
     console.log(this.props);
     // const { taxiInfo, subwayPathOptionList, defaultInfo } = this.state.data;
     // const { currentPos, bus, sub, busNSub, taxi, defaultSub } = this.state;
-    return <Container>{this.renderMain()}</Container>;
+    return (
+      <Container>
+        {localStorage.getItem("endLocation") ? (
+          this.renderMain()
+        ) : (
+          <AddressForm />
+        )}
+      </Container>
+    );
   }
 }
 

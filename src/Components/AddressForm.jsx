@@ -6,6 +6,7 @@ import { fontSize } from "../Styles/_mixin";
 import { Container as DefaultContainer } from "./common";
 import { stationInfo } from "../static/station_info";
 import Hangul from "hangul-js";
+import { useData } from "../contexts";
 
 const { Item } = Form;
 
@@ -98,47 +99,6 @@ class AddressForm extends Component {
     this.props.form.validateFields();
   }
 
-  // getPos(searchVal) {
-  //   function posFromAddr() {
-  //     return new Promise(resolve =>
-  //       makchaApi.getPosFromAddr(searchVal).then(res => {
-  //         if (res.data.documents.length) resolve(res.data.documents);
-  //       })
-  //     );
-  //   }
-
-  //   function posFromKeyword() {
-  //     return new Promise(resolve =>
-  //       makchaApi.getPosFromKeyword(searchVal).then(res => {
-  //         if (res.data.documents.length) resolve(res.data.documents);
-  //       })
-  //     );
-  //   }
-
-  //   Promise.race([posFromAddr(), posFromKeyword()])
-  //     .then(result => {
-  //       const endLocation = { endX: result[0].x, endY: result[0].y };
-  //       const addr = result[0].address_name;
-  //       localStorage.setItem(
-  //         "endLocation",
-  //         JSON.stringify({ endLocation, addr })
-  //       );
-  //     })
-  //     .then(this.props.toggleComponent);
-  // }
-
-  // setCache() {
-  //   const { selected } = this.state;
-  //   const { pointx, pointy } = selected;
-  //   const endLocation = { endX: pointx, endY: pointy };
-  //   return new Promise(resolve => {
-  //     localStorage.setItem(
-  //       "loc",
-  //       JSON.stringify({ endLocation, stnName: selected.display_name })
-  //     );
-  //   });
-  // }
-
   handleSubmit = e => {
     e.preventDefault();
     const { selected } = this.state;
@@ -148,7 +108,7 @@ class AddressForm extends Component {
       "endLocation",
       JSON.stringify({ endLocation, stnName: selected.display_name })
     );
-    this.props.toggleComponent();
+    this.props.actions.setPos(endLocation);
   };
 
   onInputChange = value => {
@@ -183,7 +143,6 @@ class AddressForm extends Component {
   }
 
   render() {
-    console.log(this.state.selected);
     const { dataSource } = this.state;
     const {
       getFieldDecorator,
@@ -238,4 +197,4 @@ class AddressForm extends Component {
   }
 }
 
-export default Form.create({ name: "address" })(AddressForm);
+export default useData(Form.create({ name: "address" })(AddressForm));

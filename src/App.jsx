@@ -6,6 +6,7 @@ import Landing from "./Routes/Landing";
 import Feedback from "./Routes/Feedback";
 import Map from "./Components/Map";
 import { DataProvider } from "./contexts";
+import AddressForm from "./Components/AddressForm";
 
 const AppContainer = styled.div`
   height: 100%;
@@ -22,6 +23,7 @@ class App extends Component {
             <Route exact path="/" component={Landing} />
             <Route path="/feedback" component={Feedback} />
             <Route path="/map" component={Map} />
+            {/* <Route path="/intro" component={AddressForm} /> */}
           </AppContainer>
         </BrowserRouter>
       </DataProvider>
