@@ -92,40 +92,40 @@ const StationOption = styled.p`
   color: white;
 `;
 
-// Class
-// Class
-// Class
 class AddressForm extends Component {
   state = { selected: "", searchRes: {} };
   componentDidMount() {
     this.props.form.validateFields();
   }
 
-  getPos(searchVal) {
-    function posFromAddr() {
-      return new Promise(resolve =>
-        makchaApi.getPosFromAddr(searchVal).then(res => {
-          if (res.data.documents.length) resolve(res.data.documents);
-        })
-      );
-    }
+  // getPos(searchVal) {
+  //   function posFromAddr() {
+  //     return new Promise(resolve =>
+  //       makchaApi.getPosFromAddr(searchVal).then(res => {
+  //         if (res.data.documents.length) resolve(res.data.documents);
+  //       })
+  //     );
+  //   }
 
-    function posFromKeyword() {
-      return new Promise(resolve =>
-        makchaApi.getPosFromKeyword(searchVal).then(res => {
-          if (res.data.documents.length) resolve(res.data.documents);
-        })
-      );
-    }
+  //   function posFromKeyword() {
+  //     return new Promise(resolve =>
+  //       makchaApi.getPosFromKeyword(searchVal).then(res => {
+  //         if (res.data.documents.length) resolve(res.data.documents);
+  //       })
+  //     );
+  //   }
 
-    Promise.race([posFromAddr(), posFromKeyword()])
-      .then(result => {
-        const endLocation = { endX: result[0].x, endY: result[0].y };
-        const addr = result[0].address_name;
-        localStorage.setItem("loc", JSON.stringify({ endLocation, addr }));
-      })
-      .then(this.props.toggleComponent);
-  }
+  //   Promise.race([posFromAddr(), posFromKeyword()])
+  //     .then(result => {
+  //       const endLocation = { endX: result[0].x, endY: result[0].y };
+  //       const addr = result[0].address_name;
+  //       localStorage.setItem(
+  //         "endLocation",
+  //         JSON.stringify({ endLocation, addr })
+  //       );
+  //     })
+  //     .then(this.props.toggleComponent);
+  // }
 
   // setCache() {
   //   const { selected } = this.state;
@@ -140,12 +140,12 @@ class AddressForm extends Component {
   // }
 
   handleSubmit = e => {
+    e.preventDefault();
     const { selected } = this.state;
     const { pointx, pointy } = selected;
     const endLocation = { endX: pointx, endY: pointy };
-    e.preventDefault();
     localStorage.setItem(
-      "loc",
+      "endLocation",
       JSON.stringify({ endLocation, stnName: selected.display_name })
     );
     this.props.toggleComponent();
@@ -183,6 +183,7 @@ class AddressForm extends Component {
   }
 
   render() {
+    console.log(this.state.selected);
     const { dataSource } = this.state;
     const {
       getFieldDecorator,

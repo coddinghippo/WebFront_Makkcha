@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { Button, Statistic, Icon } from "antd";
+import { Link } from "react-router-dom";
 import { fontSize, lineColors, lineChar } from "../Styles/_mixin";
 import { Text } from "./common";
 import StationCard from "./StationCard";
@@ -119,7 +120,7 @@ export default class MakchaDetail extends Component {
     const userToken = localStorage.getItem("userToken");
 
     if (this.state.pushAllow) makchaApi.disallowPush(userToken);
-    localStorage.setItem("loc", "");
+    localStorage.setItem("endLocation", "");
     localStorage.setItem("userToken", "");
     this.setState({ pushAllow: false });
     this.props.toggleComponent();
@@ -165,6 +166,9 @@ export default class MakchaDetail extends Component {
   renderDetail() {
     const { remain, addr, sub } = this.state;
     const { subOnly } = sub;
+    const { endX, endY } = JSON.parse(
+      localStorage.getItem("endLocation")
+    ).endLocation;
     const deadline = Date.now() + 1000 * remain;
     const { subOnlyList, lineList } = subOnly;
     const lastStation = subOnlyList[subOnlyList.length - 1].displayName;
@@ -172,6 +176,8 @@ export default class MakchaDetail extends Component {
     if (remain) {
       const startStation = subOnlyList[0].displayName;
       const endStation = subOnlyList[1].displayName;
+      const { startX, startY } = this.props.currentPos;
+      console.log(this.props.currentPos);
 
       return (
         <>
@@ -184,7 +190,9 @@ export default class MakchaDetail extends Component {
               />
               현위치
             </NowButton>
-            <Text size="normalFontSize"> {addr}</Text>
+            <Link to={{ pathname: "/map", state: { startX, startY } }}>
+              <Text size="normalFontSize"> {addr}</Text>
+            </Link>
           </LocContainer>
 
           <TimerContainer>

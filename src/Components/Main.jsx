@@ -52,24 +52,24 @@ export default class Main extends Component {
   }
 
   componentDidMount() {
-    if (localStorage.getItem("loc")) {
-      const { endX, endY } = JSON.parse(
-        localStorage.getItem("loc")
-      ).endLocation;
-      const userToken = localStorage.getItem("userToken");
-      this.setState({
-        currentPos: { ...this.state.currentPos, endX, endY },
-        userToken
-      });
-    }
+    const { endX, endY } = JSON.parse(
+      localStorage.getItem("endLocation")
+    ).endLocation;
+    const userToken = localStorage.getItem("userToken");
+    this.setState({
+      currentPos: { ...this.state.currentPos, endX, endY },
+      userToken
+    });
 
     navigator.geolocation.getCurrentPosition(pos => {
       const { latitude, longitude } = pos.coords;
+      const startX = longitude;
+      const startY = latitude;
       this.setState({
         currentPos: {
           ...this.state.currentPos,
-          startX: longitude,
-          startY: latitude
+          startX,
+          startY
         }
       });
       // this.getData(latitude, longitude);
@@ -115,7 +115,7 @@ export default class Main extends Component {
   }
 
   onButtonPress() {
-    localStorage.setItem("loc", "");
+    localStorage.setItem("endLocation", "");
     this.props.toggleComponent();
   }
 
@@ -135,6 +135,7 @@ export default class Main extends Component {
           <MakchaContainer>
             <MakchaDetail
               sub={sub}
+              currentPos={currentPos}
               addr={currentPos.addr}
               onButtonPress={this.onButtonPress.bind(this)}
               pushAllow={pushAllow}
