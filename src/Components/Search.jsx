@@ -4,10 +4,9 @@ import { Link } from "react-router-dom";
 import { Container } from "./common";
 
 const Input = styled.input`
-  margin-top: 1rem;
   border-radius: 0.3rem;
   height: 2rem;
-  width: 90%;
+  width: 100%;
   border: 1px solid #bbb;
   box-shadow: none;
 `;
@@ -27,7 +26,11 @@ class Search extends Component {
     let { addr } = this.state;
     return (
       <Container>
-        <Input value={addr || ""} onChange={console.log} />
+        <Input
+          value={addr || ""}
+          onChange={console.log}
+          onClick={console.log}
+        />
       </Container>
     );
   }

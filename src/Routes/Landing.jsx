@@ -21,7 +21,10 @@ class Landing extends Component {
     const cachedLocation = JSON.parse(localStorage.getItem("endLocation"));
     if (cachedLocation) {
       // console.log(true);
-      this.props.actions.setPos({ ...cachedLocation.endLocation });
+      this.props.actions.setPos({
+        ...this.props.data.pos,
+        ...cachedLocation.endLocation
+      });
       this.setState({ pos: cachedLocation.endLocation });
     }
   }

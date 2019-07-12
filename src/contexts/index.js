@@ -25,7 +25,7 @@ function useData(WrappedComponent) {
     return (
       <DataConsumer>
         {({ state, actions }) => (
-          <WrappedComponent data={state} actions={actions} />
+          <WrappedComponent data={state} actions={actions} props={props} />
         )}
       </DataConsumer>
     );

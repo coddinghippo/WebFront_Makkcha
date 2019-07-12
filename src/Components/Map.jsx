@@ -2,16 +2,11 @@
 
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Modal } from "antd";
-import Search from "./Search";
+import { Link } from "react-router-dom";
+import { Modal, Button, notification } from "antd";
+import SearchCard from "./SearchCard";
 import { useData } from "../contexts";
-
-/*
-startX, startY, endX, endY를 모두 받자.
-Object 형태로 받자.
-startX, startY만 있는 경우,
-endX, endY만 있는 경우를 나눠서 생각
-*/
+import { makchaApi } from "../api";
 
 const MapContainer = styled.div`
   width: 100%;
@@ -38,27 +33,55 @@ const SearchContainer = styled.div`
   width: 100%;
 `;
 
+const ButtonContainer = styled.div`
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 1;
+`;
+
+const StyledButton = styled(Button)`
+  width: 30%;
+`;
+
 class Map extends Component {
   constructor(props) {
     super(props);
-    const { x, y } = props.location.state;
-    console.log(props);
-    const { addr } = props.location.state;
-    this.state = { x, y, visible: false, addr };
+    const {
+      startX,
+      startY,
+      endX,
+      endY,
+      startAddr,
+      endAddr
+    } = this.props.data.pos;
+    this.state = {
+      startX,
+      startY,
+      endX,
+      endY,
+      startAddr,
+      endAddr,
+      type: "start"
+    };
   }
 
   componentDidMount() {
     // Kakao Map
     let el = document.getElementById("map");
-    let { x, y } = this.state;
-    this.setState({ x, y });
+    let { startX, startY, endX, endY } = this.state;
 
     let map = new kakao.maps.Map(el, {
-      center: new kakao.maps.LatLng(y, x),
+      center: new kakao.maps.LatLng(startY, startX),
       level: 4
     });
 
-    let markerPos = new kakao.maps.LatLng(y, x);
+    let markerPos = new kakao.maps.LatLng(startY, startX);
     let marker = new kakao.maps.Marker({
       position: markerPos
     });
@@ -69,51 +92,46 @@ class Map extends Component {
       const latlng = mouseEvent.latLng;
       let y = latlng.getLat();
       let x = latlng.getLng();
-      this.setState({ x, y });
+      makchaApi.getPosFromGPS(x, y).then(res => {
+        if (this.state.type === "start") {
+          const startAddr = res.data.documents[0].address.address_name;
+          this.setState({ startX: x, startY: y, startAddr });
+        } else {
+          const endAddr = res.data.documents[0].address.address_name;
+          this.setState({ endX: x, endY: y, endAddr });
+        }
+      });
+
       marker.setPosition(latlng);
-      this.showModal();
-    });
-  }
-
-  showModal() {
-    this.setState({
-      visible: true
-    });
-  }
-
-  handleOk(e) {
-    console.log(e);
-    this.setState({
-      visible: false
-    });
-    const { x, y } = this.state;
-
-    window.location.href = "/";
-  }
-
-  handleCancel(e) {
-    console.log(e);
-    this.setState({
-      visible: false
+      // this.openNotification();
     });
   }
 
   render() {
-    const { addr } = this.state;
+    const { addr, type } = this.state;
     return (
       <MapContainer>
         <KakaoMap id="map" />
         <SearchContainer>
-          <Search addr={addr} />
+          <SearchCard state={this.state}>
+            <Button onClick={() => this.setState({ type: "start" })}>
+              변경
+            </Button>
+            <Button onClick={() => this.setState({ type: "end" })}>변경</Button>
+          </SearchCard>
         </SearchContainer>
-        <Modal
-          title="목적지 변경"
-          visible={this.state.visible}
-          onOk={e => this.handleOk(e)}
-          onCancel={e => this.handleCancel(e)}
-        >
-          <p>목적지를 변경하시겠습니까?</p>
-        </Modal>
+
+        <ButtonContainer>
+          <StyledButton type="danger">
+            <Link to="/">취소</Link>
+          </StyledButton>
+          <StyledButton
+            type="primary"
+            onClick={() => this.props.actions.setPos(this.state)}
+          >
+            <Link to="/">확인</Link>
+          </StyledButton>
+        </ButtonContainer>
       </MapContainer>
     );
   }

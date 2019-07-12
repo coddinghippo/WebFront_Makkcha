@@ -104,10 +104,7 @@ class AddressForm extends Component {
     const { selected } = this.state;
     const { pointx, pointy } = selected;
     const endLocation = { endX: pointx, endY: pointy };
-    localStorage.setItem(
-      "endLocation",
-      JSON.stringify({ endLocation, stnName: selected.display_name })
-    );
+    localStorage.setItem("endLocation", JSON.stringify({ endLocation }));
     this.props.actions.setPos(endLocation);
   };
 
