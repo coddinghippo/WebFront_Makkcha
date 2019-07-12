@@ -5,9 +5,7 @@ import { dataHandler } from "./data_handler";
 
 let apiURL = "https://api.makkcha.com/";
 const userToken = localStorage.getItem("userToken") || null;
-
-const Uid = uuidv1();
-localStorage.setItem("Uid", Uid);
+const Uid = localStorage.getItem("Uid");
 
 const api = axios.create({
   baseURL: apiURL,

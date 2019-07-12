@@ -9,76 +9,46 @@ import { makchaApi, dataHandler } from "../api";
 import TaxiCard from "./TaxiCard";
 import { useData } from "../contexts";
 import AddressForm from "./AddressForm";
-
-const ContentContainer = styled.div`
-  display: flex;
-  flex: 2;
-  justify-content: center;
-  & .anticon-spin {
-    position: absolute;
-    top: 3rem;
-  }
-`;
-
-const MakchaContainer = styled.div`
-  display: flex;
-  flex: 1;
-  max-height: 16rem;
-`;
-
-const SpinContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  height: 80%;
-  color: #000033;
-`;
-
-const StyledButton = styled(Button)`
-  width: 90%;
-  height: 3rem;
-  color: white;
-  background: #000033;
-  border-radius: 1.5rem;
-  margin-bottom: 1.3rem;
-  backgrouncolor: #000;
-  font-weight: bold;
-`;
+import Search from "./Search";
 
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+
+const StyledLink = styled(Link)`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
 
 class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = { currentPos: { startX: null, startY: null } };
+    const { startX, startY, endX, endY } = this.props.data.pos;
+    this.state = { startX, startY, endX, endY };
   }
 
   componentDidMount() {
-    const { endLocation } = this.props.data.pos;
-    console.log("endlocation", this.props.data.pos);
-    if (endLocation) {
-      const { endX, endY } = endLocation;
+    if (!this.state.startX && this.state.endX) {
+      const { endX, endY } = this.state;
       window.navigator.geolocation.getCurrentPosition(pos => {
         const startX = pos.coords.longitude;
         const startY = pos.coords.latitude;
         this.props.actions.setPos({ endX, endY, startX, startY });
-        this.setState({ currentPos: { endX, endY, startX, startY } });
+        this.setState({ endX, endY, startX, startY });
       });
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.currentPos.startX !== this.state.currentPos.startX) {
-      const { startX, startY } = this.state.currentPos;
-      this.getCurrentPosFromGPS(startX, startY);
-      this.getData(startY, startX);
-      this.props.actions.setPos(this.state.currentPos);
+    if (prevState.startX !== this.state.startX) {
+      const { startX, startY } = this.state;
+      this.getCurrentPosFromGPS();
+      this.getData();
+      this.props.actions.setPos(this.state);
     }
   }
 
-  getData(startY, startX) {
-    const { endX, endY } = this.state.currentPos;
+  getData() {
+    const { endX, endY, startX, startY } = this.state;
     console.log("success");
 
     makchaApi.getData({ startX, startY, endX, endY }).then(res => {
@@ -95,79 +65,41 @@ class Main extends Component {
     });
   }
 
-  getCurrentPosFromGPS(startX, startY) {
+  getCurrentPosFromGPS() {
+    const { startX, startY, endX, endY } = this.state;
+    console.log(startX, startY, endX, endY);
     makchaApi.getPosFromGPS(startX, startY).then(res => {
       this.setState({
-        currentPos: {
-          ...this.state.currentPos,
-          addr: res.data.documents[0].address.address_name,
-          startX,
-          startY
-        }
+        startAddr: res.data.documents[0].address.address_name
+      });
+    });
+    makchaApi.getPosFromGPS(endX, endY).then(res => {
+      this.setState({
+        endAddr: res.data.documents[0].address.address_name
       });
     });
   }
 
-  onButtonPress() {
-    localStorage.setItem("endLocation", "");
-  }
-
-  renderMain() {
-    const {
-      currentPos,
-      bus,
-      sub,
-      busNSub,
-      taxi,
-      pushAllow,
-      userToken
-    } = this.state;
-    if (sub) {
-      return (
-        <>
-          <MakchaContainer>
-            <MakchaDetail />
-          </MakchaContainer>
-          <ContentContainer>
-            {/* <OptinList
-              taxi={taxi}
-              sub={sub}
-              defaultSub={defaultSub}
-              bus={bus}
-              busNSub={busNSub}
-            /> */}
-            {sub.routeList.length ? (
-              <DefaultOption sub={sub} subOnlyList={sub.subOnly.subOnlyList} />
-            ) : (
-              <TaxiCard taxi={taxi} />
-            )}
-          </ContentContainer>
-        </>
-      );
-    } else
-      return (
-        <SpinContainer>
-          <Spin indicator={antIcon} />
-          <Text size="largeFontSize">경로를 탐색 중입니다...</Text>
-          <StyledButton onClick={this.onButtonPress.bind(this)}>
-            목적지 다시 입력하기
-          </StyledButton>
-        </SpinContainer>
-      );
-  }
-
   render() {
-    console.log(this.props);
-    // const { taxiInfo, subwayPathOptionList, defaultInfo } = this.state.data;
-    // const { currentPos, bus, sub, busNSub, taxi, defaultSub } = this.state;
-    return (
+    const { startX, startY, endX, endY, startAddr, endAddr } = this.state;
+    return this.props.data.pos ? (
       <Container>
-        {localStorage.getItem("endLocation") ? (
-          this.renderMain()
-        ) : (
-          <AddressForm />
-        )}
+        <StyledLink
+          to={{
+            pathname: "/map",
+            state: { x: startX, y: startY, addr: startAddr }
+          }}
+        >
+          <Search addr={startAddr} />
+        </StyledLink>
+        <StyledLink
+          to={{ pathname: "/map", state: { x: endX, y: endY, addr: endAddr } }}
+        >
+          <Search addr={endAddr} />
+        </StyledLink>
       </Container>
+    ) : (
+      <AddressForm />
     );
   }
 }

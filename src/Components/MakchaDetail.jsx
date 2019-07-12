@@ -63,13 +63,6 @@ const CountdownContainer = styled(StationCardContainer)`
   justify-content: space-between;
 `;
 
-const VerticalLine = styled.div`
-  margin-left: 1.5rem;
-  width: 10px;
-  height: 16%;
-  border-left: 2px dotted #fff;
-`;
-
 const StyledButton = styled.button`
   color: ${props => (props.pushAllow ? "#1890ff" : "white")};
   padding: 0.5rem;
