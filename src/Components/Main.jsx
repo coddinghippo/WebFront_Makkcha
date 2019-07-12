@@ -68,7 +68,7 @@ class Main extends Component {
     makchaApi.getData({ startX, startY, endX, endY }).then(res => {
       const { bus, busNSub, sub, taxi, pushAllow } = dataHandler(res.data);
       this.props.actions.setData({ bus, busNSub, sub, taxi, pushAllow });
-      console.log("push", pushAllow);
+      // console.log("push", pushAllow);
       this.setState({
         bus,
         busNSub,
@@ -89,7 +89,7 @@ class Main extends Component {
   render() {
     const { startX, startY, endX, endY, startAddr, endAddr } = this.state;
     return this.props.data.pos ? (
-      <Container>
+      <Container style={{ background: "#000033" }}>
         <StyledLink to="/map">
           <SearchCard />
         </StyledLink>

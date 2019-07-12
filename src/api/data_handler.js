@@ -80,8 +80,6 @@ export const dataHandler = data => {
         routes.push({ distance, price, totalTime, runTime });
       });
       sub = { ...subwayPathOptionList, routes, subOnly };
-      console.log("sub");
-      console.log(sub);
     }
   }
 

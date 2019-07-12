@@ -9,7 +9,10 @@ class DataProvider extends Component {
   actions = {
     setData: data => this.setState({ data }),
     setToken: token => this.setState({ token }),
-    setPos: pos => this.setState({ pos }),
+    setPos: pos => {
+      console.log("setPos", pos);
+      this.setState({ pos });
+    },
     setUid: Uid => this.setState({ Uid })
   };
   render() {

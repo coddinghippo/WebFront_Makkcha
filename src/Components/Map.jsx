@@ -109,26 +109,32 @@ class Map extends Component {
 
   render() {
     const { addr, type } = this.state;
+
     return (
       <MapContainer>
         <KakaoMap id="map" />
         <SearchContainer>
-          <SearchCard state={this.state}>
-            <Button onClick={() => this.setState({ type: "start" })}>
-              변경
+          <SearchCard>
+            <Button
+              shape="round"
+              onClick={() => this.setState({ type: "start" })}
+            >
+              찾기
             </Button>
-            <Button onClick={() => this.setState({ type: "end" })}>변경</Button>
+            <Button
+              shape="round"
+              onClick={() => this.setState({ type: "end" })}
+            >
+              찾기
+            </Button>
           </SearchCard>
         </SearchContainer>
 
         <ButtonContainer>
-          <StyledButton type="danger">
+          <StyledButton shape="round" type="danger">
             <Link to="/">취소</Link>
           </StyledButton>
-          <StyledButton
-            type="primary"
-            onClick={() => this.props.actions.setPos(this.state)}
-          >
+          <StyledButton type="primary" shape="round">
             <Link to="/">확인</Link>
           </StyledButton>
         </ButtonContainer>

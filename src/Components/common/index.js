@@ -51,3 +51,17 @@ export const Container = styled.div`
   align-items: center;
   flex-direction: column;
 `;
+
+export const Row = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+`;
+
+export const Col = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+`;

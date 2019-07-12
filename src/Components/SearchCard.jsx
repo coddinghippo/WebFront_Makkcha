@@ -5,11 +5,21 @@ import { useData } from "../contexts";
 import { Container } from "./common";
 import Search from "./Search";
 
-const SearchContainer = styled.div`
+const SearchContainer = styled(Container)`
+  background: white;
+  width: 92%;
+  padding: 0 1rem;
+  border-radius: 0.3rem;
+  margin-top: 1rem;
+  box-shadow: 1px 2px 1px 1px rgba(0, 0, 0, 0.2);
+`;
+
+const SearchBox = styled.div`
+  margin: 0.5rem;
   display: flex;
   align-items: center;
-  width: 90%;
-  justify-content: center;
+  width: 100%;
+  justify-content: space-between;
 `;
 
 class SearchCard extends Component {
@@ -50,46 +60,54 @@ class SearchCard extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.data.pos !== this.props.data.pos) {
+      const {
+        startX,
+        startY,
+        endX,
+        endY,
+        startAddr,
+        endAddr
+      } = this.props.data.pos;
+
+      this.setState({ startX, startY, endX, endY, startAddr, endAddr });
+    }
+  }
+
   renderChildren() {
     const { children } = this.props.props;
-    let { startX, startY, endX, endY, startAddr, endAddr } = this.props.props
-      .state
-      ? this.props.props.state
-      : this.props.data.pos;
+    let { startX, startY, endX, endY, startAddr, endAddr } = this.state;
 
     if (children) {
       return (
         <>
-          <SearchContainer>
-            <Search addr={"출발: " + startAddr} />
+          <SearchBox>
+            <Search type="start" />
             {children[0]}
-          </SearchContainer>
-          <SearchContainer>
-            <Search addr={"도착: " + endAddr} />
+          </SearchBox>
+          <SearchBox>
+            <Search type="end" />
             {children[1]}
-          </SearchContainer>
+          </SearchBox>
         </>
       );
     } else {
       return (
         <>
-          <SearchContainer>
-            <Search addr={"출발: " + startAddr} onChange={this.onChangeText} />
-          </SearchContainer>
-          <SearchContainer>
-            <Search addr={"도착: " + endAddr} onChange={this.onChangeText} />
-          </SearchContainer>
+          <SearchBox>
+            <Search type="start" />
+          </SearchBox>
+          <SearchBox>
+            <Search type="end" />
+          </SearchBox>
         </>
       );
     }
   }
 
   render() {
-    return (
-      <Container style={{ marginTop: "1rem" }}>
-        {this.renderChildren()}
-      </Container>
-    );
+    return <SearchContainer>{this.renderChildren()}</SearchContainer>;
   }
 }
 
