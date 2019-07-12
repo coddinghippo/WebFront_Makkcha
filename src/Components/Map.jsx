@@ -76,17 +76,18 @@ class Map extends Component {
     let el = document.getElementById("map");
     let { startX, startY, endX, endY } = this.state;
 
-    let map = new kakao.maps.Map(el, {
+    let map;
+    let markerPos;
+    map = new kakao.maps.Map(el, {
       center: new kakao.maps.LatLng(startY, startX),
       level: 4
     });
-
-    let markerPos = new kakao.maps.LatLng(startY, startX);
+    markerPos = new kakao.maps.LatLng(startY, startX);
     let marker = new kakao.maps.Marker({
       position: markerPos
     });
     marker.setMap(map);
-    // this.setState({ map });
+    this.setState({ map });
 
     kakao.maps.event.addListener(map, "click", mouseEvent => {
       const latlng = mouseEvent.latLng;
@@ -107,8 +108,54 @@ class Map extends Component {
     });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevProps.data.pos.startAddr !== this.props.data.pos.startAddr &&
+      this.props.data.pos.type === "start"
+    ) {
+      const { map } = this.state;
+      const { startX, startY } = this.props.data.pos;
+      // 이동할 위도 경도 위치를 생성합니다
+      let moveLatLon = new kakao.maps.LatLng(
+        parseFloat(startY),
+        parseFloat(startX)
+      );
+
+      // 지도 중심을 부드럽게 이동시킵니다
+      // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+      map.setCenter(moveLatLon);
+      let markerPos = new kakao.maps.LatLng(startY, startX);
+      let marker = new kakao.maps.Marker({
+        position: markerPos
+      });
+      marker.setMap(map);
+    }
+    if (
+      prevProps.data.pos.endAddr !== this.props.data.pos.endAddr &&
+      this.props.data.pos.type === "end"
+    ) {
+      const { map } = this.state;
+      const { endX, endY } = this.props.data.pos;
+      // 이동할 위도 경도 위치를 생성합니다
+      let moveLatLon = new kakao.maps.LatLng(
+        parseFloat(endY),
+        parseFloat(endX)
+      );
+
+      // 지도 중심을 부드럽게 이동시킵니다
+      // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+      map.setCenter(moveLatLon);
+      let markerPos = new kakao.maps.LatLng(endY, endX);
+      let marker = new kakao.maps.Marker({
+        position: markerPos
+      });
+      marker.setMap(map);
+    }
+  }
+
   render() {
     const { addr, type } = this.state;
+    console.log(this.props);
 
     return (
       <MapContainer>

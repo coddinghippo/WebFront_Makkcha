@@ -80,19 +80,22 @@ class Search extends Component {
       value: place_name
     });
     const { pos } = this.props.data;
+    const { type } = this.props.props;
     if (this.props.props.type === "start") {
       this.props.actions.setPos({
         ...pos,
         startX: x,
         startY: y,
-        startAddr: place_name
+        startAddr: place_name,
+        type
       });
     } else if (this.props.props.type === "end") {
       this.props.actions.setPos({
         ...pos,
         endX: x,
         endY: y,
-        endAddr: place_name
+        endAddr: place_name,
+        type
       });
     }
   }
@@ -109,7 +112,6 @@ class Search extends Component {
   render() {
     let { addr, placeList, selected } = this.state;
     const { type } = this.props;
-    console.log(this.props);
     return (
       <Col style={{ justifyContent: "space-around" }}>
         <AutoComplete>
