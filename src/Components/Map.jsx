@@ -3,8 +3,15 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { Modal } from "antd";
-import { Container } from "./common";
 import Search from "./Search";
+import { useData } from "../contexts";
+
+/*
+startX, startY, endX, endY를 모두 받자.
+Object 형태로 받자.
+startX, startY만 있는 경우,
+endX, endY만 있는 경우를 나눠서 생각
+*/
 
 const MapContainer = styled.div`
   width: 100%;
@@ -29,9 +36,6 @@ const SearchContainer = styled.div`
   overflow: hidden;
   z-index: 1;
   width: 100%;
-  // height: 3rem;
-  // background: white;
-  // padding: 1px;
 `;
 
 class Map extends Component {
@@ -57,7 +61,6 @@ class Map extends Component {
     let markerPos = new kakao.maps.LatLng(y, x);
     let marker = new kakao.maps.Marker({
       position: markerPos
-      // image: markerImage
     });
     marker.setMap(map);
     // this.setState({ map });
@@ -84,8 +87,7 @@ class Map extends Component {
       visible: false
     });
     const { x, y } = this.state;
-    const startLocation = { x, y };
-    localStorage.setItem("startLocation", JSON.stringify({ startLocation }));
+
     window.location.href = "/";
   }
 
@@ -95,19 +97,6 @@ class Map extends Component {
       visible: false
     });
   }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevState.x !== this.state.x) {
-  //     const { x, y, map } = this.state;
-
-  //     let markerPos = new kakao.maps.LatLng(y, x);
-  //     let marker = new kakao.maps.Marker({
-  //       position: markerPos
-  //       // image: markerImage
-  //     });
-  //     marker.setMap(map);
-  //   }
-  // }
 
   render() {
     const { addr } = this.state;
@@ -130,4 +119,4 @@ class Map extends Component {
   }
 }
 
-export default Map;
+export default useData(Map);
