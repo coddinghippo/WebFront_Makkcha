@@ -97,9 +97,21 @@ class Map extends Component {
         if (this.state.type === "start") {
           const startAddr = res.data.documents[0].address.address_name;
           this.setState({ startX: x, startY: y, startAddr });
+          this.props.actions.setPos({
+            ...this.props.data.pos,
+            startX: x,
+            startY: y,
+            startAddr
+          });
         } else {
           const endAddr = res.data.documents[0].address.address_name;
           this.setState({ endX: x, endY: y, endAddr });
+          this.props.actions.setPos({
+            ...this.props.data.pos,
+            endX: x,
+            endY: y,
+            endAddr
+          });
         }
       });
 
