@@ -4,7 +4,8 @@ import styled from "styled-components";
 import { GlobalStyle } from "./Styles/global_styles";
 import Landing from "./Routes/Landing";
 import Feedback from "./Routes/Feedback";
-import Map from "./Components/Map";
+import Map from "./Routes/Map";
+import AddressSearch from "./Routes/AddressSearch";
 import { DataProvider } from "./contexts";
 
 const AppContainer = styled.div`
@@ -22,6 +23,7 @@ class App extends Component {
             <Route exact path="/" component={Landing} />
             <Route path="/feedback" component={Feedback} />
             <Route path="/map" component={Map} />
+            <Route path="/address" component={AddressSearch} />
           </AppContainer>
         </BrowserRouter>
       </DataProvider>

@@ -8,7 +8,7 @@ import { Text, Container } from "./common";
 import { makchaApi, dataHandler } from "../api";
 import TaxiCard from "./TaxiCard";
 import { useData } from "../contexts";
-import AddressForm from "./AddressForm";
+import AddressSearch from "../Routes/AddressSearch";
 import Search from "./Search";
 import SearchCard from "./SearchCard";
 
@@ -102,7 +102,7 @@ class Main extends Component {
         ) : null}
       </Container>
     ) : (
-      <AddressForm />
+      <AddressSearch />
     );
   }
 }

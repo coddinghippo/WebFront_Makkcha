@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Timeline, Button } from "antd";
 import SubwayCard from "./SubwayCard";
+import TaxiCard from "./TaxiCard";
 import { Container, Text } from "./common";
 import { fontSize } from "../Styles/_mixin";
 import { useData } from "../contexts";
@@ -63,11 +64,13 @@ class CardList extends Component {
   }
 
   render() {
+    const { taxi } = this.props.data.data;
     return (
       <Container
         style={{ background: "white", width: "92%", marginTop: "2rem" }}
       >
         <SubwayContainer>{this.renderSubwayRoutes()}</SubwayContainer>
+        <TaxiCard taxi={taxi} />
         <ButtonContainer>
           <StyledButton>
             <Link to="/feedback">피드백 남기기</Link>

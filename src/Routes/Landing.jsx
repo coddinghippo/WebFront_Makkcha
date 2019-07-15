@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AddressForm from "../Components/AddressForm";
+import AddressSearch from "./AddressSearch";
 import Main from "../Components/Main";
 import { Container } from "../Components/common";
 import { useData } from "../contexts";
@@ -39,7 +39,9 @@ class Landing extends Component {
   }
 
   render() {
-    return <Container>{this.state.pos ? <Main /> : <AddressForm />}</Container>;
+    return (
+      <Container>{this.state.pos ? <Main /> : <AddressSearch />}</Container>
+    );
   }
 }
 
