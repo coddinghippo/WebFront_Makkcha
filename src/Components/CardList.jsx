@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Timeline, Button } from "antd";
 import SubwayCard from "./SubwayCard";
 import TaxiCard from "./TaxiCard";
+import PathCard from "./PathCard";
 import { Container, Text } from "./common";
 import { fontSize } from "../Styles/_mixin";
 import { useData } from "../contexts";
