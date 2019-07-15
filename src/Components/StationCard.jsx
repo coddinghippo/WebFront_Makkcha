@@ -42,22 +42,22 @@ const StationInfo = styled.div`
 `;
 
 const StationCard = props => {
-  const { lineColor, lineName, endStationName, startStationName } = props;
+  const { color, stationName, lineName } = props;
   return (
     <InfoContainer>
       <IconContainer>
         <LineIcon>
-          <LineInner lineColor={lineColor}>{lineName.slice(0, 1)}</LineInner>
+          <LineInner lineColor={color}>{lineName.slice(0, 1)}</LineInner>
         </LineIcon>
         <StationInfo>
-          <Text
+          {/* <Text
             size="smallFontSize"
             //  style={{ marginLeft: "0.6rem" }}
           >
             {endStationName + " 방향"}
-          </Text>
+          </Text> */}
           <Text size="largeFontSize" weight="bold">
-            {startStationName}
+            {stationName}
           </Text>
         </StationInfo>
       </IconContainer>

@@ -64,9 +64,6 @@ const SubwayCard = props => {
   return (
     <Card>
       <TextContainer>
-        <Text size="largeFontSize" weight="bold" lineHeight="3rem">
-          지하철
-        </Text>
         <Text weight="normal">
           <span>막차 {lastTime.slice(0, 5)}</span> | {totalTime}분 소요
           {/* {String(Math.floor(price / 1000)) + "," + String(price % 1000)}원 |

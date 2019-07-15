@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Timeline, Button } from "antd";
 import SubwayCard from "./SubwayCard";
+import PathCard from "./PathCard";
 import TaxiCard from "./TaxiCard";
 import { Container, Text } from "./common";
 import { fontSize } from "../Styles/_mixin";
@@ -53,7 +54,7 @@ class CardList extends Component {
     if (routes[0].runTime.length) {
       const { totalTime, price, runTime } = routes[0];
       return (
-        <SubwayCard
+        <PathCard
           totalTime={totalTime}
           price={price}
           runTime={runTime}

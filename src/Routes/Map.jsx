@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { Modal, Button, notification } from "antd";
+import { Button } from "antd";
 import SearchCard from "../Components/SearchCard";
 import { useData } from "../contexts";
 import { makchaApi } from "../api";

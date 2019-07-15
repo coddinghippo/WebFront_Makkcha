@@ -12,7 +12,7 @@ export const Card = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-bottom: 1px solid #ccc;
+  //
 `;
 
 export const BarContainer = styled.div`
