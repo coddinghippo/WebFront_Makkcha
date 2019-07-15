@@ -6,7 +6,7 @@ const sizes = {
 };
 
 export const fontSize = {
-  smallFontSize: "0.5rem",
+  smallFontSize: "0.7rem",
   normalFontSize: "1rem",
   largeFontSize: "1.2rem",
   extraLargeFontSize: "2rem",

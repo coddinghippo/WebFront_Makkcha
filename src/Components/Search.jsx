@@ -111,18 +111,21 @@ class Search extends Component {
 
   render() {
     let { addr, placeList, selected } = this.state;
-    const { type } = this.props;
+    const { type } = this.props.props;
     return (
       <Col style={{ justifyContent: "space-around" }}>
         <AutoComplete>
-          <Row style={{ justifyContent: "space-around" }}>
-            <Text>{type === "start" ? "출발" : "도착"}</Text>
+          <Col style={{ justifyContent: "space-around" }}>
+            <Text color="#bbb" size="normalFontSize">
+              {type === "start" ? "From" : "To"}
+            </Text>
             <Input
               value={this.state.value}
               placeholder={addr}
               onChange={e => this.onChangeText(e)}
+              style={{ fontSize: "1.2rem" }}
             />
-          </Row>
+          </Col>
         </AutoComplete>
         <AutoComplete>{this.renderOptions()}</AutoComplete>
       </Col>

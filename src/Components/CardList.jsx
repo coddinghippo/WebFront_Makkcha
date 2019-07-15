@@ -5,7 +5,6 @@ import { Timeline, Button } from "antd";
 import SubwayCard from "./SubwayCard";
 import PathCard from "./PathCard";
 import TaxiCard from "./TaxiCard";
-import PathCard from "./PathCard";
 import { Container, Text } from "./common";
 import { fontSize } from "../Styles/_mixin";
 import { useData } from "../contexts";
@@ -69,15 +68,16 @@ class CardList extends Component {
     const { taxi } = this.props.data.data;
     return (
       <Container
-        style={{ background: "white", width: "92%", marginTop: "2rem" }}
+        className="cardlist"
+        style={{ width: "92%", marginTop: "2rem" }}
       >
         <SubwayContainer>{this.renderSubwayRoutes()}</SubwayContainer>
-        <TaxiCard taxi={taxi} />
+        {/* <TaxiCard taxi={taxi} />
         <ButtonContainer>
           <StyledButton>
             <Link to="/feedback">피드백 남기기</Link>
-          </StyledButton>
-        </ButtonContainer>
+          </StyledButton> */}
+        {/* </ButtonContainer> */}
       </Container>
     );
   }

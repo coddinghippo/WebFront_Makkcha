@@ -5,6 +5,7 @@ export const Text = styled.p`
   font-size: ${props => fontSize[props.size] || fontSize.normalFontSize};
   font-weight: ${props => props.weight};
   line-height: ${props => props.lineHeight || "1rem"};
+  color: ${props => props.color || "#000"};
 `;
 
 export const Card = styled.div`

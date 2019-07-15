@@ -20,18 +20,19 @@ const LineIcon = styled.div`
   width: 2.4rem;
   height: 2.4rem;
   border-radius: 2.4rem;
-  background: white;
   margin-right: 1rem;
+  background: ${props => props.lineColor};
 `;
 
 const LineInner = styled.div`
-  width: 2rem;
-  height: 2rem;
+  width: 1.6rem;
+  height: 1.6rem;
   border-radius: 2rem;
-  background: ${props => props.lineColor};
+  background: white;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: ${props => props.lineColor};
 `;
 
 const StationInfo = styled.div`
@@ -46,9 +47,10 @@ const StationCard = props => {
   return (
     <InfoContainer>
       <IconContainer>
-        <LineIcon>
+        <LineIcon lineColor={color}>
           <LineInner lineColor={color}>{lineName.slice(0, 1)}</LineInner>
         </LineIcon>
+
         <StationInfo>
           {/* <Text
             size="smallFontSize"

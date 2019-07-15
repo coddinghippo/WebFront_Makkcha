@@ -5,9 +5,33 @@ import StationCard from "./StationCard";
 import { useData } from "../contexts";
 import { Container, Text } from "./common";
 
+const StyledContainer = styled(Container)`
+  border-radius: 0.5rem;
+  background: white;
+`;
+
 const MakchaDetail = styled.div`
+  display: flex;
   padding: 1rem;
   width: 100%;
+  justify-content: space-between;
+`;
+
+const StationAndTime = styled.div`
+  display: flex;
+  flex: 2;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  margin-left: 2rem;
+`;
+
+const ImageIcon = styled.div`
+  flex: 1;
+  background: #bbb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 class PathCard extends Component {
@@ -37,10 +61,15 @@ class PathCard extends Component {
     console.log(this.state);
     const { totalTime, price, runTime, lastTime } = this.state;
     return (
-      <Container>
+      <StyledContainer style={{ background: "white" }}>
         <MakchaDetail>
-          {this.renderStartStn()}
-          <Text size="extraLargeFontSize">00:03:15</Text>
+          <ImageIcon>지하철</ImageIcon>
+          <StationAndTime>
+            {this.renderStartStn()}
+            <Text size="superLargeFontSize" lineHeight="5rem">
+              00:03:15
+            </Text>
+          </StationAndTime>
         </MakchaDetail>
         <SubwayCard
           totalTime={totalTime}
@@ -48,7 +77,7 @@ class PathCard extends Component {
           runTime={runTime}
           lastTime={lastTime}
         />
-      </Container>
+      </StyledContainer>
     );
   }
 }
