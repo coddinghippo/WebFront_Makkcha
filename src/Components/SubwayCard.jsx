@@ -5,8 +5,6 @@ import { Card, Text, BarContainer, Bar, TextContainer } from "./common";
 
 const SubwayCard = props => {
   const { totalTime, price, runTime, lastTime } = props;
-  console.log("props");
-  console.log(props);
 
   // Render SubwayBar for each route
   const renderVehicleBar = (totalTime, runTime) => {

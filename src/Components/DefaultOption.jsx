@@ -10,7 +10,9 @@ const Item = styled(Timeline.Item)`
   margin-left: 2rem;
 `;
 
-const SubwayContainer = styled.div``;
+const SubwayContainer = styled.div`
+  width: 100%;
+`;
 
 const TimelineContainer = styled.div`
   display: flex;
@@ -134,7 +136,9 @@ class DefaultOption extends Component {
 
   render() {
     return (
-      <Container>
+      <Container
+        style={{ background: "white", width: "92%", marginTop: "2rem" }}
+      >
         <SubwayContainer>{this.renderSubwayRoutes()}</SubwayContainer>
         <TimelineContainer>
           <Timeline

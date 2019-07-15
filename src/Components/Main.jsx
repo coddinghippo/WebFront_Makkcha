@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Spin, Icon, Button } from "antd";
 import { Link } from "react-router-dom";
 import MakchaDetail from "./MakchaDetail";
-import DefaultOption from "./DefaultOption";
+import CardList from "./CardList";
 import { Text, Container } from "./common";
 import { makchaApi, dataHandler } from "../api";
 import TaxiCard from "./TaxiCard";
@@ -31,6 +31,7 @@ class Main extends Component {
     if (this.props.data.pos.startX) {
       const { startX, startY, endX, endY } = this.props.data.pos;
       this.setState({ startX, startY, endX, endY });
+      this.getData();
     }
     if (!this.props.data.pos.startX && !this.state.startX && this.state.endX) {
       const { endX, endY } = this.state;
@@ -52,30 +53,31 @@ class Main extends Component {
           });
         });
       });
+      // this.getData();
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.startX !== this.state.startX) {
+    if (prevProps.data.pos !== this.props.data.pos) {
       this.getData();
     }
   }
 
   getData() {
-    const { endX, endY, startX, startY } = this.state;
-    console.log("success");
+    const { endX, endY, startX, startY } = this.props.data.pos;
+    console.log("Get Data Success");
 
     makchaApi.getData({ startX, startY, endX, endY }).then(res => {
       const { bus, busNSub, sub, taxi, pushAllow } = dataHandler(res.data);
       this.props.actions.setData({ bus, busNSub, sub, taxi, pushAllow });
       // console.log("push", pushAllow);
-      this.setState({
-        bus,
-        busNSub,
-        sub,
-        taxi,
-        pushAllow
-      });
+      // this.setState({
+      //   bus,
+      //   busNSub,
+      //   sub,
+      //   taxi,
+      //   pushAllow
+      // });
     });
   }
 
@@ -87,12 +89,17 @@ class Main extends Component {
   }
 
   render() {
+    console.log(this.props);
+    const { bus, busNSub, sub, pushAllow, taxi } = this.props.data.data;
     const { startX, startY, endX, endY, startAddr, endAddr } = this.state;
     return this.props.data.pos ? (
       <Container style={{ background: "#000033" }}>
         <StyledLink to="/map">
           <SearchCard />
         </StyledLink>
+        {sub ? (
+          <CardList sub={sub} subOnlyList={sub.subOnly.subOnlyList} />
+        ) : null}
       </Container>
     ) : (
       <AddressForm />

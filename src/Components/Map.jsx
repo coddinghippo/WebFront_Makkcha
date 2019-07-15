@@ -167,7 +167,6 @@ class Map extends Component {
 
   render() {
     const { addr, type } = this.state;
-    console.log(this.props);
 
     return (
       <MapContainer>
