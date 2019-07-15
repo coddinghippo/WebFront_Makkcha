@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Form, Input, Button, AutoComplete } from "antd";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { makchaApi } from "../api";
 import { fontSize } from "../Styles/_mixin";
 import { Container as DefaultContainer } from "../Components/common";
 import { stationInfo } from "../static/station_info";

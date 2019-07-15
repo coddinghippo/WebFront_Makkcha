@@ -4,7 +4,6 @@ import SubwayCard from "./SubwayCard";
 import StationCard from "./StationCard";
 import { useData } from "../contexts";
 import { Container, Text } from "./common";
-import { run } from "jest-cli/build/cli";
 
 const MakchaDetail = styled.div`
   padding: 1rem;

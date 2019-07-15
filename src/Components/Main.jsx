@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Spin, Icon, Button } from "antd";
 import { Link } from "react-router-dom";
-import MakchaDetail from "./MakchaDetail";
 import CardList from "./CardList";
 import { Text, Container } from "./common";
 import { makchaApi, dataHandler } from "../api";
@@ -65,7 +64,6 @@ class Main extends Component {
 
   getData() {
     const { endX, endY, startX, startY } = this.props.data.pos;
-    console.log("Get Data Success");
 
     makchaApi.getData({ startX, startY, endX, endY }).then(res => {
       const { bus, busNSub, sub, taxi, pushAllow } = dataHandler(res.data);
@@ -89,7 +87,6 @@ class Main extends Component {
   }
 
   render() {
-    console.log(this.props);
     const { bus, busNSub, sub, pushAllow, taxi } = this.props.data.data;
     const { startX, startY, endX, endY, startAddr, endAddr } = this.state;
     return this.props.data.pos ? (
